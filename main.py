@@ -242,18 +242,20 @@ def main():
     parser.add_argument("--net", type=str, default=None, choices=net_choices)
     parser.add_argument("--act-scales", type=str, default=None)
     parser.add_argument("--act-shifts", type=str, default=None)
-    parser.add_argument("--max_rotation_step", type=int, default=256)
-    parser.add_argument("--permutation_times", type=int, default=1)
-    parser.add_argument("--lac", type=float, default=None)
-    parser.add_argument("--swc", type=float, default=None)
-    parser.add_argument("--block_size", type=int, default=128)
+
+    # DuQuant
+    parser.add_argument("--max_rotation_step", type=int, default=256, help="max steps for rotation transformation")
+    parser.add_argument("--permutation_times", type=int, default=1, help="times of permutation transformation")
+    parser.add_argument("--lac", type=float, default=None, help="activation clipping ratio")
+    parser.add_argument("--swc", type=float, default=None, help="weight clipping ratio, enable withou lwc")
+    parser.add_argument("--block_size", type=int, default=128, help="block size for rotation matrices")
 
     # MMLU
     parser.add_argument("--mmlu_data_dir", default="./mmlu/data", type=str, help="direction of mmlu dataset")
-    parser.add_argument("--eval_mmlu", action="store_true")
+    parser.add_argument("--eval_mmlu", action="store_true", help="evaluate on MMLU")
     
-    # MTBenc
-    parser.add_argument("--eval_mtbench", action="store_true")
+    # MTBench
+    parser.add_argument("--eval_mtbench", action="store_true", help="evaluate on MTBench")
     parser.add_argument(
         "--bench-name",
         type=str,
