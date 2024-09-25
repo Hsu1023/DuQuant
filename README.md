@@ -1,24 +1,33 @@
-# Rotation and Permutation for Advanced Outlier Management and Efficient Quantization of LLMs
+# DuQuant: Distributing Outliers via Dual Transformation Makes Stronger Quantized LLMs
 
 <h5 align="center">
 
 [![arXiv](https://img.shields.io/badge/DuQuant-2406.01721-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2406.01721)
-[![License](https://img.shields.io/badge/Code%20License-MIT-yellow)](https://github.com/Hsu1023/DuQuant/blob/main/LICENSE)
+[![Website](https://img.shields.io/badge/🎤%20Project-Website-blue)](https://duquant.github.io)
+[![License](https://img.shields.io/badge/⚖️%20Code%20License-MIT-yellow)](https://github.com/Hsu1023/DuQuant/blob/main/LICENSE)
  <br>
 
 </h5>
 
-Welcome to the official code repository for `Rotation and Permutation for Advanced Outlier Management and Efficient Quantization of LLMs`.
+Welcome to the official code repository for "[DuQuant: Distributing Outliers via Dual Transformation Makes Stronger Quantized LLMs **(NeurIPS 2024, Oral)**](https://arxiv.org/abs/2406.01721)".
 
+🔍 For more details, please refer to the project page: [https://duquant.github.io/](https://duquant.github.io/).
+
+
+## 📰 News
+* [2024/09/26] 🌟 Our DuQuant paper has been accepted for a Oral presentation at NeurIPS 2024 (only top 1% out of 15,671 submissions)! 🎉 Cheers!
+* [2024/09/06] 🔥 We release the code!
+* [2024/06/03] 🚀 Our paper is available on arXiv!
+
+
+## 👀 Introduction
 ![duquant](imgs/duquant.png)
 
 - We firstly identify **Massive Outliers** existence at the **down_proj** layer of FFN module in recent LLMs.
 - DuQuant proposes to use **Rotation transformation** and **Permutation transformation** to effectively eliminate both massive and normal outliers.
 - DuQuant establishs new **state-of-the-art** baselines for 4-bit weight-activation quantization across various model types and downstream tasks.
 
-## 📰 News
-* [2024/09/06] 🔥 We release the code!
-* [2024/06/03] 🚀 Our paper is available on arXiv!
+
 
 ## 🔧 Installation
 ```bash
@@ -98,8 +107,8 @@ We thank the authors for their code.
 ## 📝 Citation
 Please cite our work if you use our code or discuss our findings in your own research:
 ```
-@article{lin2024rotation,
-  title={Rotation and Permutation for Advanced Outlier Management and Efficient Quantization of LLMs},
+@article{lin2024duquant,
+  title={DuQuant: Distributing Outliers via Dual Transformation Makes Stronger Quantized LLMs},
   author={Lin, Haokun and Xu, Haobo and Wu, Yichen and Cui, Jingzhi and Zhang, Yingtao and Mou, Linzhan and Song, Linqi and Sun, Zhenan and Wei, Ying},
   journal={arXiv preprint arXiv:2406.01721},
   year={2024}
