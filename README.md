@@ -105,7 +105,8 @@ This repo is built upon the following projects:
 We thank the authors for their code.
 
 ## 📝 Citation
-Please cite our work if you use our code or discuss our findings in your own research:
+We kindly request that you cite our work if you utilize the code or reference our findings in your research:
+<!-- Please cite our work if you use our code or discuss our findings in your own research: -->
 ```
 @article{lin2024duquant,
   title={DuQuant: Distributing Outliers via Dual Transformation Makes Stronger Quantized LLMs},
