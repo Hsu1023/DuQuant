@@ -1,0 +1,183 @@
+{
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "4",
+  "torch": "2.7.1+cu126",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "layer": 0,
+  "batch": 1,
+  "attention": "forced FP16 Flash SDPA for all modes",
+  "kv_storage": "FP16, quantized-dequantized K/V in W4A4",
+  "input": "actual token embeddings of repeated fixed prose",
+  "rotation": "fixed random orthogonal matrices and permutations, shared by QKV and gate/up, not calibrated",
+  "timing": "median of repeated CUDA Graph measurements, full block; fixed position for each decode scenario, historical cache prepared outside timing",
+  "results": [
+    {
+      "phase": "prefill",
+      "batch": 1,
+      "tokens": 128,
+      "past_tokens": 0,
+      "fp16_us": 550.5199368439572,
+      "duquant_us": 220.78095682851085,
+      "speedup": 2.4935118714589475,
+      "samples_us": {
+        "fp16": [
+          550.7689912440413,
+          550.2650282118055,
+          550.5199368439572
+        ],
+        "cuda": [
+          220.78095682851085,
+          220.74374085539705,
+          220.9381455225302
+        ]
+      },
+      "implementation_relative_l2": 0.0038674771785736084,
+      "implementation_max_abs": 0.005615234375,
+      "legacy_fake_relative_l2": 0.05020119249820709,
+      "quantization_relative_l2_vs_fp16": 0.17282265424728394,
+      "cold_fp16_us": 601.0879874229431,
+      "cold_duquant_us": 245.7599937915802,
+      "cold_speedup": 2.445833343944105
+    },
+    {
+      "phase": "prefill",
+      "batch": 1,
+      "tokens": 512,
+      "past_tokens": 0,
+      "fp16_us": 1440.4912567138672,
+      "duquant_us": 416.87223185663635,
+      "speedup": 3.455474235590862,
+      "samples_us": {
+        "fp16": [
+          1428.6977713448662,
+          1440.4912567138672,
+          1442.263227520567
+        ],
+        "cuda": [
+          416.3524711833281,
+          416.87223185663635,
+          416.90428397234746
+        ]
+      },
+      "implementation_relative_l2": 0.00588898453861475,
+      "implementation_max_abs": 0.007568359375,
+      "legacy_fake_relative_l2": 0.044975295662879944,
+      "quantization_relative_l2_vs_fp16": 0.14922542870044708,
+      "cold_fp16_us": 1437.6959800720215,
+      "cold_duquant_us": 414.71999883651733,
+      "cold_speedup": 3.4666666283406347
+    },
+    {
+      "phase": "prefill",
+      "batch": 1,
+      "tokens": 2048,
+      "past_tokens": 0,
+      "fp16_us": 5733.195316090303,
+      "duquant_us": 1729.2313711983818,
+      "speedup": 3.315458770631207,
+      "samples_us": {
+        "fp16": [
+          5686.969442928538,
+          5735.545797909007,
+          5733.195316090303
+        ],
+        "cuda": [
+          1726.0426930018832,
+          1730.1083882649739,
+          1729.2313711983818
+        ]
+      },
+      "implementation_relative_l2": 0.011068083345890045,
+      "implementation_max_abs": 0.01025390625,
+      "legacy_fake_relative_l2": 0.04498303309082985,
+      "quantization_relative_l2_vs_fp16": 0.1439226269721985,
+      "cold_fp16_us": 5674.4959354400635,
+      "cold_duquant_us": 1743.872046470642,
+      "cold_speedup": 3.2539634699257123
+    },
+    {
+      "phase": "decode",
+      "batch": 1,
+      "tokens": 1,
+      "past_tokens": 128,
+      "fp16_us": 435.21146183520295,
+      "duquant_us": 162.50438278527568,
+      "speedup": 2.678152148119398,
+      "samples_us": {
+        "fp16": [
+          435.2578019673846,
+          435.21146183520295,
+          435.10781347224145
+        ],
+        "cuda": [
+          162.22830436212553,
+          162.67131532941545,
+          162.50438278527568
+        ]
+      },
+      "implementation_relative_l2": 0.0,
+      "implementation_max_abs": 0.0,
+      "legacy_fake_relative_l2": 0.043279387056827545,
+      "quantization_relative_l2_vs_fp16": 0.15071283280849457,
+      "cold_fp16_us": 459.77601408958435,
+      "cold_duquant_us": 208.8959962129593,
+      "cold_speedup": 2.2009804995059126
+    },
+    {
+      "phase": "decode",
+      "batch": 1,
+      "tokens": 1,
+      "past_tokens": 2048,
+      "fp16_us": 454.57414697717735,
+      "duquant_us": 196.22116497584753,
+      "speedup": 2.3166417701838125,
+      "samples_us": {
+        "fp16": [
+          455.3456065810729,
+          454.42699503015587,
+          454.57414697717735
+        ],
+        "cuda": [
+          196.29269606775517,
+          196.22116497584753,
+          196.13052421892195
+        ]
+      },
+      "implementation_relative_l2": 0.0,
+      "implementation_max_abs": 0.0,
+      "legacy_fake_relative_l2": 0.029414497315883636,
+      "quantization_relative_l2_vs_fp16": 0.11120811849832535,
+      "cold_fp16_us": 508.92800092697144,
+      "cold_duquant_us": 248.83200228214264,
+      "cold_speedup": 2.0452674746792185
+    },
+    {
+      "phase": "decode",
+      "batch": 1,
+      "tokens": 1,
+      "past_tokens": 4095,
+      "fp16_us": 470.20878403951104,
+      "duquant_us": 230.53664071219308,
+      "speedup": 2.0396271177844127,
+      "samples_us": {
+        "fp16": [
+          470.79492836182817,
+          469.99828575900864,
+          470.20878403951104
+        ],
+        "cuda": [
+          230.503252427355,
+          230.597163609096,
+          230.53664071219308
+        ]
+      },
+      "implementation_relative_l2": 0.0,
+      "implementation_max_abs": 0.0,
+      "legacy_fake_relative_l2": 0.03746871277689934,
+      "quantization_relative_l2_vs_fp16": 0.11687580496072769,
+      "cold_fp16_us": 559.1040253639221,
+      "cold_duquant_us": 285.69599986076355,
+      "cold_speedup": 1.9569893370449931
+    }
+  ]
+}

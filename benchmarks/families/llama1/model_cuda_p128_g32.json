@@ -1,0 +1,136 @@
+{
+  "mode": "cuda",
+  "calibration_manifest_sha256": "8e204f9017f1875adad1147a454361b4f245f602a6e6d1e8722a357c243d034a",
+  "lwc_epochs": 0,
+  "model": "/mnt/yichen/xhb/DuQuant/benchmarks/cache/family_models/llama1-7b-ms",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "4",
+  "torch": "2.7.1+cu126",
+  "layers": 32,
+  "batch": 1,
+  "prompt_tokens": 128,
+  "new_tokens": 32,
+  "decode_forward_calls": 31,
+  "scope": "Full model: embedding, 32 decoder blocks, final RMSNorm, FP16 LM head, greedy argmax, real autoregressive cache advancement. Two CUDA Graphs: prefill and the entire decode sequence. EOS ignored for equal work.",
+  "excluded": "Model load/export, first compilation, graph capture, tokenization, prompt H2D transfer. Wall time includes generated-token D2H transfer.",
+  "quantization": "Train-calibrated rotations + zigzag + folded smoothing; W4A4 projections, FP16 embeddings/lm_head/attention/KV storage",
+  "medians": {
+    "prefill_ms": 7.3927998542785645,
+    "decode_ms": 172.03814697265625,
+    "gpu_total_ms": 179.43907165527344,
+    "wall_ms": 179.48419973254204
+  },
+  "decode_ms_per_token": 5.549617644279234,
+  "decode_tokens_per_second": 180.19259417463468,
+  "end_to_end_tokens_per_second": 178.2886741433771,
+  "samples": [
+    {
+      "prefill_ms": 7.40502405166626,
+      "decode_ms": 172.03404235839844,
+      "gpu_total_ms": 179.43907165527344,
+      "wall_ms": 179.49534952640533
+    },
+    {
+      "prefill_ms": 7.3927998542785645,
+      "decode_ms": 172.0647735595703,
+      "gpu_total_ms": 179.4575653076172,
+      "wall_ms": 179.48419973254204
+    },
+    {
+      "prefill_ms": 7.391327857971191,
+      "decode_ms": 172.03814697265625,
+      "gpu_total_ms": 179.42947387695312,
+      "wall_ms": 179.45829778909683
+    },
+    {
+      "prefill_ms": 7.395103931427002,
+      "decode_ms": 172.03404235839844,
+      "gpu_total_ms": 179.4291534423828,
+      "wall_ms": 179.4578693807125
+    },
+    {
+      "prefill_ms": 7.389984130859375,
+      "decode_ms": 172.06375122070312,
+      "gpu_total_ms": 179.4537353515625,
+      "wall_ms": 179.4915236532688
+    }
+  ],
+  "memory": {
+    "model_storage_bytes": 3797295104,
+    "kv_cache_bytes": 83361792,
+    "model_loaded": {
+      "allocated_bytes": 3807911936,
+      "reserved_bytes": 5041553408,
+      "peak_allocated_bytes": 3807911936,
+      "peak_reserved_bytes": 5041553408,
+      "device_used_bytes": 5535563776
+    },
+    "cache_allocated": {
+      "allocated_bytes": 3898640896,
+      "reserved_bytes": 5041553408,
+      "peak_allocated_bytes": 3898640896,
+      "peak_reserved_bytes": 5041553408,
+      "device_used_bytes": 5535563776
+    },
+    "capture_and_warmup": {
+      "allocated_bytes": 3907161600,
+      "reserved_bytes": 5075107840,
+      "peak_allocated_bytes": 3922875904,
+      "peak_reserved_bytes": 5075107840,
+      "device_used_bytes": 5806096384
+    },
+    "inference": {
+      "allocated_bytes": 3907161600,
+      "reserved_bytes": 5075107840,
+      "peak_allocated_bytes": 3907161600,
+      "peak_reserved_bytes": 5075107840,
+      "device_used_bytes": 5806096384
+    },
+    "inference_peak_allocated_bytes": 3922875904,
+    "inference_reserved_bytes": 5075107840
+  },
+  "load_seconds": 3.788511659950018,
+  "capture_seconds": 2.380303490906954,
+  "fp16_hf_validation": null,
+  "graph_matches_eager": true,
+  "finite_logits": true,
+  "generated_token_ids": [
+    [
+      263,
+      5407,
+      1342,
+      29889,
+      29871,
+      450,
+      6437,
+      310,
+      445,
+      7639,
+      338,
+      304,
+      2274,
+      920,
+      4086,
+      4733,
+      1889,
+      1426,
+      29889,
+      319,
+      4327,
+      261,
+      3913,
+      8570,
+      304,
+      14405,
+      2472,
+      515,
+      8859,
+      3838,
+      322,
+      8500
+    ]
+  ],
+  "generated_text": [
+    "a useful example.  The purpose of this experiment is to understand how language models process text. A transformer uses attention to combine information from earlier words and predict"
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "kv_bits": 16,
+  "cases": [
+    {
+      "prompt": 1,
+      "step": 0,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1,
+      "step": 1,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1,
+      "step": 2,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1,
+      "step": 3,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1,
+      "step": 4,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1,
+      "step": 5,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1,
+      "step": 6,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1,
+      "step": 7,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 129,
+      "step": 0,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 129,
+      "step": 1,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 129,
+      "step": 2,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 129,
+      "step": 3,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 129,
+      "step": 4,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 129,
+      "step": 5,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 129,
+      "step": 6,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 129,
+      "step": 7,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1024,
+      "step": 0,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1024,
+      "step": 1,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1024,
+      "step": 2,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1024,
+      "step": 3,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1024,
+      "step": 4,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1024,
+      "step": 5,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1024,
+      "step": 6,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1024,
+      "step": 7,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    }
+  ],
+  "max_relative_l2": 0.0,
+  "top1_agreement": 1.0,
+  "reference": "Exact integer-code linear algebra; PyTorch norms/activations; FP32 dense SDPA for KV4 single-token decode, Flash SDPA for prefill/KV16",
+  "protocol": "Identical reference-selected tokens supplied to both models; 3 prompt lengths x 8 steps; includes split-boundary and long-cache cases"
+}

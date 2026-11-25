@@ -1,0 +1,71 @@
+{
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "4",
+  "torch": "2.7.1+cu126",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "layer": 0,
+  "batch": 4,
+  "attention": "forced FP16 Flash SDPA for all modes",
+  "kv_storage": "FP16, quantized-dequantized K/V in W4A4",
+  "input": "actual token embeddings of repeated fixed prose",
+  "rotation": "fixed random orthogonal matrices and permutations, shared by QKV and gate/up, not calibrated",
+  "timing": "median of repeated CUDA Graph measurements, full block; fixed position for each decode scenario, historical cache prepared outside timing",
+  "results": [
+    {
+      "phase": "prefill",
+      "batch": 4,
+      "tokens": 128,
+      "past_tokens": 0,
+      "fp16_us": 1410.1955077227424,
+      "duquant_us": 395.75607017234523,
+      "speedup": 3.5632947009723073,
+      "samples_us": {
+        "fp16": [
+          1405.4605456366055,
+          1411.896398332384,
+          1410.1955077227424
+        ],
+        "cuda": [
+          395.8369643599899,
+          395.75607017234523,
+          395.22367365220015
+        ]
+      },
+      "implementation_relative_l2": 0.0038674771785736084,
+      "implementation_max_abs": 0.005615234375,
+      "legacy_fake_relative_l2": 0.04819056764245033,
+      "quantization_relative_l2_vs_fp16": 0.17281576991081238,
+      "cold_fp16_us": 1413.6320352554321,
+      "cold_duquant_us": 393.21601390838623,
+      "cold_speedup": 3.595052045832468
+    },
+    {
+      "phase": "decode",
+      "batch": 4,
+      "tokens": 1,
+      "past_tokens": 2048,
+      "fp16_us": 585.2975027901786,
+      "duquant_us": 310.5049133300781,
+      "speedup": 1.8849862841557867,
+      "samples_us": {
+        "fp16": [
+          587.7802911632789,
+          585.2975027901786,
+          585.079238528297
+        ],
+        "cuda": [
+          310.5049133300781,
+          310.9856216000839,
+          310.4636211268949
+        ]
+      },
+      "implementation_relative_l2": 0.0,
+      "implementation_max_abs": 0.0,
+      "legacy_fake_relative_l2": 0.028615115210413933,
+      "quantization_relative_l2_vs_fp16": 0.11101928353309631,
+      "cold_fp16_us": 644.0960168838501,
+      "cold_duquant_us": 366.5919899940491,
+      "cold_speedup": 1.7569833342357146
+    }
+  ]
+}

@@ -1,0 +1,300 @@
+{
+  "status": "complete",
+  "model": "/mnt/public_models/qwen3-1.7b-base",
+  "method": "flatquant",
+  "epochs": 15,
+  "batch_size": 4,
+  "learning_rate": 0.005,
+  "optimizer": "AdamW; cosine eta_min=5e-6; learned clipping lr=0.05",
+  "training": {
+    "source_arrow": "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow",
+    "split": "train",
+    "nsamples": 128,
+    "seqlen": 2048,
+    "seed": 2,
+    "sample_starts": [
+      237193,
+      384134,
+      355978,
+      1514384,
+      709188,
+      1292417,
+      1055216,
+      890110,
+      149881,
+      2437746,
+      664305,
+      1806359,
+      1650592,
+      2135183,
+      1560533,
+      2282443,
+      1865853,
+      2105822,
+      1125083,
+      150677,
+      115112,
+      1526787,
+      1949906,
+      1335739,
+      1593898,
+      1776753,
+      2205166,
+      689914,
+      2350950,
+      744222,
+      990373,
+      967217,
+      100068,
+      741217,
+      1363748,
+      728084,
+      573350,
+      2139794,
+      2140033,
+      1508655,
+      2154770,
+      2348350,
+      762706,
+      1869139,
+      1739256,
+      2203543,
+      1527798,
+      2489258,
+      1483890,
+      1517861,
+      1869690,
+      676057,
+      1677149,
+      1935279,
+      2224473,
+      1048163,
+      2055267,
+      1170639,
+      2089037,
+      2100679,
+      2161711,
+      1484465,
+      1907102,
+      1933625,
+      1471256,
+      2381127,
+      2338671,
+      1914914,
+      2040984,
+      930342,
+      1361753,
+      696546,
+      1124650,
+      2012285,
+      1298401,
+      1272118,
+      2114972,
+      2357990,
+      2171591,
+      2128008,
+      2466018,
+      1705699,
+      1307969,
+      871653,
+      2050622,
+      2147029,
+      1537624,
+      316147,
+      1432182,
+      35323,
+      802801,
+      445254,
+      246452,
+      2409270,
+      205143,
+      1145463,
+      2481771,
+      950498,
+      445711,
+      2190947,
+      572522,
+      1115018,
+      1026899,
+      882812,
+      253272,
+      1773845,
+      133685,
+      238221,
+      1519835,
+      1510865,
+      720921,
+      1046485,
+      98325,
+      347721,
+      483280,
+      282975,
+      106303,
+      171440,
+      88688,
+      1564883,
+      1072441,
+      535978,
+      659001,
+      770656,
+      2194004,
+      8121,
+      1617180,
+      2472367
+    ],
+    "tokens_sha256": "a77855809a82ff27afd82ac828b90478d0d8d66360417acda1239de49d734ddf"
+  },
+  "implementation": "Official FlatQuant SVD transforms/quantizers with local Qwen3 QK-norm/GQA reconstruction forward",
+  "lwc": true,
+  "lac": true,
+  "add_diag": true,
+  "source_sha256": {
+    "/mnt/yichen/xhb/DuQuant/benchmarks/train_flat_qwen3.py": "cd5cebfbff256cf6b27c613ab28a2710d47a32a5bc0ba6239b9e23c71ec437a9",
+    "benchmarks/qwen3_flat_models.py": "c88689b81e32fd2952c0ef786dc712b9ad812ecd97e2c8132d3419f63a34eee9",
+    "/mnt/yichen/xhb/DuQuant/benchmarks/cache/FlatQuant/flatquant/trans_utils.py": "bbd12d6effa9b46d21875abd85ec8cfb91075bb0ed6151fa663c60411715bb93",
+    "/mnt/yichen/xhb/DuQuant/benchmarks/cache/FlatQuant/flatquant/quant_utils.py": "2829ad6178d23fc250cb57019409ed81ac2553f5ebad3066c1968eec29d24c17"
+  },
+  "layers": [
+    {
+      "index": 0,
+      "file": "layer_00.pt",
+      "sha256": "88c895133069c4d27b668c76a6246947de92d7e5b194889bb3bb0fdb5769433c"
+    },
+    {
+      "index": 1,
+      "file": "layer_01.pt",
+      "sha256": "e4f6d821cde1660e3815071499a5b9da18aa494c71505f136e4e3c99c7b6111a"
+    },
+    {
+      "index": 2,
+      "file": "layer_02.pt",
+      "sha256": "2f3fc7361cf5a4e48ef01a1cc3bb20bff5173f4f51f876fbd2a575f06bad476e"
+    },
+    {
+      "index": 3,
+      "file": "layer_03.pt",
+      "sha256": "8ac86bd1b676d9f9621778043100be76374ce1adb12e874545388f4845c34473"
+    },
+    {
+      "index": 4,
+      "file": "layer_04.pt",
+      "sha256": "fe466ae6b95f97da62022263884164444a84460771738c6fa039f03f6c28b653"
+    },
+    {
+      "index": 5,
+      "file": "layer_05.pt",
+      "sha256": "741fcf314d7b107707b5df50ee11fa2d52e14499f2a18e5fd4f068989005a5f7"
+    },
+    {
+      "index": 6,
+      "file": "layer_06.pt",
+      "sha256": "92881e93304ab3afa6035bcc4a74ab36dbdaeb57ded2f2b75f7dab3d9a04a312"
+    },
+    {
+      "index": 7,
+      "file": "layer_07.pt",
+      "sha256": "aaabc0367ad112c4073f81d1b11ac03fb9cc2cb2a2aa85bf836a6016bb3ba8fc"
+    },
+    {
+      "index": 8,
+      "file": "layer_08.pt",
+      "sha256": "1bf8990af695aa0e0a7fef6b99aac77e1cd07cea965248176bf07dcedc9ebbda"
+    },
+    {
+      "index": 9,
+      "file": "layer_09.pt",
+      "sha256": "830e3f742c099f801e0841695a506c287e9ee56fe27ccc03f2c0cc72f527f193"
+    },
+    {
+      "index": 10,
+      "file": "layer_10.pt",
+      "sha256": "be4af66ab94bf1724e86038bdca9107d37b45ebe96c49de81d08633adea593de"
+    },
+    {
+      "index": 11,
+      "file": "layer_11.pt",
+      "sha256": "fc1fde904111d649ab57d9c7dffa1466c0b12a55f1c3843f476459be7394c0df"
+    },
+    {
+      "index": 12,
+      "file": "layer_12.pt",
+      "sha256": "5eb93ba6a04c8d742350a9f4276de5b1014a2e98bd677e5e07103d86d0c06a50"
+    },
+    {
+      "index": 13,
+      "file": "layer_13.pt",
+      "sha256": "2ff30b053d0421196975c9816e6aaba33fe83f0fe60b427b9c2ffd2bad95660f"
+    },
+    {
+      "index": 14,
+      "file": "layer_14.pt",
+      "sha256": "cae51c083596a8189a0d110ae67a4f6578d70c9c15987406097954d18280a4df"
+    },
+    {
+      "index": 15,
+      "file": "layer_15.pt",
+      "sha256": "d9afde8390bae1e68c816f1a0e97eabadeb21b1e1e9c480f81e688c35ab8e457"
+    },
+    {
+      "index": 16,
+      "file": "layer_16.pt",
+      "sha256": "c3e24a621d4a09a73eb8ea5bc5143e3650072719657a6f96b880165609901288"
+    },
+    {
+      "index": 17,
+      "file": "layer_17.pt",
+      "sha256": "f080b2dfbc689cce5157187b75be8ba9dc40255f344153f36f34aae8a175c0ad"
+    },
+    {
+      "index": 18,
+      "file": "layer_18.pt",
+      "sha256": "7a7b12c851852547ed16a4b75dbf69b1bd6694e88a8c282c822ea60a7a233b96"
+    },
+    {
+      "index": 19,
+      "file": "layer_19.pt",
+      "sha256": "4a52cef41bf1592b27306d593395771259ba194eb0ea9167e16a1ea2f16820d1"
+    },
+    {
+      "index": 20,
+      "file": "layer_20.pt",
+      "sha256": "48141b85b7353bd668862eefc9f4aff3f9719bc28c688873918ffdfaf984ec62"
+    },
+    {
+      "index": 21,
+      "file": "layer_21.pt",
+      "sha256": "ed1aa051b1962020987ef4d2125f4db4d409c5abaa1fa9ae83a527582b98a42d"
+    },
+    {
+      "index": 22,
+      "file": "layer_22.pt",
+      "sha256": "d0f3d2ef11e54a156911a09df2cb23f8f7e4a015e918c3eb75b9bf2ff260d881"
+    },
+    {
+      "index": 23,
+      "file": "layer_23.pt",
+      "sha256": "0c4efc9f50f8689d9b4e14c6540ee34df09bfb9e9c4772e162f397a7d31f1ac6"
+    },
+    {
+      "index": 24,
+      "file": "layer_24.pt",
+      "sha256": "e7d48d8bceada20924a58c59a9a300bda7c75382f38c9d1736798cc253f7ae53"
+    },
+    {
+      "index": 25,
+      "file": "layer_25.pt",
+      "sha256": "55a4f68cea9f46d36dc0c5276f8831019af4155ea30b32b4dc552375f6fc02fa"
+    },
+    {
+      "index": 26,
+      "file": "layer_26.pt",
+      "sha256": "5956379cb8eed6531e2e6bd4a0c4b12eb8efd4fc84753a802eac496fdc280967"
+    },
+    {
+      "index": 27,
+      "file": "layer_27.pt",
+      "sha256": "931c22b7f96d4154a77bdf91fd1c4e262d9047d6d4c549d51a3253711f19585b"
+    }
+  ],
+  "shards": 3
+}

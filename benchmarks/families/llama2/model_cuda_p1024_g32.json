@@ -1,0 +1,136 @@
+{
+  "mode": "cuda",
+  "calibration_manifest_sha256": "7252d2f0c71598d66e95df9343b08788c4fd8a5d56180e4fcddc3a088bb5a39b",
+  "lwc_epochs": 0,
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "0",
+  "torch": "2.7.1+cu126",
+  "layers": 32,
+  "batch": 1,
+  "prompt_tokens": 1024,
+  "new_tokens": 32,
+  "decode_forward_calls": 31,
+  "scope": "Full model: embedding, 32 decoder blocks, final RMSNorm, FP16 LM head, greedy argmax, real autoregressive cache advancement. Two CUDA Graphs: prefill and the entire decode sequence. EOS ignored for equal work.",
+  "excluded": "Model load/export, first compilation, graph capture, tokenization, prompt H2D transfer. Wall time includes generated-token D2H transfer.",
+  "quantization": "Train-calibrated rotations + zigzag + folded smoothing; W4A4 projections, FP16 embeddings/lm_head/attention/KV storage",
+  "medians": {
+    "prefill_ms": 25.73481559753418,
+    "decode_ms": 190.1281280517578,
+    "gpu_total_ms": 215.87257385253906,
+    "wall_ms": 215.90996533632278
+  },
+  "decode_ms_per_token": 6.1331654210244455,
+  "decode_tokens_per_second": 163.04794202550082,
+  "end_to_end_tokens_per_second": 148.20992606873713,
+  "samples": [
+    {
+      "prefill_ms": 25.61199951171875,
+      "decode_ms": 189.4993896484375,
+      "gpu_total_ms": 215.11138916015625,
+      "wall_ms": 215.2196429669857
+    },
+    {
+      "prefill_ms": 25.707008361816406,
+      "decode_ms": 189.63763427734375,
+      "gpu_total_ms": 215.34463500976562,
+      "wall_ms": 215.41374176740646
+    },
+    {
+      "prefill_ms": 25.744447708129883,
+      "decode_ms": 190.1281280517578,
+      "gpu_total_ms": 215.87257385253906,
+      "wall_ms": 215.90996533632278
+    },
+    {
+      "prefill_ms": 25.73481559753418,
+      "decode_ms": 190.2458953857422,
+      "gpu_total_ms": 215.98069763183594,
+      "wall_ms": 216.02438390254974
+    },
+    {
+      "prefill_ms": 25.769023895263672,
+      "decode_ms": 190.1301727294922,
+      "gpu_total_ms": 215.89920043945312,
+      "wall_ms": 215.9837670624256
+    }
+  ],
+  "memory": {
+    "model_storage_bytes": 3798343680,
+    "kv_cache_bytes": 553123840,
+    "model_loaded": {
+      "allocated_bytes": 3808960512,
+      "reserved_bytes": 5043650560,
+      "peak_allocated_bytes": 3808960512,
+      "peak_reserved_bytes": 5043650560,
+      "device_used_bytes": 5537660928
+    },
+    "cache_allocated": {
+      "allocated_bytes": 4362101248,
+      "reserved_bytes": 5043650560,
+      "peak_allocated_bytes": 4362101248,
+      "peak_reserved_bytes": 5043650560,
+      "device_used_bytes": 5537660928
+    },
+    "capture_and_warmup": {
+      "allocated_bytes": 4370621952,
+      "reserved_bytes": 5272240128,
+      "peak_allocated_bytes": 4558587904,
+      "peak_reserved_bytes": 5272240128,
+      "device_used_bytes": 6003228672
+    },
+    "inference": {
+      "allocated_bytes": 4370621952,
+      "reserved_bytes": 5272240128,
+      "peak_allocated_bytes": 4370621952,
+      "peak_reserved_bytes": 5272240128,
+      "device_used_bytes": 6003228672
+    },
+    "inference_peak_allocated_bytes": 4558587904,
+    "inference_reserved_bytes": 5272240128
+  },
+  "load_seconds": 4.469201352447271,
+  "capture_seconds": 24.81922209262848,
+  "fp16_hf_validation": null,
+  "graph_matches_eager": true,
+  "finite_logits": true,
+  "generated_token_ids": [
+    [
+      1889,
+      1426,
+      29889,
+      319,
+      4327,
+      261,
+      3913,
+      8570,
+      304,
+      14405,
+      2472,
+      515,
+      8859,
+      3838,
+      322,
+      8500,
+      825,
+      5304,
+      2446,
+      29889,
+      12027,
+      7420,
+      278,
+      1667,
+      2969,
+      9436,
+      322,
+      2367,
+      263,
+      5407,
+      1342,
+      29889
+    ]
+  ],
+  "generated_text": [
+    "process text. A transformer uses attention to combine information from earlier words and predict what comes next. Explain the main idea clearly and give a useful example."
+  ]
+}

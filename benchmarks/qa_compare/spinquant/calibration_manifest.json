@@ -1,0 +1,313 @@
+{
+  "status": "complete",
+  "method": "spinquant",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "layers": [
+    {
+      "index": 0,
+      "rotated_sha256": "bc730614c654107ce20e217abb1df6dc8d827da55b372736d8ab143d5bad1575",
+      "gptq_sha256": "dd43fb3bd09d91e515d261ccd99fd7d68a1a8fa528a825edca70bf531f030078"
+    },
+    {
+      "index": 1,
+      "rotated_sha256": "746aba0bd0a7f5a959d9df39f9ba7c6b856a3dda22128d24f0607187dc4d8374",
+      "gptq_sha256": "b3dd9b17b9bd4cff5af969f94da85d7c6d044d32ca74ad440cf84dd8bfd0ea96"
+    },
+    {
+      "index": 2,
+      "rotated_sha256": "efdaa1ef1209ecc18df99a7d6f577464ad378d3a0ac2ff4c104b3b265df8166a",
+      "gptq_sha256": "bd2c280859472582dcc50085634a0130f0bb38e233d9db0a613903abc9b1e5f8"
+    },
+    {
+      "index": 3,
+      "rotated_sha256": "cbb9077651c94c66c451fe6ddeb938b9d8f3f119ac2246060bdd3c0cfef3843e",
+      "gptq_sha256": "355a4cdda535b82fb0f8b67e71d8b4e666859c18743a9355b8284daf3aea2658"
+    },
+    {
+      "index": 4,
+      "rotated_sha256": "b5f769f9a27ea97729bd0ecc356780cb8d79e287615686aff617523d112d6f08",
+      "gptq_sha256": "9177fec34f1f974c8420668dd3cc468a672f9e89ad3c83979ad738381ea52b3e"
+    },
+    {
+      "index": 5,
+      "rotated_sha256": "e9f53eacc4d3dbc2fa6a4f2494a5cbb883e7cc13e2aafd54cc77fc603f78aeaf",
+      "gptq_sha256": "a4ca62997bdbada828df6581313c7e9606793aa39829b47e45c68f328338ea8d"
+    },
+    {
+      "index": 6,
+      "rotated_sha256": "c6aef9dae4a90a9032fa51c668a4494afd49a3539cc38305a2bd05cbc39e2577",
+      "gptq_sha256": "e18f6b20d199c30b0baf99b8f293ef67e7e3a8557f66f4b3f2acac18439615ed"
+    },
+    {
+      "index": 7,
+      "rotated_sha256": "87c3ebdb8b3ba4ad2ddd95410b8986adc2b4be739a95f2a1341b8b0eaf05bd59",
+      "gptq_sha256": "78ea84495d20e96de617d842a9198bea1597550ad6d4b66d47d04e085f651797"
+    },
+    {
+      "index": 8,
+      "rotated_sha256": "dccb822115fa0bd23cd2d731e64938ab516dbc9aeecebc246b0093459ce90c62",
+      "gptq_sha256": "fe0614f518b954c58769e3f23d5f783b8ed7eb0c1421206499d432255d30c0ef"
+    },
+    {
+      "index": 9,
+      "rotated_sha256": "67bf828c166f0d7e67b56c37dd7bda6234182c7b9fb61d9142795249a22f9551",
+      "gptq_sha256": "a863b72e16ae0e96398dec233084c5de7c790f9eac63d52bd4e59a22264eeca2"
+    },
+    {
+      "index": 10,
+      "rotated_sha256": "c26f9eadb761e1c940e450bc58f8fc1432b5362afec9e33d36ce8f52f086cc4b",
+      "gptq_sha256": "492750c9ea1c57395cfba576ac81c7b3dbb5deb35d559de844db96f704bbc976"
+    },
+    {
+      "index": 11,
+      "rotated_sha256": "7df88a03e58c15bc5f17aa960325a42435560154610db95cb12cc7d4415f5ca4",
+      "gptq_sha256": "ca2032a2096a2f71d15f87ed460426d884d52685846209aca93123c4f6211345"
+    },
+    {
+      "index": 12,
+      "rotated_sha256": "9dd4cb44519db2f8eb4c6181cd2d4989371eddd3ce735e0bd87a3700d3019400",
+      "gptq_sha256": "f6a092b57c3967641d7eddbbf4835e3259b91b63e0f1f2bcb36d1b2c645acf93"
+    },
+    {
+      "index": 13,
+      "rotated_sha256": "84c6b149ef6f6d4e66ff36e93fabcce9abb28b6ceaffaa273ebe500fa78d0575",
+      "gptq_sha256": "7b3b560d33b06a4f92f7861cbb86c8f970e70494b2925f7e3d25cbf27c72f8f2"
+    },
+    {
+      "index": 14,
+      "rotated_sha256": "afa718dfcfdb08fb3933c9cf94e49f2fc238e49a33cad98a4d4a65794593b874",
+      "gptq_sha256": "81b8ba7026b3b57569526f9c1d4cc6c1a9e4ecd62a313a94742af4b92f428aab"
+    },
+    {
+      "index": 15,
+      "rotated_sha256": "f95e53b7173528aed1912ed9552d018f1a985eabf24d0e487ff24bf44a9f6649",
+      "gptq_sha256": "ec43d76e162141cd0661ff73e311888c86a8078de1c99b6a24237194f3aa7891"
+    },
+    {
+      "index": 16,
+      "rotated_sha256": "d9d283c01de9a2074320f9e0fa23b45200f72274a4292c6ee5107ac545105941",
+      "gptq_sha256": "98db7d9cb3e1c54884239424138bf587bdad6046a19aa598f326f26dbc98d8ac"
+    },
+    {
+      "index": 17,
+      "rotated_sha256": "643fb50094823d44185370aeb03f8d92036bff92e446bdf714bb7ff79d4f70a9",
+      "gptq_sha256": "f43fbb7504ab8b2a0247af750bb68211100a3c96ac321b39ed7fc631e92a07a5"
+    },
+    {
+      "index": 18,
+      "rotated_sha256": "8b283c34ba91bb644e94671ac5f431ce8098631edf294b0163834905dc1b2a8a",
+      "gptq_sha256": "00597d6f84cdd24cd75a8328933da85501c041924e9c302e9dcd2ade03f2bee5"
+    },
+    {
+      "index": 19,
+      "rotated_sha256": "5d56bf924538b5a0fa8b6d9c48a6afc98a3502cfcefbb16ee11bfb443ad2e6af",
+      "gptq_sha256": "045865f3d0b3166d099675f7260a9ffaa152c4637f998eae6f8979e7b541d740"
+    },
+    {
+      "index": 20,
+      "rotated_sha256": "2e5038a10292a547739a25ff6755a42cefc81f1d7d52bdc3ffe6c0f0c9413ac2",
+      "gptq_sha256": "b965a40cd674c9dc1c113014c2bafd075680a8e8176174830d8481f0b8f97332"
+    },
+    {
+      "index": 21,
+      "rotated_sha256": "697e893543237ee38f93d1aaaebe5e14233b093d0b5483f1bf5919c5ddba5674",
+      "gptq_sha256": "81c8b3a313f15f28d5f9cf4e80243873e6c2767ec74b20e20dc17f816c78b599"
+    },
+    {
+      "index": 22,
+      "rotated_sha256": "edfc5fc0bd64fa5ea175bf20e0f29514c4af6740b895ed7cd3a7926874ded619",
+      "gptq_sha256": "1d89af145ef02eb6be7d632788d2b4ef42ee2da1c101599b3f4f1a71d61c4e1c"
+    },
+    {
+      "index": 23,
+      "rotated_sha256": "fb27644111d1db84cecd0e8d093cb470aad7a6e0fa5948f9a073745e2e3bfd18",
+      "gptq_sha256": "af4564cf39432422fb8870c6efd719c4d36f24262114e46b088b99b4e910c912"
+    },
+    {
+      "index": 24,
+      "rotated_sha256": "a64094b6810a554577deadde0ae047f25b16ddad89aa50dc8107faeaeb728b44",
+      "gptq_sha256": "6336ed00c569d62c9c99d04a3d61e9d9408698fa2c8c7f76cc21930fac5d6637"
+    },
+    {
+      "index": 25,
+      "rotated_sha256": "04f8447392bde4106df7d418cda3cb57ecbf67941307809a377b8bbf9d782424",
+      "gptq_sha256": "41ffb6406744b12739fed38f6a0ebc3753136bc0927b50a33f14d5e21221caaa"
+    },
+    {
+      "index": 26,
+      "rotated_sha256": "600c7373cd12b3229116b85cde0f84e7f45c566615f574b7e7058fd2891cffe7",
+      "gptq_sha256": "b582a791c587548bfb7db7cdc64f848e55661d63805c409d3f9619dcc0a19789"
+    },
+    {
+      "index": 27,
+      "rotated_sha256": "c63bee192f47d2242ab9ae86f6040f3d807d68e70ac63ee673b88d6cb85e388b",
+      "gptq_sha256": "8c5966b7b8232c8cbf7e2b4fbdfb8d1de33bf5968f2dbf063c84ad953a1b4fd2"
+    },
+    {
+      "index": 28,
+      "rotated_sha256": "88c9d7d3e7e1aaa9abca8c7d3d3559a02919801aabb6d01a5e886ab8e2bb972b",
+      "gptq_sha256": "49253b4d714197802176ee2d5661022d326e6853a73ec11080d940778b2f235b"
+    },
+    {
+      "index": 29,
+      "rotated_sha256": "31f065f8d1731f937470de3431e07933d899115290db9e7ba872f56da8cd5a73",
+      "gptq_sha256": "111350def85d098a9a7edaa07847205fa3dfccbfca55c5e677815f73e56565f5"
+    },
+    {
+      "index": 30,
+      "rotated_sha256": "f8236d94ae667b07a30a7e8a9e80e2c4aa3efeb9f0ea1732840f575992ec7c35",
+      "gptq_sha256": "80463e341c796a4a240d219e070c9123011bd9e346482223a5c03c31f76f7dce"
+    },
+    {
+      "index": 31,
+      "rotated_sha256": "bdbbf4ef1afe5c3796cce9099d2728b425b7155a391b0f52320f954de31da072",
+      "gptq_sha256": "98a3a44bf7b74356bd256a1dbf5d59aada4a1aa19e79afed96db77c2329b9879"
+    }
+  ],
+  "rotation_source": {
+    "file": "/mnt/yichen/xhb/DuQuant/benchmarks/cache/qa_compare/spinquant_llama2_w16a4kv4_R.bin",
+    "sha256": "a6877cfb90b9a9298aca73edbf45ac6b6c59234a98e6892fce785e50b8b92c84",
+    "official_file_id": "193O_aCS6MaObW8JosZP5CASwHAVU259E",
+    "setting": "Official W16A4KV4 rotation, seed0, used with GPTQ"
+  },
+  "r1_max_orthogonality_error": 2.0000005540588006e-08,
+  "training_parent_manifest_sha256": "7252d2f0c71598d66e95df9343b08788c4fd8a5d56180e4fcddc3a088bb5a39b",
+  "training_token_ids_sha256": "50e50734c929876addcd7383a0636297bebbb98365b82256050d06e731b31ae3",
+  "nsamples": 128,
+  "seqlen": 2048,
+  "split": "train",
+  "weight_bits": 4,
+  "activation_bits": 4,
+  "kv_bits": 4,
+  "weight_symmetric": true,
+  "activation_symmetric": false,
+  "kv_symmetric": false,
+  "query_bits": 16,
+  "w_groupsize": -1,
+  "a_groupsize": -1,
+  "kv_groupsize": 128,
+  "weight_clip_grid": [
+    1.0,
+    0.99,
+    0.98,
+    0.97,
+    0.96,
+    0.95,
+    0.94,
+    0.93,
+    0.92,
+    0.91,
+    0.9,
+    0.89,
+    0.88,
+    0.87,
+    0.86,
+    0.85,
+    0.84,
+    0.83,
+    0.82,
+    0.81,
+    0.8,
+    0.79,
+    0.78,
+    0.77,
+    0.76,
+    0.75,
+    0.74,
+    0.73,
+    0.72,
+    0.71,
+    0.7,
+    0.69,
+    0.68,
+    0.67,
+    0.66,
+    0.65,
+    0.64,
+    0.63,
+    0.62,
+    0.61,
+    0.6,
+    0.59,
+    0.58,
+    0.57,
+    0.56,
+    0.55,
+    0.54,
+    0.53,
+    0.52,
+    0.51,
+    0.5,
+    0.49,
+    0.48,
+    0.47,
+    0.46,
+    0.45,
+    0.44,
+    0.43,
+    0.42,
+    0.41,
+    0.4,
+    0.39,
+    0.38,
+    0.37,
+    0.36,
+    0.35,
+    0.34,
+    0.33,
+    0.32,
+    0.31,
+    0.3,
+    0.29,
+    0.28,
+    0.27,
+    0.26,
+    0.25,
+    0.24,
+    0.23,
+    0.22,
+    0.21,
+    0.2
+  ],
+  "activation_kv_clip_grid": [
+    1.0,
+    0.975,
+    0.95,
+    0.925,
+    0.9,
+    0.875,
+    0.85,
+    0.825,
+    0.8,
+    0.775,
+    0.75,
+    0.725,
+    0.7,
+    0.675,
+    0.65,
+    0.625,
+    0.6,
+    0.575,
+    0.55,
+    0.525,
+    0.5,
+    0.475,
+    0.45,
+    0.425,
+    0.4
+  ],
+  "gptq": {
+    "blocksize": 128,
+    "damp": 0.01,
+    "act_order": false,
+    "calibration": "own quantized prefix; true-sequential A4 inputs"
+  },
+  "source_sha256": {
+    "/mnt/yichen/xhb/DuQuant/benchmarks/calibrate_comparison.py": "5777ba6b41d02c4a4fc705b2601e9f5579d5e94bd5950ac21864143df01b2564",
+    "benchmarks/comparison_models.py": "8a26420559dd1c7994925415993e990d455fd015922972f3b417f91a7d90d74e",
+    "benchmarks/search_ptq.py": "07aede7668dbbb315bb29bc6d49828f185af2fa9f807b81ef706f7f97f445600",
+    "duquant_cuda/ptq.py": "855c2be51ec5c7a06b6cf69ab2445d4de953104821d6049cfa70f3041632b40c",
+    "/mnt/yichen/wyc/QDLM/QuaRot/fake_quant/hadamard_utils.py": "dd3596b49fae635be59398bebb4a87ede2f0b7a72a7b461752fce799262b2d2f"
+  },
+  "extras_sha256": "8a03667261b72896182a8beed568c485d87264567dd0049d7192330e4aaf45f9"
+}

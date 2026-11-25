@@ -1,0 +1,12 @@
+{
+  "rtn": {
+    "requests": 32,
+    "max_absolute_loglikelihood_difference": 0.0,
+    "exact": true
+  },
+  "gptq": {
+    "requests": 32,
+    "max_absolute_loglikelihood_difference": 0.0,
+    "exact": true
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "family": "qwen3",
+  "replicates": 4000,
+  "seed": 0,
+  "interpretation": "Paired bootstrap of questions independently within each fixed task; does not measure training-seed/model-family uncertainty.",
+  "comparisons": {
+    "rtn_minus_flatquant": {
+      "original_six": {
+        "delta_percentage_points": 1.9661875194412874,
+        "paired_bootstrap_95ci_percentage_points": [
+          1.1557313017657096,
+          2.762928942233346
+        ]
+      },
+      "lambada_six": {
+        "delta_percentage_points": 1.229298999289432,
+        "paired_bootstrap_95ci_percentage_points": [
+          0.4345706714372759,
+          1.974745263720023
+        ]
+      },
+      "seven": {
+        "delta_percentage_points": 1.7352051710816367,
+        "paired_bootstrap_95ci_percentage_points": [
+          1.0293729004564771,
+          2.415814923756033
+        ]
+      },
+      "lambada_only": {
+        "delta_percentage_points": 0.34931108092373375,
+        "paired_bootstrap_95ci_percentage_points": [
+          -0.7961381719386764,
+          1.5718998641568018
+        ]
+      }
+    },
+    "gptq_minus_flatquant": {
+      "original_six": {
+        "delta_percentage_points": 0.7541481036313455,
+        "paired_bootstrap_95ci_percentage_points": [
+          -0.020130298906052644,
+          1.5458347441419202
+        ]
+      },
+      "lambada_six": {
+        "delta_percentage_points": 0.8070610767457866,
+        "paired_bootstrap_95ci_percentage_points": [
+          0.01556576460884282,
+          1.5792727003390814
+        ]
+      },
+      "seven": {
+        "delta_percentage_points": 0.9014651955330858,
+        "paired_bootstrap_95ci_percentage_points": [
+          0.205024505573516,
+          1.594621259458666
+        ]
+      },
+      "lambada_only": {
+        "delta_percentage_points": 1.785367746943528,
+        "paired_bootstrap_95ci_percentage_points": [
+          0.5627789637104599,
+          3.027362701339026
+        ]
+      }
+    }
+  }
+}

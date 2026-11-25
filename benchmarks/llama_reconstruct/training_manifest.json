@@ -1,0 +1,335 @@
+{
+  "status": "complete",
+  "experiment": "DuQuant frozen rotations + layerwise learned folding scales and scalar clipping",
+  "family": "llama2",
+  "epochs": 15,
+  "batch_size": 4,
+  "scale_lr": 0.005,
+  "clipping_lr": 0.05,
+  "optimizer": "AdamW default weight decay; cosine decay to 5e-6; grad norm clip 10",
+  "scale_range": "exp(clamp(log_scale,-2,2)); GQA O scales tied per shared V head",
+  "weight_clip_range": [
+    0.2,
+    1.0
+  ],
+  "activation_kv_clip_range": [
+    0.4,
+    1.0
+  ],
+  "training": {
+    "dataset": "Salesforce/wikitext",
+    "dataset_config": "wikitext-2-raw-v1",
+    "split": "train",
+    "source_arrow": "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow",
+    "source_arrow_sha256": "57947bc7b58df4b19662c0609cc30651bc84328dab5fd588860b752072911789",
+    "token_ids_sha256": "50e50734c929876addcd7383a0636297bebbb98365b82256050d06e731b31ae3",
+    "nsamples": 128,
+    "seqlen": 2048,
+    "seed": 2,
+    "sample_starts": [
+      237193,
+      384134,
+      355978,
+      1514384,
+      709188,
+      2809052,
+      1292417,
+      1055216,
+      2541514,
+      890110,
+      2545110,
+      149881,
+      2437746,
+      2857353,
+      664305,
+      1806359,
+      2677942,
+      1650592,
+      2135183,
+      1560533,
+      2282443,
+      1865853,
+      2105822,
+      1125083,
+      150677,
+      115112,
+      1526787,
+      1949906,
+      1335739,
+      1593898,
+      1776753,
+      2205166,
+      689914,
+      2350950,
+      744222,
+      990373,
+      967217,
+      100068,
+      741217,
+      1363748,
+      728084,
+      573350,
+      2139794,
+      2140033,
+      1508655,
+      2154770,
+      2828972,
+      2348350,
+      762706,
+      1869139,
+      1739256,
+      2203543,
+      1527798,
+      2489258,
+      1483890,
+      1517861,
+      1869690,
+      676057,
+      1677149,
+      1935279,
+      2746895,
+      2224473,
+      1048163,
+      2055267,
+      1170639,
+      2089037,
+      2100679,
+      2161711,
+      1484465,
+      2775310,
+      1907102,
+      1933625,
+      1471256,
+      2381127,
+      2338671,
+      1914914,
+      2040984,
+      2763565,
+      930342,
+      1361753,
+      696546,
+      2585142,
+      1124650,
+      2012285,
+      1298401,
+      1272118,
+      2114972,
+      2357990,
+      2171591,
+      2128008,
+      2732230,
+      2582886,
+      2466018,
+      1705699,
+      1307969,
+      871653,
+      2050622,
+      2147029,
+      1537624,
+      2869876,
+      2614163,
+      316147,
+      1432182,
+      35323,
+      802801,
+      445254,
+      246452,
+      2409270,
+      2738502,
+      205143,
+      1145463,
+      2481771,
+      950498,
+      2862518,
+      445711,
+      2190947,
+      572522,
+      1115018,
+      1026899,
+      882812,
+      253272,
+      1773845,
+      133685,
+      238221,
+      1519835,
+      1510865,
+      720921,
+      1046485
+    ]
+  },
+  "parent_manifest_sha256": "df79e72f49d8afc05e2dc36ebced0c32daddcb71a7dbb32f23145f1e01c9dc63",
+  "fixed_rotations": true,
+  "fixed_permutation": true,
+  "target": "Original frozen FP16 layer output using original FP16 prefixes",
+  "selection": "Final epoch, no evaluation-based selection",
+  "source_sha256": {
+    "/mnt/yichen/xhb/DuQuant/benchmarks/train_llama_reconstruct.py": "75966ba11fa602645aece0f565beeb6e58621645cfcd1538fb924ad253a0a633",
+    "benchmarks/llama_reconstruct.py": "1d3b16483e97171cf80fa776b4795c87872991b92ec1dd259d9f2f1181f75f34",
+    "benchmarks/duquant_reconstruct.py": "e6f605353fae42274ca97471ab077da161e4986d79b965f986d6ee27d76c89a6",
+    "duquant_cuda/lwc.py": "fa35d58e6e836aa5cbb8afdfcaafb15d3077bf33bacbbbcbb5020bbf7428f404",
+    "duquant_cuda/calibration.py": "4fa5e27ee9dcff09bd216a1e45835017bfe4fd5677d66bdbf8867e5c0da362f1"
+  },
+  "layers": [
+    {
+      "index": 0,
+      "file": "layer_00.pt",
+      "sha256": "fa4727fabb1623d8b975be4bfdeb84dfa3e4bd2f925edd8f3573bbd8b9cdd480"
+    },
+    {
+      "index": 1,
+      "file": "layer_01.pt",
+      "sha256": "9ab394c257e528efe6445ea5efae3e00e2a5eca5bb9526e3d1234558d458c165"
+    },
+    {
+      "index": 2,
+      "file": "layer_02.pt",
+      "sha256": "1176549ce413c5b238e2e97eab574956e31c5411b77267010b00bcc10763426d"
+    },
+    {
+      "index": 3,
+      "file": "layer_03.pt",
+      "sha256": "86618a9cab0c6723fb09ab41492cb93e1bdf9553843a1d23db32ef4d06538de8"
+    },
+    {
+      "index": 4,
+      "file": "layer_04.pt",
+      "sha256": "4a86cc7b5bae243fe15fa92b855c8dbdb2e802d91dc3665dbf3a8b054c18501e"
+    },
+    {
+      "index": 5,
+      "file": "layer_05.pt",
+      "sha256": "f2be428214f271260c43041e4b97f5d85989c2db196b6d5a6ccaa2eb2838f836"
+    },
+    {
+      "index": 6,
+      "file": "layer_06.pt",
+      "sha256": "24cb9b83861e857e39aa8b34b074b25096e0397969060f3d1130572c6e186720"
+    },
+    {
+      "index": 7,
+      "file": "layer_07.pt",
+      "sha256": "7c4be6fbb8f2ae61e0516b312eca2e705f683b1eba233bad8e4018f806f5378a"
+    },
+    {
+      "index": 8,
+      "file": "layer_08.pt",
+      "sha256": "706e23d6894b2d0511fed8b6ee4c59ad743f0d7ba710c700ea11bc5b24ab14d8"
+    },
+    {
+      "index": 9,
+      "file": "layer_09.pt",
+      "sha256": "04458797b44bf8f622bd0e97314d7bf68b4ec212becb0dc83d9fe319389e4636"
+    },
+    {
+      "index": 10,
+      "file": "layer_10.pt",
+      "sha256": "4421023e99c223a8caac190b7f6db45265baa7a50355c1de1e38af1efcc5232d"
+    },
+    {
+      "index": 11,
+      "file": "layer_11.pt",
+      "sha256": "b925f41d04962e851dd812400eca5afc33a7ddf96548d2d28535a160a6014f5e"
+    },
+    {
+      "index": 12,
+      "file": "layer_12.pt",
+      "sha256": "b55b8c08c351f0e8dded20dc2b9829a05bc84c134396309ab4bca951cb23e43a"
+    },
+    {
+      "index": 13,
+      "file": "layer_13.pt",
+      "sha256": "6cbb94cf61fffa576e56881b2ce3ca0dad1a226ef8831a6432b9bf048babdd2f"
+    },
+    {
+      "index": 14,
+      "file": "layer_14.pt",
+      "sha256": "9a6fe9ab0a9f7b8cf8bcbe912d247267d9d71dad037c94ed6fc53ae498984e9a"
+    },
+    {
+      "index": 15,
+      "file": "layer_15.pt",
+      "sha256": "a83fc1cd09cb917d23f93d24be37f3488a8108b95aa305cd60674086ee3798ef"
+    },
+    {
+      "index": 16,
+      "file": "layer_16.pt",
+      "sha256": "56113b0439bd94cd38c133adda2008f5066df74818096ee754522f4c8bcf4612"
+    },
+    {
+      "index": 17,
+      "file": "layer_17.pt",
+      "sha256": "7dc4799cec1eaf9ac13ebc7327ddd199c357aab30678ea200cc4717f83919f9e"
+    },
+    {
+      "index": 18,
+      "file": "layer_18.pt",
+      "sha256": "6b3c4f09049d85e4ef589c40d1f5d6fa5e54214249399968f225c80d98546473"
+    },
+    {
+      "index": 19,
+      "file": "layer_19.pt",
+      "sha256": "e4b1eee0ff47b5498464bdb4d4fe0275cd1d0a83c1158c467f6b14959cbfdb0e"
+    },
+    {
+      "index": 20,
+      "file": "layer_20.pt",
+      "sha256": "5733c2f01a0cfb695d7366485a7a9a731852d0e0950f6fd693f0504d7bc34102"
+    },
+    {
+      "index": 21,
+      "file": "layer_21.pt",
+      "sha256": "07ba4c67cdb47e20ff8c73a65d7c0810bebd7800a268e6bb977c2422027778b5"
+    },
+    {
+      "index": 22,
+      "file": "layer_22.pt",
+      "sha256": "1ab77429c86ad107ff9fe7787e839cff4644667ab9ce6ec20269a88790303fcf"
+    },
+    {
+      "index": 23,
+      "file": "layer_23.pt",
+      "sha256": "ff5789cf43ec788b771ad3769b713136d1e6568f34116f208da0455384a57f48"
+    },
+    {
+      "index": 24,
+      "file": "layer_24.pt",
+      "sha256": "330a54858e8aa0014ae6eb7a32b499492d415a6ee3f391e71ee23e7a94d0d375"
+    },
+    {
+      "index": 25,
+      "file": "layer_25.pt",
+      "sha256": "e7d6cef32454142cf376b3455fe24611d37c07e1b01b939922a00341c3ab3f95"
+    },
+    {
+      "index": 26,
+      "file": "layer_26.pt",
+      "sha256": "c2c1f04f4200d4323b38b51159959fc3012f3f0faaff5ce047d7d0114b695843"
+    },
+    {
+      "index": 27,
+      "file": "layer_27.pt",
+      "sha256": "c4cfd2c1c785d4d861b39e9013de517925af7fb5c4d14a43baeab7d690368ea8"
+    },
+    {
+      "index": 28,
+      "file": "layer_28.pt",
+      "sha256": "526158a9147042fdc28390900d5904021e7ab8577f8bd6913b03cf1d5af0416f"
+    },
+    {
+      "index": 29,
+      "file": "layer_29.pt",
+      "sha256": "5535ae60b9d29486856b92e55f434390429a68da70f5528915e799a1c75763c8"
+    },
+    {
+      "index": 30,
+      "file": "layer_30.pt",
+      "sha256": "1c04def47acc34f4bda8a9281f4dad0d0b91d33d98d53284d0887a12993febdd"
+    },
+    {
+      "index": 31,
+      "file": "layer_31.pt",
+      "sha256": "43054b31f28eca33056cdd0096ea503ee41de584d4d7086fde89d178cc825b14"
+    }
+  ],
+  "shards": 3
+}

@@ -1,0 +1,68 @@
+{
+  "family": "llama2",
+  "replicates": 4000,
+  "seed": 0,
+  "interpretation": "Paired bootstrap of questions independently within each fixed task; does not measure training-seed/model-family uncertainty.",
+  "comparisons": {
+    "rtn_minus_flatquant": {
+      "original_six": {
+        "delta_percentage_points": 0.5267640355039576,
+        "paired_bootstrap_95ci_percentage_points": [
+          -0.07403022185886149,
+          1.1830491164698542
+        ]
+      },
+      "lambada_six": {
+        "delta_percentage_points": -0.12826644563654768,
+        "paired_bootstrap_95ci_percentage_points": [
+          -0.7114382030666406,
+          0.48522257499230653
+        ]
+      },
+      "seven": {
+        "delta_percentage_points": 0.26576724930585127,
+        "paired_bootstrap_95ci_percentage_points": [
+          -0.26682725557345105,
+          0.8446542666668901
+        ]
+      },
+      "lambada_only": {
+        "delta_percentage_points": -1.3002134678827868,
+        "paired_bootstrap_95ci_percentage_points": [
+          -2.1152726567048323,
+          -0.446341936735882
+        ]
+      }
+    },
+    "gptq_minus_flatquant": {
+      "original_six": {
+        "delta_percentage_points": 0.20639191458830092,
+        "paired_bootstrap_95ci_percentage_points": [
+          -0.42912001385381143,
+          0.8413250001994745
+        ]
+      },
+      "lambada_six": {
+        "delta_percentage_points": -0.3190642936357615,
+        "paired_bootstrap_95ci_percentage_points": [
+          -0.902946480581703,
+          0.2957817911783628
+        ]
+      },
+      "seven": {
+        "delta_percentage_points": 0.04106415722439321,
+        "paired_bootstrap_95ci_percentage_points": [
+          -0.5098672595587878,
+          0.6070021105693366
+        ]
+      },
+      "lambada_only": {
+        "delta_percentage_points": -0.9509023869590529,
+        "paired_bootstrap_95ci_percentage_points": [
+          -1.7465554046186686,
+          -0.11643702697457792
+        ]
+      }
+    }
+  }
+}

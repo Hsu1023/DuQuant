@@ -1,0 +1,542 @@
+{
+  "status": "invalidated",
+  "family": "llama2",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "results": {
+    "16": {
+      "ppl": 5.999411181715163,
+      "integer_reference": {
+        "predictions_equal": true,
+        "sampled_logits_equal": true,
+        "max_block_nll_delta": 0.0
+      },
+      "decode": {
+        "model": "/mnt/public_models/llama2-7b-hf",
+        "kv_bits": 16,
+        "cases": [
+          {
+            "prompt": 1,
+            "step": 0,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1,
+            "step": 1,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1,
+            "step": 2,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1,
+            "step": 3,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1,
+            "step": 4,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1,
+            "step": 5,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1,
+            "step": 6,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1,
+            "step": 7,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 129,
+            "step": 0,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 129,
+            "step": 1,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 129,
+            "step": 2,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 129,
+            "step": 3,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 129,
+            "step": 4,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 129,
+            "step": 5,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 129,
+            "step": 6,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 129,
+            "step": 7,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1024,
+            "step": 0,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1024,
+            "step": 1,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1024,
+            "step": 2,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1024,
+            "step": 3,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1024,
+            "step": 4,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1024,
+            "step": 5,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1024,
+            "step": 6,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1024,
+            "step": 7,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          }
+        ],
+        "max_relative_l2": 0.0,
+        "top1_agreement": 1.0,
+        "reference": "Exact integer-code linear algebra; PyTorch norms/activations; FP32 dense SDPA for KV4 single-token decode, Flash SDPA for prefill/KV16",
+        "protocol": "Identical reference-selected tokens supplied to both models; 3 prompt lengths x 8 steps; includes split-boundary and long-cache cases"
+      },
+      "generation": [
+        {
+          "prompt": 128,
+          "output": 32,
+          "fp16_ms": 461.3358825445175,
+          "cuda_ms": 175.45057833194733,
+          "speedup": 2.629434949320507,
+          "fp16_memory": {
+            "model_gib": 12.553260803222656,
+            "kv_gib": 0.07763671875,
+            "decode_workspace_gib": 0.0,
+            "peak_allocated_gib": 12.666667938232422,
+            "reserved_gib": 12.681640625,
+            "device_used_gib": 13.2589111328125
+          },
+          "cuda_memory": {
+            "model_gib": 3.5374832153320312,
+            "kv_gib": 0.07763671875,
+            "decode_workspace_gib": 0.0,
+            "peak_allocated_gib": 3.6544394493103027,
+            "reserved_gib": 4.728515625,
+            "device_used_gib": 5.4073486328125
+          }
+        },
+        {
+          "prompt": 1024,
+          "output": 32,
+          "fp16_ms": 550.5673699080944,
+          "cuda_ms": 211.20997332036495,
+          "speedup": 2.6067299817939444,
+          "fp16_memory": {
+            "model_gib": 12.553260803222656,
+            "kv_gib": 0.51513671875,
+            "decode_workspace_gib": 0.0,
+            "peak_allocated_gib": 13.234674453735352,
+            "reserved_gib": 13.388671875,
+            "device_used_gib": 13.9659423828125
+          },
+          "cuda_memory": {
+            "model_gib": 3.5374832153320312,
+            "kv_gib": 0.51513671875,
+            "decode_workspace_gib": 0.0,
+            "peak_allocated_gib": 4.245515823364258,
+            "reserved_gib": 4.91015625,
+            "device_used_gib": 5.5889892578125
+          }
+        }
+      ]
+    },
+    "4": {
+      "ppl": 6.08310149359033,
+      "integer_reference": {
+        "predictions_equal": true,
+        "sampled_logits_equal": true,
+        "max_block_nll_delta": 0.0
+      },
+      "decode": {
+        "model": "/mnt/public_models/llama2-7b-hf",
+        "kv_bits": 4,
+        "cases": [
+          {
+            "prompt": 1,
+            "step": 0,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1,
+            "step": 1,
+            "relative_l2": 0.04686387628316879,
+            "max_abs": 1.04296875,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1,
+            "step": 2,
+            "relative_l2": 0.20010672509670258,
+            "max_abs": 3.34765625,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1,
+            "step": 3,
+            "relative_l2": 0.1557542234659195,
+            "max_abs": 2.3125,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1,
+            "step": 4,
+            "relative_l2": 0.2156350463628769,
+            "max_abs": 3.853515625,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1,
+            "step": 5,
+            "relative_l2": 0.2745685279369354,
+            "max_abs": 4.2265625,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1,
+            "step": 6,
+            "relative_l2": 0.4430537521839142,
+            "max_abs": 5.79296875,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1,
+            "step": 7,
+            "relative_l2": 0.22098781168460846,
+            "max_abs": 3.15625,
+            "top1_agrees": false,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 129,
+            "step": 0,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 129,
+            "step": 1,
+            "relative_l2": 0.1313558965921402,
+            "max_abs": 1.80859375,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 129,
+            "step": 2,
+            "relative_l2": 0.1091819480061531,
+            "max_abs": 1.9091796875,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 129,
+            "step": 3,
+            "relative_l2": 0.10684452205896378,
+            "max_abs": 1.53515625,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 129,
+            "step": 4,
+            "relative_l2": 0.18222947418689728,
+            "max_abs": 1.6552734375,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 129,
+            "step": 5,
+            "relative_l2": 0.13873976469039917,
+            "max_abs": 1.892578125,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 129,
+            "step": 6,
+            "relative_l2": 0.16042760014533997,
+            "max_abs": 2.224609375,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 129,
+            "step": 7,
+            "relative_l2": 0.12463443726301193,
+            "max_abs": 1.955078125,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1024,
+            "step": 0,
+            "relative_l2": 0.0,
+            "max_abs": 0.0,
+            "top1_agrees": true,
+            "bitwise_equal": true
+          },
+          {
+            "prompt": 1024,
+            "step": 1,
+            "relative_l2": 0.15978218615055084,
+            "max_abs": 2.009765625,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1024,
+            "step": 2,
+            "relative_l2": 0.1349121332168579,
+            "max_abs": 1.91015625,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1024,
+            "step": 3,
+            "relative_l2": 0.11858312040567398,
+            "max_abs": 1.96875,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1024,
+            "step": 4,
+            "relative_l2": 0.2281917780637741,
+            "max_abs": 2.9140625,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1024,
+            "step": 5,
+            "relative_l2": 0.31258538365364075,
+            "max_abs": 6.58984375,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1024,
+            "step": 6,
+            "relative_l2": 0.15512579679489136,
+            "max_abs": 2.302734375,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          },
+          {
+            "prompt": 1024,
+            "step": 7,
+            "relative_l2": 0.13031896948814392,
+            "max_abs": 2.208984375,
+            "top1_agrees": true,
+            "bitwise_equal": false
+          }
+        ],
+        "max_relative_l2": 0.4430537521839142,
+        "top1_agreement": 0.9583333333333334,
+        "reference": "Exact integer-code linear algebra; PyTorch norms/activations; FP32 dense SDPA for KV4 single-token decode, Flash SDPA for prefill/KV16",
+        "protocol": "Identical reference-selected tokens supplied to both models; 3 prompt lengths x 8 steps; includes split-boundary and long-cache cases"
+      },
+      "generation": [
+        {
+          "prompt": 128,
+          "output": 32,
+          "fp16_ms": 461.3358825445175,
+          "cuda_ms": 179.35253120958805,
+          "speedup": 2.5722295605932035,
+          "fp16_memory": {
+            "model_gib": 12.553260803222656,
+            "kv_gib": 0.07763671875,
+            "decode_workspace_gib": 0.0,
+            "peak_allocated_gib": 12.666667938232422,
+            "reserved_gib": 12.681640625,
+            "device_used_gib": 13.2589111328125
+          },
+          "cuda_memory": {
+            "model_gib": 3.5374832153320312,
+            "kv_gib": 0.02062225341796875,
+            "decode_workspace_gib": 0.0009918212890625,
+            "peak_allocated_gib": 3.594554901123047,
+            "reserved_gib": 4.751953125,
+            "device_used_gib": 5.4307861328125
+          }
+        },
+        {
+          "prompt": 1024,
+          "output": 32,
+          "fp16_ms": 550.5673699080944,
+          "cuda_ms": 207.94852264225483,
+          "speedup": 2.6476137599460876,
+          "fp16_memory": {
+            "model_gib": 12.553260803222656,
+            "kv_gib": 0.51513671875,
+            "decode_workspace_gib": 0.0,
+            "peak_allocated_gib": 13.234674453735352,
+            "reserved_gib": 13.388671875,
+            "device_used_gib": 13.9659423828125
+          },
+          "cuda_memory": {
+            "model_gib": 3.5374832153320312,
+            "kv_gib": 0.13683319091796875,
+            "decode_workspace_gib": 0.00446319580078125,
+            "peak_allocated_gib": 3.8982677459716797,
+            "reserved_gib": 4.943359375,
+            "device_used_gib": 5.6221923828125
+          }
+        }
+      ]
+    }
+  },
+  "prior_q4kv4_fake_cache_ppl": 6.163763110474287,
+  "source_sha256": {
+    "duquant_cuda/backend.py": "1eaedef61d58dde7d3136a54c592171c0334e05e4571af834e51606a79d80a1a",
+    "duquant_cuda/__init__.py": "3a8712a0f4ee44172fe9920086669350db2264bc1059eb50ac2ad2eaa4c43cc0",
+    "duquant_cuda/decoder.py": "d1d95dddecb87089ce4cc5bf5fe4e26226f40815641c7d9148226090cbcbad2f",
+    "duquant_cuda/model.py": "b6c76ae8a3d7d5f9702f9d1f884dd358d563ebd84f318d215e56dd5038acb774",
+    "duquant_cuda/calibration.py": "4fa5e27ee9dcff09bd216a1e45835017bfe4fd5677d66bdbf8867e5c0da362f1",
+    "duquant_cuda/lwc.py": "fa35d58e6e836aa5cbb8afdfcaafb15d3077bf33bacbbbcbb5020bbf7428f404",
+    "duquant_cuda/lwc_quant.py": "60e7efa659cb037d92eecf32f6ea01f7c9fc5f0968bf9dec1563011ec6396905",
+    "duquant_cuda/kv4.py": "32240ae40571c4ddcd91c4df080328b2a5c32dbf8f814528b4926c013c0a698f",
+    "duquant_cuda/gemm.cu": "96c73e45baf72cad7799414649fd7fb04cabc3458cafe7c32c966bfb6189bd5d",
+    "duquant_cuda/fused_gemm.cuh": "6fa7e0510093959f60755835ebebe60468bbb459d6b323ad6653cb9c892f7129",
+    "/mnt/yichen/xhb/DuQuant/benchmarks/run_kv_modes.py": "aaabeb06166e87eb2c0da21f31c14372c5fd9e93895c8dce7e676b4de6022b82",
+    "benchmarks/eval_ppl.py": "e56fb31ccf66d3c05b8d22d191497765072129b12940e3a3bbc11768efa5fec0",
+    "benchmarks/bench_model.py": "10321617f0a8f3170df9e7f128a5c2ac77be67695b5369ba35de14e5fb20aaee",
+    "benchmarks/verify_kv_decode.py": "3778b43521aa65f1c90d37ece8b65a15a14ff07f690422a67756c12d7b7fb5a4"
+  },
+  "calibration_sha256": "7252d2f0c71598d66e95df9343b08788c4fd8a5d56180e4fcddc3a088bb5a39b",
+  "reason": "Initial runner reused a diagnostic with failed strict end-to-end comparison; replaced by explicit operator and cached-NLL validation."
+}

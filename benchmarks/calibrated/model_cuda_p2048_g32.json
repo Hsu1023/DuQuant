@@ -1,0 +1,135 @@
+{
+  "mode": "cuda",
+  "calibration_manifest_sha256": "7252d2f0c71598d66e95df9343b08788c4fd8a5d56180e4fcddc3a088bb5a39b",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "4",
+  "torch": "2.7.1+cu126",
+  "layers": 32,
+  "batch": 1,
+  "prompt_tokens": 2048,
+  "new_tokens": 32,
+  "decode_forward_calls": 31,
+  "scope": "Full model: embedding, 32 decoder blocks, final RMSNorm, FP16 LM head, greedy argmax, real autoregressive cache advancement. Two CUDA Graphs: prefill and the entire decode sequence. EOS ignored for equal work.",
+  "excluded": "Model load/export, first compilation, graph capture, tokenization, prompt H2D transfer. Wall time includes generated-token D2H transfer.",
+  "quantization": "Train-calibrated rotations + zigzag + folded smoothing; W4A4 projections, FP16 embeddings/lm_head/attention/KV storage",
+  "medians": {
+    "prefill_ms": 54.91609573364258,
+    "decode_ms": 205.86700439453125,
+    "gpu_total_ms": 260.8652648925781,
+    "wall_ms": 260.9250508248806
+  },
+  "decode_ms_per_token": 6.640871109501008,
+  "decode_tokens_per_second": 150.58265452092766,
+  "end_to_end_tokens_per_second": 122.64058164916003,
+  "samples": [
+    {
+      "prefill_ms": 54.85491180419922,
+      "decode_ms": 206.01036071777344,
+      "gpu_total_ms": 260.8652648925781,
+      "wall_ms": 260.9470337629318
+    },
+    {
+      "prefill_ms": 54.91609573364258,
+      "decode_ms": 205.56288146972656,
+      "gpu_total_ms": 260.4789733886719,
+      "wall_ms": 260.5222873389721
+    },
+    {
+      "prefill_ms": 54.844703674316406,
+      "decode_ms": 205.44204711914062,
+      "gpu_total_ms": 260.2867431640625,
+      "wall_ms": 260.31942665576935
+    },
+    {
+      "prefill_ms": 54.94160079956055,
+      "decode_ms": 206.22540283203125,
+      "gpu_total_ms": 261.1670227050781,
+      "wall_ms": 261.1987553536892
+    },
+    {
+      "prefill_ms": 55.02272033691406,
+      "decode_ms": 205.86700439453125,
+      "gpu_total_ms": 260.8897399902344,
+      "wall_ms": 260.9250508248806
+    }
+  ],
+  "memory": {
+    "model_storage_bytes": 3798343680,
+    "kv_cache_bytes": 1089994752,
+    "model_loaded": {
+      "allocated_bytes": 3808960512,
+      "reserved_bytes": 5043650560,
+      "peak_allocated_bytes": 3808960512,
+      "peak_reserved_bytes": 5043650560,
+      "device_used_bytes": 5537660928
+    },
+    "cache_allocated": {
+      "allocated_bytes": 4898988544,
+      "reserved_bytes": 5081399296,
+      "peak_allocated_bytes": 4898988544,
+      "peak_reserved_bytes": 5081399296,
+      "device_used_bytes": 5575409664
+    },
+    "capture_and_warmup": {
+      "allocated_bytes": 4907509248,
+      "reserved_bytes": 5502926848,
+      "peak_allocated_bytes": 5290123776,
+      "peak_reserved_bytes": 5502926848,
+      "device_used_bytes": 6233915392
+    },
+    "inference": {
+      "allocated_bytes": 4907509248,
+      "reserved_bytes": 5502926848,
+      "peak_allocated_bytes": 4907509248,
+      "peak_reserved_bytes": 5502926848,
+      "device_used_bytes": 6233915392
+    },
+    "inference_peak_allocated_bytes": 5290123776,
+    "inference_reserved_bytes": 5502926848
+  },
+  "load_seconds": 3.747760061174631,
+  "capture_seconds": 23.589234691113234,
+  "fp16_hf_validation": null,
+  "graph_matches_eager": true,
+  "finite_logits": true,
+  "generated_token_ids": [
+    [
+      8859,
+      3838,
+      322,
+      8500,
+      825,
+      5304,
+      2446,
+      29889,
+      12027,
+      7420,
+      278,
+      1667,
+      2969,
+      9436,
+      322,
+      2367,
+      263,
+      5407,
+      1342,
+      29889,
+      29871,
+      450,
+      6437,
+      310,
+      445,
+      7639,
+      338,
+      304,
+      2274,
+      920,
+      4086,
+      4733
+    ]
+  ],
+  "generated_text": [
+    "earlier words and predict what comes next. Explain the main idea clearly and give a useful example.  The purpose of this experiment is to understand how language models"
+  ]
+}

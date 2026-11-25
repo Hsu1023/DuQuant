@@ -1,0 +1,323 @@
+{
+  "status": "complete",
+  "variant": "gptq",
+  "method": "duquant_reconstruct",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "layers": [
+    {
+      "index": 0,
+      "file": "layer_00.pt",
+      "sha256": "8595bf05984b79c6f17291f0e82048e1644472978d2f597c77ea5e29dba0d832"
+    },
+    {
+      "index": 1,
+      "file": "layer_01.pt",
+      "sha256": "a9e269406a4a1b9450e1b603355514e4a571bc7314800941982872ea1cec26d7"
+    },
+    {
+      "index": 2,
+      "file": "layer_02.pt",
+      "sha256": "3cf021afa9867303416ca7b3fa9ae84ac470a96ccb2b8ca345cfdd76a53c3512"
+    },
+    {
+      "index": 3,
+      "file": "layer_03.pt",
+      "sha256": "dc0b36231362fcb6d04a9a3c78b62fd5547e6f1583c11340443878e2c52284a0"
+    },
+    {
+      "index": 4,
+      "file": "layer_04.pt",
+      "sha256": "a92caca480177fb6360794376d86f0ede5e80d8637c23c3ee235591f747f9b77"
+    },
+    {
+      "index": 5,
+      "file": "layer_05.pt",
+      "sha256": "d209f00e4b44df9628a76e2ac0d2dac1038f2d10d6ceed9ce73b22fa2d6f3860"
+    },
+    {
+      "index": 6,
+      "file": "layer_06.pt",
+      "sha256": "fa8fc726cc0cd49878f3e04356c02cc95ffeae8816d05080c41a3cf135a20496"
+    },
+    {
+      "index": 7,
+      "file": "layer_07.pt",
+      "sha256": "16fec5f43e2fa0a59f11c69833f49132c19dae034cc748f7d65eeaae62dacaa8"
+    },
+    {
+      "index": 8,
+      "file": "layer_08.pt",
+      "sha256": "3e491b9f55fc8213af76493f6e7fcd513508359ee6c2494f8dcad0908a2fb348"
+    },
+    {
+      "index": 9,
+      "file": "layer_09.pt",
+      "sha256": "37a284adfa9da6a00823357078fff6bdcfc3db11aa93f737237199b69cd80a6f"
+    },
+    {
+      "index": 10,
+      "file": "layer_10.pt",
+      "sha256": "29d63735ffbe71b0df62cd8ca2e2ee835d37e9402bbd6da5f52f1f16122a7896"
+    },
+    {
+      "index": 11,
+      "file": "layer_11.pt",
+      "sha256": "af3d7605d6a2dbdc4df021f88e12f71d5a6fd1cf0dfcb99c83cc9d559aa25437"
+    },
+    {
+      "index": 12,
+      "file": "layer_12.pt",
+      "sha256": "cbcca0d45c91d3858dfe874992dcb1fe5a2376cc7331ce9c62bcd458aa4330be"
+    },
+    {
+      "index": 13,
+      "file": "layer_13.pt",
+      "sha256": "e369fdb243066f5ec84702c31edcc7cfac8e2c532797bb3995ac7f227c59cc4f"
+    },
+    {
+      "index": 14,
+      "file": "layer_14.pt",
+      "sha256": "ed48b886252d72fca41a85a091b0235d2c799521fcb4755288cd9a6e6b8e91b8"
+    },
+    {
+      "index": 15,
+      "file": "layer_15.pt",
+      "sha256": "03cd48d07eb1188c879bb5ad951b31be8d034f5badb8ac29b669c8584a95ae9f"
+    },
+    {
+      "index": 16,
+      "file": "layer_16.pt",
+      "sha256": "3a4ad2e27d88c4586349e8d2405a52b6b9b7de7cd679025e3cce4ef488af41b1"
+    },
+    {
+      "index": 17,
+      "file": "layer_17.pt",
+      "sha256": "7a583d2ee1a252e135329d053c794e8e3797ca9b58bed56c57b7e61d04c00ac9"
+    },
+    {
+      "index": 18,
+      "file": "layer_18.pt",
+      "sha256": "4a1f054713ca8bc1e3e99bb08d31320257e037d8cd793808f1bcac581f3a97ba"
+    },
+    {
+      "index": 19,
+      "file": "layer_19.pt",
+      "sha256": "8ab2b38fee69420b4fda43110564120afbd0edd44bc3dbeca77e83ef7337ccee"
+    },
+    {
+      "index": 20,
+      "file": "layer_20.pt",
+      "sha256": "6dad55f4817513a92a884aa0580698c1c119c2e7397959388e2028bf544e6611"
+    },
+    {
+      "index": 21,
+      "file": "layer_21.pt",
+      "sha256": "5966d207c30ed9c56c2d4ec024080f67b289406037b591f1c88342dcad5bd5ec"
+    },
+    {
+      "index": 22,
+      "file": "layer_22.pt",
+      "sha256": "54916ffaeaeadc1fadead785c5efbe158c5f31b6c11658dfbbf46c31965f9018"
+    },
+    {
+      "index": 23,
+      "file": "layer_23.pt",
+      "sha256": "98e91da9b263a82f5f1d3b50b9ecc8fa5df699cfe629173f932c54efa1249d38"
+    },
+    {
+      "index": 24,
+      "file": "layer_24.pt",
+      "sha256": "7973eceb2f1f77f4087df893bd6f6bbb6c4c29057dbb4253bde33729a04945ce"
+    },
+    {
+      "index": 25,
+      "file": "layer_25.pt",
+      "sha256": "31428652655d12c3c32198bcdd6cc94a55a5d82fd4c14129d12ca8cd9a48493b"
+    },
+    {
+      "index": 26,
+      "file": "layer_26.pt",
+      "sha256": "70ae79ae344b3df698a435c214b407f4c07c8ab31de6358a3695ee6aa8618339"
+    },
+    {
+      "index": 27,
+      "file": "layer_27.pt",
+      "sha256": "59a58f8aaeb4ccf6a12ec29f96eeb24324b31adf555e7b0e00029669a7507218"
+    },
+    {
+      "index": 28,
+      "file": "layer_28.pt",
+      "sha256": "5a5810c3a7c833e6f32497fdaa1cb766e70db5a23a93b900bc8d4909d8ba3583"
+    },
+    {
+      "index": 29,
+      "file": "layer_29.pt",
+      "sha256": "1cd59ae207c6492894449b883465439c205a81898475ad5cbc0dc2a384bb1ce4"
+    },
+    {
+      "index": 30,
+      "file": "layer_30.pt",
+      "sha256": "f50471be3194ad5091efa4a8367a1afb8e6dede8928165d23497ada90538ec0d"
+    },
+    {
+      "index": 31,
+      "file": "layer_31.pt",
+      "sha256": "64b3ec5649b3959b445c80e985b9f97d24d565c16335543d14623609761bb574"
+    }
+  ],
+  "training": {
+    "dataset": "Salesforce/wikitext",
+    "dataset_config": "wikitext-2-raw-v1",
+    "split": "train",
+    "source_arrow": "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow",
+    "source_arrow_sha256": "57947bc7b58df4b19662c0609cc30651bc84328dab5fd588860b752072911789",
+    "token_ids_sha256": "50e50734c929876addcd7383a0636297bebbb98365b82256050d06e731b31ae3",
+    "nsamples": 128,
+    "seqlen": 2048,
+    "seed": 2,
+    "sample_starts": [
+      237193,
+      384134,
+      355978,
+      1514384,
+      709188,
+      2809052,
+      1292417,
+      1055216,
+      2541514,
+      890110,
+      2545110,
+      149881,
+      2437746,
+      2857353,
+      664305,
+      1806359,
+      2677942,
+      1650592,
+      2135183,
+      1560533,
+      2282443,
+      1865853,
+      2105822,
+      1125083,
+      150677,
+      115112,
+      1526787,
+      1949906,
+      1335739,
+      1593898,
+      1776753,
+      2205166,
+      689914,
+      2350950,
+      744222,
+      990373,
+      967217,
+      100068,
+      741217,
+      1363748,
+      728084,
+      573350,
+      2139794,
+      2140033,
+      1508655,
+      2154770,
+      2828972,
+      2348350,
+      762706,
+      1869139,
+      1739256,
+      2203543,
+      1527798,
+      2489258,
+      1483890,
+      1517861,
+      1869690,
+      676057,
+      1677149,
+      1935279,
+      2746895,
+      2224473,
+      1048163,
+      2055267,
+      1170639,
+      2089037,
+      2100679,
+      2161711,
+      1484465,
+      2775310,
+      1907102,
+      1933625,
+      1471256,
+      2381127,
+      2338671,
+      1914914,
+      2040984,
+      2763565,
+      930342,
+      1361753,
+      696546,
+      2585142,
+      1124650,
+      2012285,
+      1298401,
+      1272118,
+      2114972,
+      2357990,
+      2171591,
+      2128008,
+      2732230,
+      2582886,
+      2466018,
+      1705699,
+      1307969,
+      871653,
+      2050622,
+      2147029,
+      1537624,
+      2869876,
+      2614163,
+      316147,
+      1432182,
+      35323,
+      802801,
+      445254,
+      246452,
+      2409270,
+      2738502,
+      205143,
+      1145463,
+      2481771,
+      950498,
+      2862518,
+      445711,
+      2190947,
+      572522,
+      1115018,
+      1026899,
+      882812,
+      253272,
+      1773845,
+      133685,
+      238221,
+      1519835,
+      1510865,
+      720921,
+      1046485
+    ]
+  },
+  "training_manifest_sha256": "3ce65475a277f4430cc5eb568b622e4d7709d729bd3f8f6185680f4b47c0fcd0",
+  "parent_manifest_sha256": "df79e72f49d8afc05e2dc36ebced0c32daddcb71a7dbb32f23145f1e01c9dc63",
+  "rotations": "Unchanged parent rotations/permutation",
+  "quantization": "W4 symmetric per-channel; A4 scalar-ratio asymmetric per-token; Q16; KV4 per-head128",
+  "gptq": {
+    "blocksize": 128,
+    "damp": 0.01,
+    "act_order": false
+  },
+  "source_sha256": {
+    "/mnt/yichen/xhb/DuQuant/benchmarks/export_llama_reconstruct.py": "9a7b52b7ebd2611e12595a870ca47136f62585c11625ec2f4170e992c17c0bb4",
+    "benchmarks/duquant_reconstruct.py": "e6f605353fae42274ca97471ab077da161e4986d79b965f986d6ee27d76c89a6",
+    "duquant_cuda/ptq.py": "855c2be51ec5c7a06b6cf69ab2445d4de953104821d6049cfa70f3041632b40c"
+  }
+}

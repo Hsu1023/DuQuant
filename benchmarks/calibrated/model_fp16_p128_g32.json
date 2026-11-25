@@ -1,0 +1,140 @@
+{
+  "mode": "fp16",
+  "calibration_manifest_sha256": null,
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "4",
+  "torch": "2.7.1+cu126",
+  "layers": 32,
+  "batch": 1,
+  "prompt_tokens": 128,
+  "new_tokens": 32,
+  "decode_forward_calls": 31,
+  "scope": "Full model: embedding, 32 decoder blocks, final RMSNorm, FP16 LM head, greedy argmax, real autoregressive cache advancement. Two CUDA Graphs: prefill and the entire decode sequence. EOS ignored for equal work.",
+  "excluded": "Model load/export, first compilation, graph capture, tokenization, prompt H2D transfer. Wall time includes generated-token D2H transfer.",
+  "quantization": "FP16 throughout with identical fused blocks and Flash SDPA",
+  "medians": {
+    "prefill_ms": 17.842111587524414,
+    "decode_ms": 443.2773132324219,
+    "gpu_total_ms": 461.12445068359375,
+    "wall_ms": 461.18565648794174
+  },
+  "decode_ms_per_token": 14.299268168787803,
+  "decode_tokens_per_second": 69.93364892496966,
+  "end_to_end_tokens_per_second": 69.38637303616288,
+  "samples": [
+    {
+      "prefill_ms": 17.87388801574707,
+      "decode_ms": 443.2670593261719,
+      "gpu_total_ms": 461.1409606933594,
+      "wall_ms": 461.28639206290245
+    },
+    {
+      "prefill_ms": 17.842111587524414,
+      "decode_ms": 443.2773132324219,
+      "gpu_total_ms": 461.1194152832031,
+      "wall_ms": 461.18565648794174
+    },
+    {
+      "prefill_ms": 17.845632553100586,
+      "decode_ms": 443.2854919433594,
+      "gpu_total_ms": 461.1311340332031,
+      "wall_ms": 461.1731879413128
+    },
+    {
+      "prefill_ms": 17.8189754486084,
+      "decode_ms": 443.261962890625,
+      "gpu_total_ms": 461.0809326171875,
+      "wall_ms": 461.1218236386776
+    },
+    {
+      "prefill_ms": 17.825632095336914,
+      "decode_ms": 443.298828125,
+      "gpu_total_ms": 461.12445068359375,
+      "wall_ms": 461.1930847167969
+    }
+  ],
+  "memory": {
+    "model_storage_bytes": 13478961152,
+    "kv_cache_bytes": 83361792,
+    "model_loaded": {
+      "allocated_bytes": 13487480832,
+      "reserved_bytes": 13501464576,
+      "peak_allocated_bytes": 13487480832,
+      "peak_reserved_bytes": 13501464576,
+      "device_used_bytes": 13995474944
+    },
+    "cache_allocated": {
+      "allocated_bytes": 13571967488,
+      "reserved_bytes": 13585350656,
+      "peak_allocated_bytes": 13571967488,
+      "peak_reserved_bytes": 13585350656,
+      "device_used_bytes": 14079361024
+    },
+    "capture_and_warmup": {
+      "allocated_bytes": 13580488192,
+      "reserved_bytes": 13616807936,
+      "peak_allocated_bytes": 13601329152,
+      "peak_reserved_bytes": 13616807936,
+      "device_used_bytes": 14236647424
+    },
+    "inference": {
+      "allocated_bytes": 13580488192,
+      "reserved_bytes": 13616807936,
+      "peak_allocated_bytes": 13580488192,
+      "peak_reserved_bytes": 13616807936,
+      "device_used_bytes": 14236647424
+    },
+    "inference_peak_allocated_bytes": 13601329152,
+    "inference_reserved_bytes": 13616807936
+  },
+  "load_seconds": 2.8594426847994328,
+  "capture_seconds": 8.239236027002335,
+  "fp16_hf_validation": {
+    "prompt": "The capital of France is",
+    "logit_relative_l2": 6.978142482694238e-05,
+    "top1_agrees": true,
+    "next_token": "a"
+  },
+  "graph_matches_eager": true,
+  "finite_logits": true,
+  "generated_token_ids": [
+    [
+      263,
+      5407,
+      1342,
+      29889,
+      29871,
+      450,
+      6437,
+      310,
+      445,
+      7639,
+      338,
+      304,
+      2274,
+      920,
+      4086,
+      4733,
+      1889,
+      1426,
+      29889,
+      319,
+      4327,
+      261,
+      3913,
+      8570,
+      304,
+      14405,
+      2472,
+      515,
+      8859,
+      3838,
+      322,
+      8500
+    ]
+  ],
+  "generated_text": [
+    "a useful example.  The purpose of this experiment is to understand how language models process text. A transformer uses attention to combine information from earlier words and predict"
+  ]
+}

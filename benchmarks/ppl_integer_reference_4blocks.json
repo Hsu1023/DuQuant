@@ -1,0 +1,71 @@
+{
+  "mode": "integer_reference",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "dataset": {
+    "dataset": "Salesforce/wikitext",
+    "config": "wikitext-2-raw-v1",
+    "split": "test",
+    "source_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "source_arrow": "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-test.arrow",
+    "source_arrow_sha256": "2b8a3efac7b468cbe6432edba5f55c21e435d93873acc6727431f08d5ed328ea",
+    "rows": 4358,
+    "join": "two newlines",
+    "tokenizer_class": "LlamaTokenizer",
+    "tokenizer_use_fast": false,
+    "add_special_tokens": true,
+    "token_count": 341469,
+    "token_ids_sha256": "8e0218eea3a8ac00caa80af114e52f301aa90a919124378320787e7f777cb3ee"
+  },
+  "quantization": {
+    "rotations_and_permutations_sha256": "bb9da39428706312d09237dfd58d4d8f30642c9b016f9f266bf099dff3d505d7",
+    "dequantized_fp16_weights_sha256": "be7c0f09d01c9ac173f2bd709ae9036176f7b57404a5e6220efbdcd8b82885ab",
+    "weight_bits": 4,
+    "activation_bits": 4,
+    "weight_clip": 0.8,
+    "act_clip": 0.9,
+    "qk_clip": 0.9,
+    "v_clip": 1.0,
+    "seed": 42,
+    "calibrated": false
+  },
+  "seqlen": 2048,
+  "block_count": 4,
+  "scored_tokens": 8188,
+  "unused_tail_tokens": 1501,
+  "limit_blocks": 4,
+  "protocol": "Disjoint full blocks; cache reset logically at position=0 for each block; predict tokens 1..seqlen-1; FP32 CE; all modes use Flash SDPA; no calibration or fitting on eval data",
+  "blocks": [
+    {
+      "index": 0,
+      "nll_sum": 3620.8392500195623,
+      "scored_tokens": 2047,
+      "correct_next_tokens": 1281
+    },
+    {
+      "index": 1,
+      "nll_sum": 4727.22775199886,
+      "scored_tokens": 2047,
+      "correct_next_tokens": 1018
+    },
+    {
+      "index": 2,
+      "nll_sum": 5301.0839116234565,
+      "scored_tokens": 2047,
+      "correct_next_tokens": 984
+    },
+    {
+      "index": 3,
+      "nll_sum": 5033.547660700395,
+      "scored_tokens": 2047,
+      "correct_next_tokens": 997
+    }
+  ],
+  "status": "complete",
+  "nll_sum": 18682.698574342274,
+  "mean_nll": 2.2817169729289537,
+  "ppl": 9.793481124185854,
+  "next_token_accuracy": 0.5227161700048852,
+  "elapsed_seconds": 4.520863771438599,
+  "diagnostic_arrays": "benchmarks/cache/ppl_integer_reference_4blocks.npz",
+  "sampled_logit_rows": 256
+}

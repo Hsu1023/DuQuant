@@ -1,0 +1,425 @@
+{
+  "status": "complete",
+  "gpu": {
+    "uuid": "GPU-041fa900-d140-a733-6ea3-5861909e6994",
+    "name": "NVIDIA GeForce RTX 4090",
+    "used_mib": 1,
+    "utilization": 0,
+    "compute_pids": []
+  },
+  "repeats": 10,
+  "protocol": "Batch 1; fixed-shape CUDA Graphs; all 32 layers; real KV updates and greedy feedback; wall time includes generated-token D2H; offline work excluded",
+  "memory": "model tensors, compact KV, capture/warmup-inclusive peak allocated, replay reserved, device used including context; device used is a snapshot, not a peak",
+  "families": {
+    "llama1": {
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "model": "/mnt/yichen/xhb/DuQuant/benchmarks/cache/family_models/llama1-7b-ms",
+      "calibration_manifest_sha256": "8e204f9017f1875adad1147a454361b4f245f602a6e6d1e8722a357c243d034a",
+      "caveat": "Train-calibrated W4A4; see ppl_summary.json for full quality evaluation.",
+      "results": [
+        {
+          "prompt_tokens": 128,
+          "new_tokens": 32,
+          "batch": 1,
+          "wall_ms": {
+            "fp16": 461.23674698174,
+            "w4a4": 179.09731343388557
+          },
+          "end_to_end_speedup": 2.5753415176269923,
+          "prefill_ms": {
+            "fp16": 17.886751174926758,
+            "w4a4": 7.376591920852661
+          },
+          "decode_tokens_per_second": {
+            "fp16": 69.93930172925248,
+            "w4a4": 180.5719979175189
+          },
+          "decode_speedup": 2.581838729482106,
+          "memory": {
+            "fp16": {
+              "model_gib": 12.552284240722656,
+              "kv_gib": 0.07763671875,
+              "peak_allocated_gib": 12.667789459228516,
+              "reserved_gib": 12.958984375,
+              "device_used_gib": 13.5362548828125
+            },
+            "w4a4": {
+              "model_gib": 3.5365066528320312,
+              "kv_gib": 0.07763671875,
+              "peak_allocated_gib": 3.6534628868103027,
+              "reserved_gib": 4.7265625,
+              "device_used_gib": 5.4073486328125
+            }
+          },
+          "reserved_reduction_fraction": 0.6352675207234364,
+          "generated_token_ids_match": true
+        },
+        {
+          "prompt_tokens": 1024,
+          "new_tokens": 32,
+          "batch": 1,
+          "wall_ms": {
+            "fp16": 553.6764655262232,
+            "w4a4": 215.8732581883669
+          },
+          "end_to_end_speedup": 2.5648219245530433,
+          "prefill_ms": {
+            "fp16": 92.0265121459961,
+            "w4a4": 25.741551399230957
+          },
+          "decode_tokens_per_second": {
+            "fp16": 67.17466306464826,
+            "w4a4": 163.06155858445607
+          },
+          "decode_speedup": 2.427426519840184,
+          "memory": {
+            "fp16": {
+              "model_gib": 12.552284240722656,
+              "kv_gib": 0.51513671875,
+              "peak_allocated_gib": 13.233697891235352,
+              "reserved_gib": 13.412109375,
+              "device_used_gib": 13.9893798828125
+            },
+            "w4a4": {
+              "model_gib": 3.5365066528320312,
+              "kv_gib": 0.51513671875,
+              "peak_allocated_gib": 4.244539260864258,
+              "reserved_gib": 4.908203125,
+              "device_used_gib": 5.5889892578125
+            }
+          },
+          "reserved_reduction_fraction": 0.6340468909276249,
+          "generated_token_ids_match": true
+        }
+      ]
+    },
+    "llama2": {
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "model": "/mnt/public_models/llama2-7b-hf",
+      "calibration_manifest_sha256": "7252d2f0c71598d66e95df9343b08788c4fd8a5d56180e4fcddc3a088bb5a39b",
+      "caveat": "Train-calibrated W4A4; see ppl_summary.json for full quality evaluation.",
+      "results": [
+        {
+          "prompt_tokens": 128,
+          "new_tokens": 32,
+          "batch": 1,
+          "wall_ms": {
+            "fp16": 461.323868483305,
+            "w4a4": 179.1226789355278
+          },
+          "end_to_end_speedup": 2.575463203346522,
+          "prefill_ms": {
+            "fp16": 17.87892723083496,
+            "w4a4": 7.378191947937012
+          },
+          "decode_tokens_per_second": {
+            "fp16": 69.92339291127071,
+            "w4a4": 180.53807582992675
+          },
+          "decode_speedup": 2.5819410116299784,
+          "memory": {
+            "fp16": {
+              "model_gib": 12.553260803222656,
+              "kv_gib": 0.07763671875,
+              "peak_allocated_gib": 12.666667938232422,
+              "reserved_gib": 12.681640625,
+              "device_used_gib": 13.2589111328125
+            },
+            "w4a4": {
+              "model_gib": 3.5374832153320312,
+              "kv_gib": 0.07763671875,
+              "peak_allocated_gib": 3.6544394493103027,
+              "reserved_gib": 4.728515625,
+              "device_used_gib": 5.4093017578125
+            }
+          },
+          "reserved_reduction_fraction": 0.627136916679501,
+          "generated_token_ids_match": true
+        },
+        {
+          "prompt_tokens": 1024,
+          "new_tokens": 32,
+          "batch": 1,
+          "wall_ms": {
+            "fp16": 552.5116119533777,
+            "w4a4": 216.0590309649706
+          },
+          "end_to_end_speedup": 2.557225261474749,
+          "prefill_ms": {
+            "fp16": 90.85529327392578,
+            "w4a4": 25.73806381225586
+          },
+          "decode_tokens_per_second": {
+            "fp16": 67.17004126018549,
+            "w4a4": 162.91412878815368
+          },
+          "decode_speedup": 2.4253986707719912,
+          "memory": {
+            "fp16": {
+              "model_gib": 12.553260803222656,
+              "kv_gib": 0.51513671875,
+              "peak_allocated_gib": 13.234674453735352,
+              "reserved_gib": 13.388671875,
+              "device_used_gib": 13.9659423828125
+            },
+            "w4a4": {
+              "model_gib": 3.5374832153320312,
+              "kv_gib": 0.51513671875,
+              "peak_allocated_gib": 4.245515823364258,
+              "reserved_gib": 4.91015625,
+              "device_used_gib": 5.5909423828125
+            }
+          },
+          "reserved_reduction_fraction": 0.6332603938730854,
+          "generated_token_ids_match": true
+        }
+      ]
+    },
+    "llama3": {
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "model": "/mnt/public_models/Llama-3-8B",
+      "calibration_manifest_sha256": "44c3a665b3261dc7ba711ff20eeee75266b2e8dac389fc7111905c7b02867fd2",
+      "caveat": "Train-calibrated W4A4; see ppl_summary.json for full quality evaluation.",
+      "results": [
+        {
+          "prompt_tokens": 128,
+          "new_tokens": 32,
+          "batch": 1,
+          "wall_ms": {
+            "fp16": 518.0985294282436,
+            "w4a4": 215.90038202703
+          },
+          "end_to_end_speedup": 2.3997110360063165,
+          "prefill_ms": {
+            "fp16": 20.471535682678223,
+            "w4a4": 8.777503967285156
+          },
+          "decode_tokens_per_second": {
+            "fp16": 62.311089559830954,
+            "w4a4": 149.70693491870912
+          },
+          "decode_speedup": 2.4025728963535604,
+          "memory": {
+            "fp16": {
+              "model_gib": 14.961463928222656,
+              "kv_gib": 0.0194091796875,
+              "peak_allocated_gib": 15.016277313232422,
+              "reserved_gib": 15.06640625,
+              "device_used_gib": 15.6436767578125
+            },
+            "w4a4": {
+              "model_gib": 5.243568420410156,
+              "kv_gib": 0.0194091796875,
+              "peak_allocated_gib": 5.298992156982422,
+              "reserved_gib": 6.28515625,
+              "device_used_gib": 6.9659423828125
+            }
+          },
+          "reserved_reduction_fraction": 0.5828364013481981,
+          "generated_token_ids_match": true
+        },
+        {
+          "prompt_tokens": 1024,
+          "new_tokens": 32,
+          "batch": 1,
+          "wall_ms": {
+            "fp16": 601.1747494339943,
+            "w4a4": 240.75735919177532
+          },
+          "end_to_end_speedup": 2.4970150505560595,
+          "prefill_ms": {
+            "fp16": 99.24084854125977,
+            "w4a4": 29.851648330688477
+          },
+          "decode_tokens_per_second": {
+            "fp16": 61.78189490293955,
+            "w4a4": 147.06230767941727
+          },
+          "decode_speedup": 2.380346344353063,
+          "memory": {
+            "fp16": {
+              "model_gib": 14.961463928222656,
+              "kv_gib": 0.1287841796875,
+              "peak_allocated_gib": 15.262384414672852,
+              "reserved_gib": 15.330078125,
+              "device_used_gib": 15.9073486328125
+            },
+            "w4a4": {
+              "model_gib": 5.243568420410156,
+              "kv_gib": 0.1287841796875,
+              "peak_allocated_gib": 5.583436965942383,
+              "reserved_gib": 6.470703125,
+              "device_used_gib": 7.1514892578125
+            }
+          },
+          "reserved_reduction_fraction": 0.5779080137597146,
+          "generated_token_ids_match": true
+        }
+      ]
+    },
+    "vicuna": {
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "model": "/mnt/yichen/xhb/DuQuant/benchmarks/cache/family_models/vicuna-7b-v1.5",
+      "calibration_manifest_sha256": "33dbfd2d8d0f79c239d75b7b858650d16817e73f00a829c3b77ba4befb305578",
+      "caveat": "Train-calibrated W4A4; see ppl_summary.json for full quality evaluation.",
+      "results": [
+        {
+          "prompt_tokens": 128,
+          "new_tokens": 32,
+          "batch": 1,
+          "wall_ms": {
+            "fp16": 461.3701719790697,
+            "w4a4": 179.13898453116417
+          },
+          "end_to_end_speedup": 2.575487257486417,
+          "prefill_ms": {
+            "fp16": 17.881135940551758,
+            "w4a4": 7.377632141113281
+          },
+          "decode_tokens_per_second": {
+            "fp16": 69.92508960329216,
+            "w4a4": 180.5396882044778
+          },
+          "decode_speedup": 2.5819014209168456,
+          "memory": {
+            "fp16": {
+              "model_gib": 12.553260803222656,
+              "kv_gib": 0.07763671875,
+              "peak_allocated_gib": 12.666667938232422,
+              "reserved_gib": 12.681640625,
+              "device_used_gib": 13.2589111328125
+            },
+            "w4a4": {
+              "model_gib": 3.5374832153320312,
+              "kv_gib": 0.07763671875,
+              "peak_allocated_gib": 3.6544394493103027,
+              "reserved_gib": 4.728515625,
+              "device_used_gib": 5.4093017578125
+            }
+          },
+          "reserved_reduction_fraction": 0.627136916679501,
+          "generated_token_ids_match": true
+        },
+        {
+          "prompt_tokens": 1024,
+          "new_tokens": 32,
+          "batch": 1,
+          "wall_ms": {
+            "fp16": 554.4864237308502,
+            "w4a4": 215.97563475370407
+          },
+          "end_to_end_speedup": 2.56735637963597,
+          "prefill_ms": {
+            "fp16": 92.82358169555664,
+            "w4a4": 25.783824920654297
+          },
+          "decode_tokens_per_second": {
+            "fp16": 67.16885093204974,
+            "w4a4": 163.01940763020468
+          },
+          "decode_speedup": 2.4270090282640173,
+          "memory": {
+            "fp16": {
+              "model_gib": 12.553260803222656,
+              "kv_gib": 0.51513671875,
+              "peak_allocated_gib": 13.234674453735352,
+              "reserved_gib": 13.388671875,
+              "device_used_gib": 13.9659423828125
+            },
+            "w4a4": {
+              "model_gib": 3.5374832153320312,
+              "kv_gib": 0.51513671875,
+              "peak_allocated_gib": 4.245515823364258,
+              "reserved_gib": 4.91015625,
+              "device_used_gib": 5.5909423828125
+            }
+          },
+          "reserved_reduction_fraction": 0.6332603938730854,
+          "generated_token_ids_match": true
+        }
+      ]
+    },
+    "mistral": {
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "model": "/mnt/public_models/Mistral-7B-Instruct-v0.3",
+      "calibration_manifest_sha256": "14623f192f32afc15d5ebc7744e5bff8b58eee97968858556815ccc7f7cc6216",
+      "caveat": "Train-calibrated W4A4; see ppl_summary.json for full quality evaluation.",
+      "results": [
+        {
+          "prompt_tokens": 128,
+          "new_tokens": 32,
+          "batch": 1,
+          "wall_ms": {
+            "fp16": 492.19258315861225,
+            "w4a4": 190.02477824687958
+          },
+          "end_to_end_speedup": 2.5901494936579126,
+          "prefill_ms": {
+            "fp16": 19.69740867614746,
+            "w4a4": 7.957808017730713
+          },
+          "decode_tokens_per_second": {
+            "fp16": 65.62813343119115,
+            "w4a4": 170.32811378525932
+          },
+          "decode_speedup": 2.5953520979511406,
+          "memory": {
+            "fp16": {
+              "model_gib": 13.516151428222656,
+              "kv_gib": 0.0194091796875,
+              "peak_allocated_gib": 13.570964813232422,
+              "reserved_gib": 13.609375,
+              "device_used_gib": 14.1866455078125
+            },
+            "w4a4": {
+              "model_gib": 3.7982559204101562,
+              "kv_gib": 0.0194091796875,
+              "peak_allocated_gib": 3.853313446044922,
+              "reserved_gib": 4.9375,
+              "device_used_gib": 5.6182861328125
+            }
+          },
+          "reserved_reduction_fraction": 0.6371986222732491,
+          "generated_token_ids_match": false
+        },
+        {
+          "prompt_tokens": 1024,
+          "new_tokens": 32,
+          "batch": 1,
+          "wall_ms": {
+            "fp16": 575.4548087716103,
+            "w4a4": 214.7737480700016
+          },
+          "end_to_end_speedup": 2.6793535706424008,
+          "prefill_ms": {
+            "fp16": 98.58799743652344,
+            "w4a4": 29.022223472595215
+          },
+          "decode_tokens_per_second": {
+            "fp16": 65.03465830856032,
+            "w4a4": 166.9056873223699
+          },
+          "decode_speedup": 2.566411382227568,
+          "memory": {
+            "fp16": {
+              "model_gib": 13.516151428222656,
+              "kv_gib": 0.1287841796875,
+              "peak_allocated_gib": 13.817071914672852,
+              "reserved_gib": 13.892578125,
+              "device_used_gib": 14.4698486328125
+            },
+            "w4a4": {
+              "model_gib": 3.7982559204101562,
+              "kv_gib": 0.1287841796875,
+              "peak_allocated_gib": 4.138124465942383,
+              "reserved_gib": 5.123046875,
+              "device_used_gib": 5.8038330078125
+            }
+          },
+          "reserved_reduction_fraction": 0.6312385772529172,
+          "generated_token_ids_match": true
+        }
+      ]
+    }
+  }
+}

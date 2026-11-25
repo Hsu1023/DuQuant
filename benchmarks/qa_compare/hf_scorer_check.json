@@ -1,0 +1,202 @@
+{
+  "max_absolute_continuation_loglikelihood_difference": 0.023633051954675466,
+  "mean_absolute_difference": 0.010254235701722791,
+  "all_raw_predictions_agree": true,
+  "all_normalized_predictions_agree": true,
+  "questions": 12,
+  "requests": 36,
+  "rows": [
+    {
+      "task": "piqa",
+      "index": 0,
+      "hf": [
+        -99.4781968233292,
+        -106.22554989927448
+      ],
+      "custom": [
+        -99.45456377137452,
+        -106.21495521150064
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    },
+    {
+      "task": "piqa",
+      "index": 1,
+      "hf": [
+        -44.24066217057407,
+        -70.57224879413843
+      ],
+      "custom": [
+        -44.242768820375204,
+        -70.59257189929485
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    },
+    {
+      "task": "arc_easy",
+      "index": 0,
+      "hf": [
+        -29.443144902121276,
+        -35.347231219755486,
+        -37.26566816949344,
+        -29.36284812539816
+      ],
+      "custom": [
+        -29.439745102543384,
+        -35.328244297765195,
+        -37.283578538219444,
+        -29.37677105749026
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    },
+    {
+      "task": "arc_easy",
+      "index": 1,
+      "hf": [
+        -20.417154115159065,
+        -20.92390496097505,
+        -22.85140367085114,
+        -20.470163241028786
+      ],
+      "custom": [
+        -20.43880416173488,
+        -20.936539186164737,
+        -22.8744387277402,
+        -20.471342459321022
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    },
+    {
+      "task": "arc_challenge",
+      "index": 0,
+      "hf": [
+        -27.06441420316696,
+        -32.00741243362427,
+        -27.6444091796875,
+        -28.908828854560852
+      ],
+      "custom": [
+        -27.054694175720215,
+        -32.01064342260361,
+        -27.65648263692856,
+        -28.91697335243225
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    },
+    {
+      "task": "arc_challenge",
+      "index": 1,
+      "hf": [
+        -32.361833453178406,
+        -29.661751854524482,
+        -38.61635549366474,
+        -32.79581170901656
+      ],
+      "custom": [
+        -32.38186001777649,
+        -29.673468697350472,
+        -38.621645018458366,
+        -32.80761992186308
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    },
+    {
+      "task": "boolq",
+      "index": 0,
+      "hf": [
+        -14.178854942321777,
+        -13.971823692321777
+      ],
+      "custom": [
+        -14.169119834899902,
+        -13.965994834899902
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    },
+    {
+      "task": "boolq",
+      "index": 1,
+      "hf": [
+        -14.648319244384766,
+        -15.800662994384766
+      ],
+      "custom": [
+        -14.650203704833984,
+        -15.798641204833984
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    },
+    {
+      "task": "hellaswag",
+      "index": 0,
+      "hf": [
+        -58.64933544676751,
+        -44.07068444183096,
+        -36.253007581457496,
+        -44.63116580247879
+      ],
+      "custom": [
+        -58.64456031471491,
+        -44.055491644423455,
+        -36.25677404738963,
+        -44.62142288684845
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    },
+    {
+      "task": "hellaswag",
+      "index": 1,
+      "hf": [
+        -41.24829402565956,
+        -26.500935927033424,
+        -32.907926078885794,
+        -26.19935157406144
+      ],
+      "custom": [
+        -41.238363064825535,
+        -26.500441774725914,
+        -32.924972370266914,
+        -26.199597739148885
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    },
+    {
+      "task": "winogrande",
+      "index": 0,
+      "hf": [
+        -27.14798593521118,
+        -27.57153868675232
+      ],
+      "custom": [
+        -27.144181966781616,
+        -27.559147834777832
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    },
+    {
+      "task": "winogrande",
+      "index": 1,
+      "hf": [
+        -25.997903764247894,
+        -27.217273950576782
+      ],
+      "custom": [
+        -25.99354124069214,
+        -27.200730085372925
+      ],
+      "raw_prediction_agrees": true,
+      "normalized_prediction_agrees": true
+    }
+  ]
+}

@@ -1,0 +1,329 @@
+{
+  "format": "bin to safetensors; tensor values and dtypes unchanged",
+  "shards": [
+    {
+      "source": "pytorch_model-00001-of-00033.bin",
+      "target": "model-00001-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "c5cb2ef8a6558c0ce314bcc11e4a15d0df379222ad7753ae9f75591cc87c945d",
+      "target_sha256": "da54a222e2383ea0e7b9cd9dcdb7e09bf3ece9667f27493b97bcf167f6aaa13c"
+    },
+    {
+      "source": "pytorch_model-00002-of-00033.bin",
+      "target": "model-00002-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "bba688e4ab77a5a95aebf52e0aa508d31ec1c02b6b5078191379c158526e6c12",
+      "target_sha256": "11766a5dddede02ddb337cb898c1e9b6d11f8b3a85f7e2f3a87d58cd84f838bf"
+    },
+    {
+      "source": "pytorch_model-00003-of-00033.bin",
+      "target": "model-00003-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "98ce0f7e5e8c374e697ded9576dfc5023f83e3c4c8a65dce63c009401672d2ca",
+      "target_sha256": "fe6601484b752dc03450fc38d15a46a490ff45ff4e23701417c5093e3155003c"
+    },
+    {
+      "source": "pytorch_model-00004-of-00033.bin",
+      "target": "model-00004-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "3cfe1d1093cbbb04d36b4fd09978e87077e41b4492b8cbba6bfff57c8dbd86dd",
+      "target_sha256": "65362d0c923ff27b335d7bbde6e152e073313c4455fc227352a81a63042d5b1e"
+    },
+    {
+      "source": "pytorch_model-00005-of-00033.bin",
+      "target": "model-00005-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "cc8014666b4da29ee637d96030f5e7612d2f2dff79a4df8ad4aafcb0125357d3",
+      "target_sha256": "e7d1a5f9c1f3de5c9ca3cab88e1911205a78fcc535b033dac8207286ddde6499"
+    },
+    {
+      "source": "pytorch_model-00006-of-00033.bin",
+      "target": "model-00006-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "0d708f41d25ad5461d979337713757fabfe76c375b205b536bfe14d48556d5e0",
+      "target_sha256": "85c654f7519f05417778dd223091e93de6fe6ddb6901c87928e8e87a3c441528"
+    },
+    {
+      "source": "pytorch_model-00007-of-00033.bin",
+      "target": "model-00007-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "9e6b78baebf20d60da825c3654c202008acfc3056c84cb6dadd91b155d278e38",
+      "target_sha256": "435585ccb8e9e2f08f929c22fa4ddef4645771e944e8dc937b8b92b1736048a5"
+    },
+    {
+      "source": "pytorch_model-00008-of-00033.bin",
+      "target": "model-00008-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "6080c736b3136935f0d3fb9fc65b41008c65b6b7d5238e1b9c4780043f31b955",
+      "target_sha256": "a36d29a92960ee2c1c5521826d73bda5db11d298fd9b0bee1fb6df2b64174419"
+    },
+    {
+      "source": "pytorch_model-00009-of-00033.bin",
+      "target": "model-00009-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "90047b0adfef1abc939032be63cbe62300d3ee18b39251c2f36d362d6735b64e",
+      "target_sha256": "3715271fa9d7c6b067a6f3405d70580c616687cd93508b4b1569c690b57915c1"
+    },
+    {
+      "source": "pytorch_model-00010-of-00033.bin",
+      "target": "model-00010-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "ec40a890dc20ddf9b49a6e1b18e26a304adbe701374a92f0295a7975139fa4b3",
+      "target_sha256": "dc97b02db2f8415286585f3ecf4d4c5f36c032710569dcca137f602a15bdc092"
+    },
+    {
+      "source": "pytorch_model-00011-of-00033.bin",
+      "target": "model-00011-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "8d551e0c80f82a61a1cbf74389651359c3fb35ce50c4568256ebc8dcf7c1fcd3",
+      "target_sha256": "baf7b94258d50150f699f8ce927dede645f9abbc647e83544742e533eb7b7396"
+    },
+    {
+      "source": "pytorch_model-00012-of-00033.bin",
+      "target": "model-00012-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "869ac6cceca6c9f26d13ac05549b5e15d79acb90a0593475260171c29f3b9c73",
+      "target_sha256": "ba2741ff6f24ee9c28caa00e67b7583274aa083a9e864e45e5edf32f9e69387c"
+    },
+    {
+      "source": "pytorch_model-00013-of-00033.bin",
+      "target": "model-00013-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "a18845375f10dc0085adc387f21e6ddc372338e767d1879c6369c11b27cb9b97",
+      "target_sha256": "26c6010dd46c48dd9b5929285a8b1046db78e98178561fc5c6eadbca17a7662c"
+    },
+    {
+      "source": "pytorch_model-00014-of-00033.bin",
+      "target": "model-00014-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "c8e5dbe9332ea27857a2f9b8ef80e34567ff5d6f5855daffd73292080aedb401",
+      "target_sha256": "177639fb3215bf0d25c2c3bbf1d7ffc4dd8f178aa92b810a7d2e78471b84c290"
+    },
+    {
+      "source": "pytorch_model-00015-of-00033.bin",
+      "target": "model-00015-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "c259f397f43ccb73919b40810c4b33638bc655301a80805374800c124216ec80",
+      "target_sha256": "00af89369689dc156e64d93fd00ca12f290ceebaa78d787100bdf94824966895"
+    },
+    {
+      "source": "pytorch_model-00016-of-00033.bin",
+      "target": "model-00016-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "ada30914f430170e601b4638ade39cbebb2cab280763ad5310492a35fed05082",
+      "target_sha256": "ee6058f11cc37328b5a8d07148ab3d52b62494e5f93dc05eb5284b5bee32ddb6"
+    },
+    {
+      "source": "pytorch_model-00017-of-00033.bin",
+      "target": "model-00017-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "f30a61cf2d7bef7ea0b927e05cd0f43d0aee6e00de73a9f7ba56f99deb4e3905",
+      "target_sha256": "09ac8ad69a6960aab0326c1c83884b48c71b9c1de251d5d4b1f625e984372de1"
+    },
+    {
+      "source": "pytorch_model-00018-of-00033.bin",
+      "target": "model-00018-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "9e13fe2d35345fe65a1f7d4af98cf9a40f758f2403bd68a7e8ca4dbf50598014",
+      "target_sha256": "3309f83d54d54be031da923b95d3538cf6259633a8e120e41bf5c0a63f555bb2"
+    },
+    {
+      "source": "pytorch_model-00019-of-00033.bin",
+      "target": "model-00019-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "c993cd7044316208e3b8d8564d929e95bb57328dab63848fbb729b10049861eb",
+      "target_sha256": "27cf82d5edc3a8721953c60191b9944ca55a229eefe85e3b7b76732d01bea651"
+    },
+    {
+      "source": "pytorch_model-00020-of-00033.bin",
+      "target": "model-00020-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "cb454682956e64a8c7c035764a6110dbb76fd7c61285160b42b06e7f0b5db0f2",
+      "target_sha256": "522b294ac0347975fc3dafe091e2121315ec5348484cc7bfc5f3de9e77c41884"
+    },
+    {
+      "source": "pytorch_model-00021-of-00033.bin",
+      "target": "model-00021-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "1b35993de04e54aad4a034da33ae2860220482c0be5f5c2b9555c13f969f6531",
+      "target_sha256": "1a6ecf9d5f086f8d947ae37745641e634a4dc6d6c4cabdfe80c20b6a12c56fac"
+    },
+    {
+      "source": "pytorch_model-00022-of-00033.bin",
+      "target": "model-00022-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "c3cb8f788c63a46e026ae54fca16aeb57d0af45e22bed01124dee12c266cf00d",
+      "target_sha256": "e576e114e115cf8d05aabb8652b12b606c310a9c1f45b98d6e8490cbe7d0972f"
+    },
+    {
+      "source": "pytorch_model-00023-of-00033.bin",
+      "target": "model-00023-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "cd034aad548c5423a8b4e07a4c44d8c2be1c350f9e8681cfdf0e63328fabadf9",
+      "target_sha256": "35d4c0d13e282b7069c899fd888962cf59806f8f709f3510fab3bc1425353427"
+    },
+    {
+      "source": "pytorch_model-00024-of-00033.bin",
+      "target": "model-00024-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "33d306be39a567f349b9e7bdc8b2543158607ca8834d8c71d32e1b648367ca94",
+      "target_sha256": "9e2b85f19131c7856d897d4437371c8bd581756856dbfb123a85bd6cd729e429"
+    },
+    {
+      "source": "pytorch_model-00025-of-00033.bin",
+      "target": "model-00025-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "d794d97063fb3c24ce913efa473b393dc6330aa67b00a47c4a91428de03896bc",
+      "target_sha256": "932f33c2e2e7a8c886705ddd98b1d67099a1e17a7d70dea84ee23293485a1334"
+    },
+    {
+      "source": "pytorch_model-00026-of-00033.bin",
+      "target": "model-00026-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "2aef4f0698b0670d6e9c83ca103c3c8dff70e2f237065e2c7293f496933ead0e",
+      "target_sha256": "c2ac8967a7f1c258d3866dac652aaee904c37abdaeee05eb49f376a93ff69921"
+    },
+    {
+      "source": "pytorch_model-00027-of-00033.bin",
+      "target": "model-00027-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "9c06dbeda998897337596e8d98d53be174083a09a049640bf4f31eef37f56ea0",
+      "target_sha256": "60b2afb4388db7125375f4b68ccc3e7d2eca6fb92767187386036b7333f5c8bb"
+    },
+    {
+      "source": "pytorch_model-00028-of-00033.bin",
+      "target": "model-00028-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "d6b38acac958aadb83ae22e7317a82ff64caccde6f0c02539bd499e8777218af",
+      "target_sha256": "72c868fd588890ebf9e327b629598086987a65cf009128d4357759010a2e7244"
+    },
+    {
+      "source": "pytorch_model-00029-of-00033.bin",
+      "target": "model-00029-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "798176e2a686e6ae5e9532d1943baaee618190f81f52311610c91603c6408fa7",
+      "target_sha256": "47517fbc14c2e08361a5b01a1178db5704e8443ef063151ba71064a19c947de1"
+    },
+    {
+      "source": "pytorch_model-00030-of-00033.bin",
+      "target": "model-00030-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "ce7a9ef1002e65ff614d8237d6a643b4b6b96ef68b260532f219c692884f9b70",
+      "target_sha256": "3e64c794f6927822f45727b3ba31744376d8adf7c2ff2c01c08255a894d5e00c"
+    },
+    {
+      "source": "pytorch_model-00031-of-00033.bin",
+      "target": "model-00031-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "3e746351f91d9d482c534620a441a7a66474fa9da57104b65f821fc513bad663",
+      "target_sha256": "6256f8c391a08c5cf790cc90ee4f0281339c60f5ffe699382cbc12ac0568c441"
+    },
+    {
+      "source": "pytorch_model-00032-of-00033.bin",
+      "target": "model-00032-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "95a865bd2b40a83e2110bb0a7de97dd08d7852b3858538ec5d65f64084667e44",
+      "target_sha256": "b07fa08a7cc6657a886a880327c6364bc9150f49697b2f4fab7996369e0e6bae"
+    },
+    {
+      "source": "pytorch_model-00033-of-00033.bin",
+      "target": "model-00033-of-00033.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "f289012ffe06b1aee0bebdfaea70a394c60444370d9b31c9ab0a7ccd7a4ee415",
+      "target_sha256": "8a2930bde037df9750039cb1c625960a9997f15bd428168928fd0823a50c2eba"
+    }
+  ],
+  "metadata_repair": {
+    "reason": "Legacy conversion has empty special-token strings and incorrect BOS/EOS IDs; use IDs verified from the unchanged SentencePiece model; expose its original 2048 context limit",
+    "files": {
+      "config.json": {
+        "before": {
+          "architectures": [
+            "LlamaForCausalLM"
+          ],
+          "bos_token_id": 0,
+          "eos_token_id": 1,
+          "hidden_act": "silu",
+          "hidden_size": 4096,
+          "intermediate_size": 11008,
+          "initializer_range": 0.02,
+          "max_sequence_length": 2048,
+          "model_type": "llama",
+          "num_attention_heads": 32,
+          "num_hidden_layers": 32,
+          "pad_token_id": -1,
+          "rms_norm_eps": 1e-06,
+          "torch_dtype": "float16",
+          "transformers_version": "4.27.0.dev0",
+          "use_cache": true,
+          "vocab_size": 32000
+        },
+        "after": {
+          "architectures": [
+            "LlamaForCausalLM"
+          ],
+          "bos_token_id": 1,
+          "eos_token_id": 2,
+          "hidden_act": "silu",
+          "hidden_size": 4096,
+          "intermediate_size": 11008,
+          "initializer_range": 0.02,
+          "max_sequence_length": 2048,
+          "model_type": "llama",
+          "num_attention_heads": 32,
+          "num_hidden_layers": 32,
+          "pad_token_id": 0,
+          "rms_norm_eps": 1e-06,
+          "torch_dtype": "float16",
+          "transformers_version": "4.27.0.dev0",
+          "use_cache": true,
+          "vocab_size": 32000,
+          "max_position_embeddings": 2048
+        }
+      },
+      "generation_config.json": {
+        "before": {
+          "_from_model_config": true,
+          "bos_token_id": 0,
+          "eos_token_id": 1,
+          "pad_token_id": 0,
+          "transformers_version": "4.27.0.dev0"
+        },
+        "after": {
+          "_from_model_config": true,
+          "bos_token_id": 1,
+          "eos_token_id": 2,
+          "pad_token_id": 0,
+          "transformers_version": "4.27.0.dev0"
+        }
+      },
+      "tokenizer_config.json": {
+        "before": {
+          "bos_token": "",
+          "eos_token": "",
+          "model_max_length": 1000000000000000019884624838656,
+          "tokenizer_class": "LlamaTokenizer",
+          "unk_token": ""
+        },
+        "after": {
+          "bos_token": "<s>",
+          "eos_token": "</s>",
+          "model_max_length": 2048,
+          "tokenizer_class": "LlamaTokenizer",
+          "unk_token": "<unk>",
+          "add_bos_token": true,
+          "add_eos_token": false,
+          "legacy": true
+        }
+      },
+      "special_tokens_map.json": {
+        "before": {},
+        "after": {
+          "bos_token": "<s>",
+          "eos_token": "</s>",
+          "unk_token": "<unk>"
+        }
+      }
+    }
+  }
+}

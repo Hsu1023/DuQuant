@@ -1,0 +1,131 @@
+{
+  "model": "/mnt/public_models/Mistral-7B-Instruct-v0.3",
+  "dataset": {
+    "dataset": "Salesforce/wikitext",
+    "config": "wikitext-2-raw-v1",
+    "split": "test",
+    "source_revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "source_arrow": "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-test.arrow",
+    "source_arrow_sha256": "2b8a3efac7b468cbe6432edba5f55c21e435d93873acc6727431f08d5ed328ea",
+    "rows": 4358,
+    "join": "two newlines",
+    "tokenizer_class": "LlamaTokenizer",
+    "tokenizer_use_fast": false,
+    "add_special_tokens": true,
+    "token_count": 334661,
+    "token_ids_sha256": "b362fee8d8b00a755258129295f5d2a4dbf89807a85c29986d7d5101b4d89538"
+  },
+  "seqlen": 2048,
+  "block_count": 163,
+  "scored_tokens": 333661,
+  "quantization": {
+    "rotations_and_permutations_sha256": "83962caf6bc562394974dcb409781fde4aac9eb9173b760c692f272d2dcaa4fa",
+    "dequantized_fp16_weights_sha256": "0d1e8260b147b3603e88526f668df7830d2bda97773a4a2ec6a8a8853a981bfc",
+    "weight_bits": 4,
+    "activation_bits": 4,
+    "weight_clip": 0.8,
+    "act_clip": 0.9,
+    "qk_clip": 0.9,
+    "v_clip": 1.0,
+    "seed": 2,
+    "calibrated": true,
+    "calibration_manifest_sha256": "14623f192f32afc15d5ebc7744e5bff8b58eee97968858556815ccc7f7cc6216"
+  },
+  "metrics": {
+    "fp16": {
+      "ppl": 5.494637422929268,
+      "mean_nll": 1.7037726025902096,
+      "next_token_accuracy": 0.6094569038635022
+    },
+    "fake": {
+      "ppl": 5.999756124922303,
+      "mean_nll": 1.7917188225557075,
+      "next_token_accuracy": 0.5921698969912575
+    },
+    "cuda": {
+      "ppl": 5.998083953646496,
+      "mean_nll": 1.7914400771689238,
+      "next_token_accuracy": 0.5925774963211163
+    }
+  },
+  "comparisons": {
+    "cuda_vs_fake": {
+      "ppl_delta": -0.0016721712758069884,
+      "ppl_ratio": 0.9997212934591023,
+      "mean_nll_delta": -0.0002787453867834922,
+      "paired_block_bootstrap_ppl_ratio_95pct": [
+        0.9977951454442033,
+        1.001684745130501
+      ],
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 42,
+      "top1_prediction_agreement": 0.8683484135095202,
+      "sampled_logit_rows": 256,
+      "sampled_logit_relative_l2": 0.13966010510921478,
+      "sampled_kl_reference_to_candidate": 0.10022599995136261,
+      "sampled_logits_bitwise_equal": false
+    },
+    "fake_vs_fp16": {
+      "ppl_delta": 0.5051187019930357,
+      "ppl_ratio": 1.0919293964484649,
+      "mean_nll_delta": 0.08794621996549784,
+      "paired_block_bootstrap_ppl_ratio_95pct": [
+        1.0887894140118133,
+        1.0952222313148012
+      ],
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 42,
+      "top1_prediction_agreement": 0.8659957262011443,
+      "sampled_logit_rows": 256,
+      "sampled_logit_relative_l2": 0.1435583531856537,
+      "sampled_kl_reference_to_candidate": 0.10812899470329285,
+      "sampled_logits_bitwise_equal": false
+    },
+    "cuda_vs_fp16": {
+      "ppl_delta": 0.5034465307172287,
+      "ppl_ratio": 1.091625068583476,
+      "mean_nll_delta": 0.08766747457871435,
+      "paired_block_bootstrap_ppl_ratio_95pct": [
+        1.08818639899334,
+        1.0951595222422894
+      ],
+      "bootstrap_samples": 10000,
+      "bootstrap_seed": 42,
+      "top1_prediction_agreement": 0.8662894374829543,
+      "sampled_logit_rows": 256,
+      "sampled_logit_relative_l2": 0.14551743865013123,
+      "sampled_kl_reference_to_candidate": 0.12826156616210938,
+      "sampled_logits_bitwise_equal": false
+    }
+  },
+  "notes": [
+    "Train-calibrated W4A4 backend; see exported manifest and quantization fields for LWC settings; no LET optimization.",
+    "fake is the PyTorch fake-quant reference for this same prototype, not the original repository calibration pipeline.",
+    "Logit diagnostics use 64 evenly spaced scored positions in each of the first four blocks; prediction agreement uses all scored positions.",
+    "Bootstrap resamples the paired disjoint blocks; descriptive interval, not a formal equivalence test or a guarantee on other tasks."
+  ],
+  "integer_reference_diagnostic": {
+    "block_count": 163,
+    "scored_tokens": 333661,
+    "integer_reference_ppl": 5.998083953646496,
+    "description": "Aligned blocks (count given above). Independent FP32 dot of exact integer codes, affine scales applied after dot; PyTorch reference norms/activations/Hadamard.",
+    "comparisons": {
+      "fake": {
+        "ppl_on_same_blocks": 5.999756124922303,
+        "top1_agreement_with_integer_reference": 0.8683484135095202,
+        "sampled_logit_relative_l2": 0.13957607746124268,
+        "sampled_logits_bitwise_equal": false,
+        "max_per_block_nll_delta": 79.93396054384448,
+        "sampled_kl_integer_reference_to_candidate": 0.10519519448280334
+      },
+      "cuda": {
+        "ppl_on_same_blocks": 5.998083953646496,
+        "top1_agreement_with_integer_reference": 1.0,
+        "sampled_logit_relative_l2": 0.0,
+        "sampled_logits_bitwise_equal": true,
+        "max_per_block_nll_delta": 0.0,
+        "sampled_kl_integer_reference_to_candidate": 0.0
+      }
+    }
+  }
+}

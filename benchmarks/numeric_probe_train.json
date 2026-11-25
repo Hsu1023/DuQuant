@@ -1,0 +1,474 @@
+[
+  {
+    "layer": 0,
+    "block_same_input": {
+      "rel_l2": 0.0,
+      "different_fraction": 0.0,
+      "max_abs": 0.0
+    },
+    "stages": {
+      "qkv_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "qkv_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "o_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "o_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "gate_up_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "gate_up_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "down_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "down_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "qkv_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "o_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "gate_up_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "down_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    }
+  },
+  {
+    "layer": 1,
+    "block_same_input": {
+      "rel_l2": 0.0,
+      "different_fraction": 0.0,
+      "max_abs": 0.0
+    },
+    "stages": {
+      "qkv_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "qkv_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "o_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "o_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "gate_up_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "gate_up_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "down_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "down_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "qkv_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "o_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "gate_up_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "down_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    }
+  },
+  {
+    "layer": 2,
+    "block_same_input": {
+      "rel_l2": 0.0,
+      "different_fraction": 0.0,
+      "max_abs": 0.0
+    },
+    "stages": {
+      "qkv_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "qkv_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "o_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "o_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "gate_up_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "gate_up_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "down_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "down_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "qkv_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "o_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "gate_up_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "down_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    }
+  },
+  {
+    "layer": 3,
+    "block_same_input": {
+      "rel_l2": 0.0,
+      "different_fraction": 0.0,
+      "max_abs": 0.0
+    },
+    "stages": {
+      "qkv_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "qkv_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "o_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "o_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "gate_up_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "gate_up_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "down_in": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "down_out": {
+        "rel_l2": 0.0,
+        "different_fraction": 0.0,
+        "max_abs": 0.0
+      },
+      "qkv_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "o_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "gate_up_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      },
+      "down_isolated": {
+        "output": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "codes": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        },
+        "scales": {
+          "rel_l2": 0.0,
+          "different_fraction": 0.0,
+          "max_abs": 0.0
+        }
+      }
+    }
+  }
+]

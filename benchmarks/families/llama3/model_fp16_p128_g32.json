@@ -1,0 +1,263 @@
+{
+  "mode": "fp16",
+  "calibration_manifest_sha256": null,
+  "lwc_epochs": 0,
+  "model": "/mnt/public_models/Llama-3-8B",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "1",
+  "torch": "2.7.1+cu126",
+  "layers": 32,
+  "batch": 1,
+  "prompt_tokens": 128,
+  "new_tokens": 32,
+  "decode_forward_calls": 31,
+  "scope": "Full model: embedding, 32 decoder blocks, final RMSNorm, FP16 LM head, greedy argmax, real autoregressive cache advancement. Two CUDA Graphs: prefill and the entire decode sequence. EOS ignored for equal work.",
+  "excluded": "Model load/export, first compilation, graph capture, tokenization, prompt H2D transfer. Wall time includes generated-token D2H transfer.",
+  "quantization": "FP16 throughout with identical fused blocks and Flash SDPA",
+  "medians": {
+    "prefill_ms": 20.572032928466797,
+    "decode_ms": 498.3408508300781,
+    "gpu_total_ms": 518.9134521484375,
+    "wall_ms": 518.9973451197147
+  },
+  "decode_ms_per_token": 16.075511317099295,
+  "decode_tokens_per_second": 62.20641945841649,
+  "end_to_end_tokens_per_second": 61.65734815583441,
+  "samples": [
+    {
+      "prefill_ms": 20.606592178344727,
+      "decode_ms": 498.2445983886719,
+      "gpu_total_ms": 518.8511962890625,
+      "wall_ms": 518.9973451197147
+    },
+    {
+      "prefill_ms": 20.554176330566406,
+      "decode_ms": 498.3592834472656,
+      "gpu_total_ms": 518.9134521484375,
+      "wall_ms": 519.0245993435383
+    },
+    {
+      "prefill_ms": 20.5863037109375,
+      "decode_ms": 498.33984375,
+      "gpu_total_ms": 518.9261474609375,
+      "wall_ms": 518.999021500349
+    },
+    {
+      "prefill_ms": 20.572032928466797,
+      "decode_ms": 498.3408508300781,
+      "gpu_total_ms": 518.9129028320312,
+      "wall_ms": 518.9820677042007
+    },
+    {
+      "prefill_ms": 20.571807861328125,
+      "decode_ms": 498.3511047363281,
+      "gpu_total_ms": 518.9229125976562,
+      "wall_ms": 518.9848728477955
+    }
+  ],
+  "memory": {
+    "model_storage_bytes": 16064749568,
+    "kv_cache_bytes": 20840448,
+    "model_loaded": {
+      "allocated_bytes": 16073269248,
+      "reserved_bytes": 16125001728,
+      "peak_allocated_bytes": 16073269248,
+      "peak_reserved_bytes": 16125001728,
+      "device_used_bytes": 16619012096
+    },
+    "cache_allocated": {
+      "allocated_bytes": 16094112256,
+      "reserved_bytes": 16145973248,
+      "peak_allocated_bytes": 16094112256,
+      "peak_reserved_bytes": 16145973248,
+      "device_used_bytes": 16639983616
+    },
+    "capture_and_warmup": {
+      "allocated_bytes": 16102632960,
+      "reserved_bytes": 16198402048,
+      "peak_allocated_bytes": 16123604992,
+      "peak_reserved_bytes": 16198402048,
+      "device_used_bytes": 16818241536
+    },
+    "inference": {
+      "allocated_bytes": 16102632960,
+      "reserved_bytes": 16198402048,
+      "peak_allocated_bytes": 16102632960,
+      "peak_reserved_bytes": 16198402048,
+      "device_used_bytes": 16818241536
+    },
+    "inference_peak_allocated_bytes": 16123604992,
+    "inference_reserved_bytes": 16198402048
+  },
+  "load_seconds": 5.848975084722042,
+  "capture_seconds": 1.571520809084177,
+  "fp16_hf_validation": {
+    "protocol": "Three prompt lengths (1,17,128), each with prefill and three cached decode steps, identical HF-selected tokens supplied to both models",
+    "logit_relative_l2": 0.002718975069001317,
+    "top1_agrees": false,
+    "passed": true,
+    "cases": [
+      {
+        "prompt_tokens": 1,
+        "decode_step": 0,
+        "logit_relative_l2": 0.0006259007495827973,
+        "top1_agrees": true,
+        "hf_top_margin": 1.0703125,
+        "candidate_gap_on_hf": 0.0,
+        "hf_top_fp16_ulp": 0.0078125,
+        "accepted_exact_hf_tie": false
+      },
+      {
+        "prompt_tokens": 1,
+        "decode_step": 1,
+        "logit_relative_l2": 0.0006871519726701081,
+        "top1_agrees": true,
+        "hf_top_margin": 1.078125,
+        "candidate_gap_on_hf": 0.0,
+        "hf_top_fp16_ulp": 0.015625,
+        "accepted_exact_hf_tie": false
+      },
+      {
+        "prompt_tokens": 1,
+        "decode_step": 2,
+        "logit_relative_l2": 0.0005040721734985709,
+        "top1_agrees": true,
+        "hf_top_margin": 0.84375,
+        "candidate_gap_on_hf": 0.0,
+        "hf_top_fp16_ulp": 0.015625,
+        "accepted_exact_hf_tie": false
+      },
+      {
+        "prompt_tokens": 1,
+        "decode_step": 3,
+        "logit_relative_l2": 0.002718975069001317,
+        "top1_agrees": false,
+        "hf_top_margin": 0.0,
+        "candidate_gap_on_hf": 0.015625,
+        "hf_top_fp16_ulp": 0.015625,
+        "accepted_exact_hf_tie": true
+      },
+      {
+        "prompt_tokens": 17,
+        "decode_step": 0,
+        "logit_relative_l2": 0.0010413645068183541,
+        "top1_agrees": true,
+        "hf_top_margin": 0.328125,
+        "candidate_gap_on_hf": 0.0,
+        "hf_top_fp16_ulp": 0.015625,
+        "accepted_exact_hf_tie": false
+      },
+      {
+        "prompt_tokens": 17,
+        "decode_step": 1,
+        "logit_relative_l2": 0.0009655625908635557,
+        "top1_agrees": true,
+        "hf_top_margin": 2.1875,
+        "candidate_gap_on_hf": 0.0,
+        "hf_top_fp16_ulp": 0.015625,
+        "accepted_exact_hf_tie": false
+      },
+      {
+        "prompt_tokens": 17,
+        "decode_step": 2,
+        "logit_relative_l2": 0.0013270542258396745,
+        "top1_agrees": true,
+        "hf_top_margin": 5.578125,
+        "candidate_gap_on_hf": 0.0,
+        "hf_top_fp16_ulp": 0.015625,
+        "accepted_exact_hf_tie": false
+      },
+      {
+        "prompt_tokens": 17,
+        "decode_step": 3,
+        "logit_relative_l2": 0.0010174824856221676,
+        "top1_agrees": true,
+        "hf_top_margin": 1.296875,
+        "candidate_gap_on_hf": 0.0,
+        "hf_top_fp16_ulp": 0.015625,
+        "accepted_exact_hf_tie": false
+      },
+      {
+        "prompt_tokens": 128,
+        "decode_step": 0,
+        "logit_relative_l2": 0.0015198196051642299,
+        "top1_agrees": true,
+        "hf_top_margin": 6.7265625,
+        "candidate_gap_on_hf": 0.0,
+        "hf_top_fp16_ulp": 0.015625,
+        "accepted_exact_hf_tie": false
+      },
+      {
+        "prompt_tokens": 128,
+        "decode_step": 1,
+        "logit_relative_l2": 0.0018549624364823103,
+        "top1_agrees": true,
+        "hf_top_margin": 8.0625,
+        "candidate_gap_on_hf": 0.0,
+        "hf_top_fp16_ulp": 0.015625,
+        "accepted_exact_hf_tie": false
+      },
+      {
+        "prompt_tokens": 128,
+        "decode_step": 2,
+        "logit_relative_l2": 0.001637541106902063,
+        "top1_agrees": true,
+        "hf_top_margin": 7.4140625,
+        "candidate_gap_on_hf": 0.0,
+        "hf_top_fp16_ulp": 0.015625,
+        "accepted_exact_hf_tie": false
+      },
+      {
+        "prompt_tokens": 128,
+        "decode_step": 3,
+        "logit_relative_l2": 0.001594525994732976,
+        "top1_agrees": true,
+        "hf_top_margin": 8.0859375,
+        "candidate_gap_on_hf": 0.0,
+        "hf_top_fp16_ulp": 0.015625,
+        "accepted_exact_hf_tie": false
+      }
+    ]
+  },
+  "graph_matches_eager": true,
+  "finite_logits": true,
+  "generated_token_ids": [
+    [
+      7580,
+      315,
+      420,
+      9526,
+      374,
+      311,
+      3619,
+      1268,
+      4221,
+      4211,
+      1920,
+      1495,
+      13,
+      362,
+      43678,
+      5829,
+      6666,
+      311,
+      16343,
+      2038,
+      505,
+      6931,
+      4339,
+      323,
+      7168,
+      1148,
+      4131,
+      1828,
+      13,
+      83017,
+      279,
+      1925
+    ]
+  ],
+  "generated_text": [
+    " purpose of this experiment is to understand how language models process text. A transformer uses attention to combine information from earlier words and predict what comes next. Explain the main"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "native_check": {
+    "requests": 18,
+    "max_loglikelihood_difference": 0.052959248423576355,
+    "questions": [
+      {
+        "task": "piqa",
+        "raw_agrees": true,
+        "normalized_agrees": true
+      },
+      {
+        "task": "arc_easy",
+        "raw_agrees": true,
+        "normalized_agrees": true
+      },
+      {
+        "task": "arc_challenge",
+        "raw_agrees": true,
+        "normalized_agrees": true
+      },
+      {
+        "task": "boolq",
+        "raw_agrees": true,
+        "normalized_agrees": true
+      },
+      {
+        "task": "hellaswag",
+        "raw_agrees": true,
+        "normalized_agrees": true
+      },
+      {
+        "task": "winogrande",
+        "raw_agrees": true,
+        "normalized_agrees": true
+      }
+    ]
+  },
+  "integer_checks": {
+    "duquant": {
+      "requests": 4,
+      "max_loglikelihood_difference": 0.0,
+      "exact": true
+    },
+    "quarot": {
+      "requests": 4,
+      "max_loglikelihood_difference": 0.0,
+      "exact": true
+    },
+    "spinquant": {
+      "requests": 4,
+      "max_loglikelihood_difference": 0.0,
+      "exact": true
+    }
+  }
+}

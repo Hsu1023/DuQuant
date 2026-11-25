@@ -1,0 +1,320 @@
+{
+  "status": "complete",
+  "method": "flatquant",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "layers": [
+    {
+      "index": 0,
+      "rotated_sha256": "6f0a34b15065b90a75950412cd735f59e81896ca5937b8264d7434d699234363",
+      "gptq_sha256": "4fad2f93e9a6a5f5482e761693365435d9a4882971317fad1cb6a67d43b05669"
+    },
+    {
+      "index": 1,
+      "rotated_sha256": "a545cd5dfb11fb6298c5768860e6b42de928f65378b52bd6211595e278ca5a52",
+      "gptq_sha256": "5e63c5a58061695be42bb75047ecd7993200534c6fbeabde98bdc8059f4577ed"
+    },
+    {
+      "index": 2,
+      "rotated_sha256": "06e358199ea77e0150491430a9c0144cfc1ad1baca5af7d936f228f18d7cbc99",
+      "gptq_sha256": "de70554cb76684c16bff27a88cd7a265e7449aee0d23b313d527a751f4aec0b0"
+    },
+    {
+      "index": 3,
+      "rotated_sha256": "75f4e1be2a283c74be8060cf0edae54a4175df2336f9fee052b8bf5b739f8e87",
+      "gptq_sha256": "0d5c8e9fa752fa396d423d9adcb8af7b553e2ebeeae6df4dec1dbfc15c7659a6"
+    },
+    {
+      "index": 4,
+      "rotated_sha256": "7505b5ed06297e0197c0b4a56fd7ee578e694f52fc652b4cec7ff428e91274cb",
+      "gptq_sha256": "81ceaf782cb5c0cd3a133234c988a3b464a5ab0dc210cc5401e0665ed65c0d63"
+    },
+    {
+      "index": 5,
+      "rotated_sha256": "fc7ec969576d886d7f851bcb4e6785a71eec0c7c57467f7ad6e2fe288a3db0d6",
+      "gptq_sha256": "d8e1999100ee77456b64e8b4ca7064dcab47027ad3772932cfb8ab1ec3c8a12c"
+    },
+    {
+      "index": 6,
+      "rotated_sha256": "1202fd008a1dc03d03034734fb2e6704665940805d0ea12c51999137ea791be1",
+      "gptq_sha256": "a86054b8db4438295f69115feff029ce1121b826f7fc50a8c4e973b4f2fcb58f"
+    },
+    {
+      "index": 7,
+      "rotated_sha256": "433688b290074345c5f96e3a173297ae4c135070afcf8b424fd90692b439d4c8",
+      "gptq_sha256": "16facdebc27eaabf9422f43a16f5c0d740863cd542c4b43de0cf974af09e37cb"
+    },
+    {
+      "index": 8,
+      "rotated_sha256": "c3ea48f6b7cff8d84cbc14b9574b14d4f7707b0b64b1d17ea718b6877e2dc15d",
+      "gptq_sha256": "7423574718780a2c76d10d72f2c1d47222c6469590aa0f7c877b104aad4e3d22"
+    },
+    {
+      "index": 9,
+      "rotated_sha256": "f349ef92f1e60cd5023937136a521f3fb8d9c1a293d563d2ca614f9129393aed",
+      "gptq_sha256": "2aaf284944afaa3399f454a2ede639ca3889ee59a21c4ce2c95d44fe59669848"
+    },
+    {
+      "index": 10,
+      "rotated_sha256": "6db64fba74cd96f7b859c571ed34e3a942b394b6c94b0372815c28cbcf7724e4",
+      "gptq_sha256": "53cfb06443d48d2af6084373cf134fc1b5cff2bba496b0ea43894ae4201fffe1"
+    },
+    {
+      "index": 11,
+      "rotated_sha256": "4ec61efbfc06a3dc9475a606d05a10dc51bc3df99304332b97d7fd31ff8b9fe2",
+      "gptq_sha256": "bb245b26e75b976e0246aff3d07c3111e8c6754e8482c7573fdc1d048021f7b0"
+    },
+    {
+      "index": 12,
+      "rotated_sha256": "bdf24358104e5dc931d0379a495a1b631ac6595c9f64fbcc39cef3dcdfad9186",
+      "gptq_sha256": "174925542ac7104ee9c19af5e83a2bbc01e53427a0e32768e4de632b2a77ca98"
+    },
+    {
+      "index": 13,
+      "rotated_sha256": "1de65451c124db833016f5e8a860a8f51ceaffdb57e990256699e5a2ce637f42",
+      "gptq_sha256": "dc5708e84903bcccb333de7a58083d5ae30b66071ef7406828009aa2fadb00c1"
+    },
+    {
+      "index": 14,
+      "rotated_sha256": "5e65d52cbd89581f0717b3d139fafbd6b30ea6e39961821a434281b0f396355a",
+      "gptq_sha256": "cd966b60fa1045c2457ef8a55f45ab02b2c1198dce72b5cd8204d4a7ad2bb04c"
+    },
+    {
+      "index": 15,
+      "rotated_sha256": "ac538fedb9ba6cd2e928b64ecc6c2e22c6f47df57cc87334f5a68a1dad81c067",
+      "gptq_sha256": "e23468fd42c5307e4df5ce8e9a1625dfbe5e020f1ba743a8dc4bfa80c33939b6"
+    },
+    {
+      "index": 16,
+      "rotated_sha256": "2a86428a772eb42e7e12f4983d5cf6f40411f7083806db3d62c0c2416403f34e",
+      "gptq_sha256": "44fa5b20feb3061e5505acdb5da4cd55202dbcf40fcf6f5460e045bce9d1c3bf"
+    },
+    {
+      "index": 17,
+      "rotated_sha256": "395bab16ebfdc3906dfcc9922ce305b005114f4cc4af75b9af6c22d0379ae9a0",
+      "gptq_sha256": "62320bc0ababc5d2ce4813630db86c5f08db36bd12fa5f9508af6e81edbde8f3"
+    },
+    {
+      "index": 18,
+      "rotated_sha256": "c1c3ee2a64f48fd9080109928f7ce7da918cb9f9709b75790faec0ebb3e80fa4",
+      "gptq_sha256": "538da23db3b307ac94787392c704d913ab9805f1df7d61356feacbdedfbc989f"
+    },
+    {
+      "index": 19,
+      "rotated_sha256": "829895cb069f89dfa75d1b0ddff6a59b25d09f788643390ab9dd83bd9de7e3f6",
+      "gptq_sha256": "b5dd3a5cf01d0cc0627d8463293316290b5789d8c8ff3c92a165e0488d0fe6ae"
+    },
+    {
+      "index": 20,
+      "rotated_sha256": "7f5b0dada4d19a737cc58b5bf2e556de7e6384fb54017d4e5508ba670b04e78c",
+      "gptq_sha256": "7e2750fd4094c29e884d83915b835a26e3f340d35532dd81c33e1f24b01b3a62"
+    },
+    {
+      "index": 21,
+      "rotated_sha256": "cf36f6c86716267fcccdc2f8064be3c785066ef3322ebbf9975810e52a001e37",
+      "gptq_sha256": "af4f310f9d53469c9de1c83dd8113b6a77e73e7278fee92e283415d3e54c3059"
+    },
+    {
+      "index": 22,
+      "rotated_sha256": "c42010540ec065d26e5a33d7eb86945a29ffe0c879aff46db8a3061dcce32320",
+      "gptq_sha256": "d758fce87369eb21f56fca57adca85bcb9d3f6a85595d5282713b9ef52cc10ff"
+    },
+    {
+      "index": 23,
+      "rotated_sha256": "e3dde60bd9e0b6f9fe04b2e4009b47ef03864b3983bceb2481df2f6039b20ca1",
+      "gptq_sha256": "15240854c8553b07ef7a17f98c4375582ef126d06a40b036586ea4c11e35764a"
+    },
+    {
+      "index": 24,
+      "rotated_sha256": "f504d186c880cb7a6ef534f78d542687845772cc2829f42c63090b7b87c1e178",
+      "gptq_sha256": "5c45bb60a6b98f0285436217ac209e56a3a91752a534cef85d6fdf6c9abb3b7a"
+    },
+    {
+      "index": 25,
+      "rotated_sha256": "8584f5954f3d596b4f29db3b0365a9126d6357a96b169aa5fa2f545005604e71",
+      "gptq_sha256": "af8d53f3c5964b9d4d6c6f66668e8b1defc413094efc99b665e2ceceea02cba2"
+    },
+    {
+      "index": 26,
+      "rotated_sha256": "ce26bb077135620710cee51e0fbaf56211fabec980a6fd53ffdb95a3a563dc9a",
+      "gptq_sha256": "fbe7481967021ec4d68f6916a6fc1aa6980918bc10a1e7789b91126ce10d221b"
+    },
+    {
+      "index": 27,
+      "rotated_sha256": "3429a05e37629d25af23f0bc9ec054c0818a81f4fc2a8a199d02bae90ba928b2",
+      "gptq_sha256": "3eae8cdb7d5504bd343fd271f70a0c3b895d4c767594dc89a6c2e243847ef634"
+    },
+    {
+      "index": 28,
+      "rotated_sha256": "a065acf45bd6ee7ce382cfcf3e113f27384f3584c36aec5c3d1b2017070cb12e",
+      "gptq_sha256": "b116c22bd08ed517d2d35d60cfe9f1d0550b94b3b46847f822e4ae69a2a11aaa"
+    },
+    {
+      "index": 29,
+      "rotated_sha256": "f782ce53751a2b1737edcfa3d707348ea651fe7da935896e9e57e4d399e72749",
+      "gptq_sha256": "9125bcc978b3662eb9c92d9a0a582eb52d386b5706bb320d671c53d93c21bfc4"
+    },
+    {
+      "index": 30,
+      "rotated_sha256": "5836a81ebf16394ac5cfd855b6e02b7f1356381061fed0bf36394773e794fc5c",
+      "gptq_sha256": "4a0a05be3f325a9936d496d44ccc4bf38480ad361279fe254d0e8ddf88467710"
+    },
+    {
+      "index": 31,
+      "rotated_sha256": "c6bd4e89f1ce95120dd3e263b7c369dced7d8a5b4161252e01348aa99ae34115",
+      "gptq_sha256": "ff479370aac1c1a174f6a221179bad163be20f9bf9f05dca308602a7a6ea769a"
+    }
+  ],
+  "transformation_source": {
+    "file": "/mnt/yichen/xhb/DuQuant/benchmarks/cache/qa_compare/flatquant_matrices.pth",
+    "sha256": "7133f8a7bab8179ffa9cc0404c66d22e656f5b67a5abd31066d16bdd25d336ef",
+    "url": "https://huggingface.co/ruikangliu/FlatQuant/blob/main/llama-2-7b/w4a4/flat_matrices.pth",
+    "official_commit": "9d88ffcb7d2c6bda59fb5c44dad36adc101aadb1",
+    "setting": "Official W4A4KV4 learned transforms and diagonals; released LWC/LAC replaced by common search"
+  },
+  "training_parent_manifest_sha256": "7252d2f0c71598d66e95df9343b08788c4fd8a5d56180e4fcddc3a088bb5a39b",
+  "training_token_ids_sha256": "50e50734c929876addcd7383a0636297bebbb98365b82256050d06e731b31ae3",
+  "nsamples": 128,
+  "seqlen": 2048,
+  "split": "train",
+  "weight_bits": 4,
+  "activation_bits": 4,
+  "kv_bits": 4,
+  "weight_symmetric": true,
+  "activation_symmetric": false,
+  "kv_symmetric": false,
+  "query_bits": 16,
+  "w_groupsize": -1,
+  "a_groupsize": -1,
+  "kv_groupsize": 128,
+  "weight_clip_grid": [
+    1.0,
+    0.99,
+    0.98,
+    0.97,
+    0.96,
+    0.95,
+    0.94,
+    0.93,
+    0.92,
+    0.91,
+    0.9,
+    0.89,
+    0.88,
+    0.87,
+    0.86,
+    0.85,
+    0.84,
+    0.83,
+    0.82,
+    0.81,
+    0.8,
+    0.79,
+    0.78,
+    0.77,
+    0.76,
+    0.75,
+    0.74,
+    0.73,
+    0.72,
+    0.71,
+    0.7,
+    0.69,
+    0.68,
+    0.67,
+    0.66,
+    0.65,
+    0.64,
+    0.63,
+    0.62,
+    0.61,
+    0.6,
+    0.59,
+    0.58,
+    0.57,
+    0.56,
+    0.55,
+    0.54,
+    0.53,
+    0.52,
+    0.51,
+    0.5,
+    0.49,
+    0.48,
+    0.47,
+    0.46,
+    0.45,
+    0.44,
+    0.43,
+    0.42,
+    0.41,
+    0.4,
+    0.39,
+    0.38,
+    0.37,
+    0.36,
+    0.35,
+    0.34,
+    0.33,
+    0.32,
+    0.31,
+    0.3,
+    0.29,
+    0.28,
+    0.27,
+    0.26,
+    0.25,
+    0.24,
+    0.23,
+    0.22,
+    0.21,
+    0.2
+  ],
+  "activation_kv_clip_grid": [
+    1.0,
+    0.975,
+    0.95,
+    0.925,
+    0.9,
+    0.875,
+    0.85,
+    0.825,
+    0.8,
+    0.775,
+    0.75,
+    0.725,
+    0.7,
+    0.675,
+    0.65,
+    0.625,
+    0.6,
+    0.575,
+    0.55,
+    0.525,
+    0.5,
+    0.475,
+    0.45,
+    0.425,
+    0.4
+  ],
+  "gptq": {
+    "blocksize": 128,
+    "damp": 0.01,
+    "act_order": false,
+    "calibration": "own quantized prefix; true-sequential A4 inputs"
+  },
+  "source_sha256": {
+    "/mnt/yichen/xhb/DuQuant/benchmarks/calibrate_flatquant.py": "abf91aad966b8b4c975d8711377f4147acc637fd055f6b993bd991aa8b3c5142",
+    "benchmarks/flatquant_models.py": "d9d2a8b1a39a18fe736ec9311b0ae0181bc4d307b3e628ec210f7ca6f6d87766",
+    "benchmarks/search_ptq.py": "07aede7668dbbb315bb29bc6d49828f185af2fa9f807b81ef706f7f97f445600",
+    "duquant_cuda/ptq.py": "855c2be51ec5c7a06b6cf69ab2445d4de953104821d6049cfa70f3041632b40c",
+    "duquant_cuda/backend.py": "1b880edc0a800b3adce2acdc528ce372c12302cc3b2326cd0382493004ac49bd",
+    "duquant_cuda/__init__.py": "3a8712a0f4ee44172fe9920086669350db2264bc1059eb50ac2ad2eaa4c43cc0",
+    "duquant_cuda/decoder.py": "f393f032ed1706006b97c912d5e5e243d3a2b0c748b98c2402fbe92ee6d8cd40",
+    "duquant_cuda/model.py": "0bbd75e524091db22a94c223469e0f7a4cd2e205e12c64be8fc6721c9c1c196a",
+    "duquant_cuda/calibration.py": "4fa5e27ee9dcff09bd216a1e45835017bfe4fd5677d66bdbf8867e5c0da362f1",
+    "duquant_cuda/lwc.py": "fa35d58e6e836aa5cbb8afdfcaafb15d3077bf33bacbbbcbb5020bbf7428f404",
+    "duquant_cuda/lwc_quant.py": "60e7efa659cb037d92eecf32f6ea01f7c9fc5f0968bf9dec1563011ec6396905",
+    "duquant_cuda/kv4.py": "ad945a3e38827b89eafa1561cc0db7a42148067a884d9700deb66a71f45b8020"
+  },
+  "extras_sha256": "780bbca788b17b31415aacbff3e7304fe02d6bf005679b2131c725f72d90556f"
+}

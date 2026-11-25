@@ -1,0 +1,18 @@
+{
+  "family": "qwen3",
+  "model": "/mnt/public_models/qwen3-1.7b-base",
+  "dataset": "allenai/c4",
+  "split": "validation",
+  "source": "/mnt/yichen/wyc/QDLM/data/dataset/dataset/allenai/c4/en/c4-validation.00000-of-00008.json.gz",
+  "source_sha256": "1f25b6af12da84115301d4ee93ea5246c8fea5bb4a2008472794d95b917cc97f",
+  "selection": "First 1100 documents of English validation shard 00000-of-00008, joined with single spaces; first 256*2048 tokenizer tokens, matching FlatQuant get_c4_new eval_mode",
+  "tokenizer_use_fast": true,
+  "add_special_tokens": true,
+  "seqlen": 2048,
+  "token_count": 524288,
+  "token_ids_sha256": "b2ad730dfeb0bc0e7981ab5a29ae28af1768a64af1c58ef8503dc584bae49325",
+  "blocks": 256,
+  "scored_tokens": 524032,
+  "unused_tail_tokens": 0,
+  "scoring": "All complete selected blocks, shifted FP32 CE, no overlap, reset cache per block; no fitting on validation"
+}

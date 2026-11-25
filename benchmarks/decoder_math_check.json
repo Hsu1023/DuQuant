@@ -1,0 +1,65 @@
+{
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "4",
+  "torch": "2.7.1+cu126",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "layer": 0,
+  "batch": 1,
+  "attention": "forced FP16 Flash SDPA for all modes",
+  "kv_storage": "FP16, quantized-dequantized K/V in W4A4",
+  "input": "actual token embeddings of repeated fixed prose",
+  "rotation": "fixed random orthogonal matrices and permutations, shared by QKV and gate/up, not calibrated",
+  "timing": "median of repeated CUDA Graph measurements, full block; fixed position for each decode scenario, historical cache prepared outside timing",
+  "results": [
+    {
+      "phase": "prefill",
+      "batch": 1,
+      "tokens": 128,
+      "past_tokens": 0,
+      "fp16_us": 549.8580932617188,
+      "duquant_us": 220.29534053135586,
+      "speedup": 2.4960041911710538,
+      "samples_us": {
+        "fp16": [
+          550.3310122732389,
+          549.7206115722656,
+          549.8580932617188
+        ],
+        "cuda": [
+          220.29534053135586,
+          220.2681004161566,
+          220.62079906463623
+        ]
+      },
+      "implementation_relative_l2": 0.0038674771785736084,
+      "implementation_max_abs": 0.005615234375,
+      "legacy_fake_relative_l2": 0.05020119249820709,
+      "quantization_relative_l2_vs_fp16": 0.17282265424728394
+    },
+    {
+      "phase": "decode",
+      "batch": 1,
+      "tokens": 1,
+      "past_tokens": 128,
+      "fp16_us": 435.1653951459226,
+      "duquant_us": 162.2328264493469,
+      "speedup": 2.6823510671053494,
+      "samples_us": {
+        "fp16": [
+          435.83288913302954,
+          435.02319808554864,
+          435.1653951459226
+        ],
+        "cuda": [
+          162.13868365568274,
+          162.53023353411996,
+          162.2328264493469
+        ]
+      },
+      "implementation_relative_l2": 0.0,
+      "implementation_max_abs": 0.0,
+      "legacy_fake_relative_l2": 0.043279387056827545,
+      "quantization_relative_l2_vs_fp16": 0.15071283280849457
+    }
+  ]
+}

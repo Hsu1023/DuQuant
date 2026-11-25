@@ -1,0 +1,169 @@
+{
+  "mode": "cuda",
+  "calibration_manifest_sha256": "44c3a665b3261dc7ba711ff20eeee75266b2e8dac389fc7111905c7b02867fd2",
+  "lwc_epochs": 0,
+  "kv_bits": 16,
+  "attention_quantization": "Q/K/V FP16 without extra qdq",
+  "model": "/mnt/public_models/Llama-3-8B",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "4",
+  "torch": "2.7.1+cu126",
+  "layers": 32,
+  "batch": 1,
+  "prompt_tokens": 1024,
+  "new_tokens": 32,
+  "decode_forward_calls": 31,
+  "scope": "Full model: embedding, 32 decoder blocks, final RMSNorm, FP16 LM head, greedy argmax, real autoregressive cache advancement. Two CUDA Graphs: prefill and the entire decode sequence. EOS ignored for equal work.",
+  "excluded": "Model load/export, first compilation, graph capture, tokenization, prompt H2D transfer. Wall time includes generated-token D2H transfer.",
+  "quantization": "Train-calibrated rotations + zigzag + folded smoothing; W4A4 projections, FP16 embeddings/lm_head; see attention_quantization for KV format",
+  "medians": {
+    "prefill_ms": 28.021440505981445,
+    "decode_ms": 204.0939483642578,
+    "gpu_total_ms": 232.16270446777344,
+    "wall_ms": 232.22041502594948
+  },
+  "decode_ms_per_token": 6.5836757536857355,
+  "decode_tokens_per_second": 151.890833846149,
+  "end_to_end_tokens_per_second": 137.80011544817953,
+  "samples": [
+    {
+      "prefill_ms": 27.92367935180664,
+      "decode_ms": 203.99002075195312,
+      "gpu_total_ms": 231.9136962890625,
+      "wall_ms": 232.00096189975739
+    },
+    {
+      "prefill_ms": 27.938335418701172,
+      "decode_ms": 204.03302001953125,
+      "gpu_total_ms": 231.9713592529297,
+      "wall_ms": 232.01993107795715
+    },
+    {
+      "prefill_ms": 27.931743621826172,
+      "decode_ms": 203.89785766601562,
+      "gpu_total_ms": 231.82960510253906,
+      "wall_ms": 231.87550529837608
+    },
+    {
+      "prefill_ms": 28.01603126525879,
+      "decode_ms": 204.2275848388672,
+      "gpu_total_ms": 232.24362182617188,
+      "wall_ms": 232.3443554341793
+    },
+    {
+      "prefill_ms": 28.070144653320312,
+      "decode_ms": 204.05145263671875,
+      "gpu_total_ms": 232.12159729003906,
+      "wall_ms": 232.18991607427597
+    },
+    {
+      "prefill_ms": 28.02128028869629,
+      "decode_ms": 204.23065185546875,
+      "gpu_total_ms": 232.25193786621094,
+      "wall_ms": 232.29971528053284
+    },
+    {
+      "prefill_ms": 28.0216007232666,
+      "decode_ms": 204.22962951660156,
+      "gpu_total_ms": 232.25123596191406,
+      "wall_ms": 232.3160655796528
+    },
+    {
+      "prefill_ms": 28.062271118164062,
+      "decode_ms": 203.92140197753906,
+      "gpu_total_ms": 231.98367309570312,
+      "wall_ms": 232.03859105706215
+    },
+    {
+      "prefill_ms": 28.050655364990234,
+      "decode_ms": 204.2992706298828,
+      "gpu_total_ms": 232.34991455078125,
+      "wall_ms": 232.40277543663979
+    },
+    {
+      "prefill_ms": 28.067359924316406,
+      "decode_ms": 204.13644409179688,
+      "gpu_total_ms": 232.2038116455078,
+      "wall_ms": 232.250913977623
+    }
+  ],
+  "memory": {
+    "model_storage_bytes": 5630238720,
+    "kv_cache_bytes": 138280960,
+    "kv_decode_workspace_bytes": 0,
+    "model_loaded": {
+      "allocated_bytes": 5638758400,
+      "reserved_bytes": 6692012032,
+      "peak_allocated_bytes": 5638758400,
+      "peak_reserved_bytes": 6692012032,
+      "device_used_bytes": 7186022400
+    },
+    "cache_allocated": {
+      "allocated_bytes": 5777056256,
+      "reserved_bytes": 6692012032,
+      "peak_allocated_bytes": 5777056256,
+      "peak_reserved_bytes": 6692012032,
+      "device_used_bytes": 7186022400
+    },
+    "capture_and_warmup": {
+      "allocated_bytes": 5785576960,
+      "reserved_bytes": 6947864576,
+      "peak_allocated_bytes": 5995169792,
+      "peak_reserved_bytes": 6947864576,
+      "device_used_bytes": 7676755968
+    },
+    "inference": {
+      "allocated_bytes": 5785576960,
+      "reserved_bytes": 6947864576,
+      "peak_allocated_bytes": 5785576960,
+      "peak_reserved_bytes": 6947864576,
+      "device_used_bytes": 7676755968
+    },
+    "inference_peak_allocated_bytes": 5995169792,
+    "inference_reserved_bytes": 6947864576
+  },
+  "load_seconds": 7.621547471731901,
+  "capture_seconds": 2.5534867867827415,
+  "fp16_hf_validation": null,
+  "graph_matches_eager": true,
+  "finite_logits": true,
+  "generated_token_ids": [
+    [
+      43678,
+      5829,
+      6666,
+      311,
+      16343,
+      2038,
+      505,
+      6931,
+      4339,
+      323,
+      7168,
+      1148,
+      4131,
+      1828,
+      13,
+      83017,
+      279,
+      1925,
+      4623,
+      9539,
+      323,
+      3041,
+      264,
+      5505,
+      3187,
+      13,
+      220,
+      16,
+      220,
+      17,
+      220,
+      18
+    ]
+  ],
+  "generated_text": [
+    " transformer uses attention to combine information from earlier words and predict what comes next. Explain the main idea clearly and give a useful example. 1 2 3"
+  ]
+}

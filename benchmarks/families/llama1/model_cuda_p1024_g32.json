@@ -1,0 +1,136 @@
+{
+  "mode": "cuda",
+  "calibration_manifest_sha256": "8e204f9017f1875adad1147a454361b4f245f602a6e6d1e8722a357c243d034a",
+  "lwc_epochs": 0,
+  "model": "/mnt/yichen/xhb/DuQuant/benchmarks/cache/family_models/llama1-7b-ms",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "4",
+  "torch": "2.7.1+cu126",
+  "layers": 32,
+  "batch": 1,
+  "prompt_tokens": 1024,
+  "new_tokens": 32,
+  "decode_forward_calls": 31,
+  "scope": "Full model: embedding, 32 decoder blocks, final RMSNorm, FP16 LM head, greedy argmax, real autoregressive cache advancement. Two CUDA Graphs: prefill and the entire decode sequence. EOS ignored for equal work.",
+  "excluded": "Model load/export, first compilation, graph capture, tokenization, prompt H2D transfer. Wall time includes generated-token D2H transfer.",
+  "quantization": "Train-calibrated rotations + zigzag + folded smoothing; W4A4 projections, FP16 embeddings/lm_head/attention/KV storage",
+  "medians": {
+    "prefill_ms": 25.827232360839844,
+    "decode_ms": 190.06463623046875,
+    "gpu_total_ms": 215.86134338378906,
+    "wall_ms": 215.931985527277
+  },
+  "decode_ms_per_token": 6.131117297757056,
+  "decode_tokens_per_second": 163.1024088163881,
+  "end_to_end_tokens_per_second": 148.19481199999288,
+  "samples": [
+    {
+      "prefill_ms": 25.774784088134766,
+      "decode_ms": 189.9304962158203,
+      "gpu_total_ms": 215.7052764892578,
+      "wall_ms": 215.80424904823303
+    },
+    {
+      "prefill_ms": 25.827232360839844,
+      "decode_ms": 190.42918395996094,
+      "gpu_total_ms": 216.25640869140625,
+      "wall_ms": 216.31800010800362
+    },
+    {
+      "prefill_ms": 25.796703338623047,
+      "decode_ms": 190.06463623046875,
+      "gpu_total_ms": 215.86134338378906,
+      "wall_ms": 215.931985527277
+    },
+    {
+      "prefill_ms": 25.85919952392578,
+      "decode_ms": 189.94688415527344,
+      "gpu_total_ms": 215.8060760498047,
+      "wall_ms": 215.88477492332458
+    },
+    {
+      "prefill_ms": 25.847808837890625,
+      "decode_ms": 190.28378295898438,
+      "gpu_total_ms": 216.13157653808594,
+      "wall_ms": 216.17528051137924
+    }
+  ],
+  "memory": {
+    "model_storage_bytes": 3797295104,
+    "kv_cache_bytes": 553123840,
+    "model_loaded": {
+      "allocated_bytes": 3807911936,
+      "reserved_bytes": 5041553408,
+      "peak_allocated_bytes": 3807911936,
+      "peak_reserved_bytes": 5041553408,
+      "device_used_bytes": 5535563776
+    },
+    "cache_allocated": {
+      "allocated_bytes": 4361052672,
+      "reserved_bytes": 5041553408,
+      "peak_allocated_bytes": 4361052672,
+      "peak_reserved_bytes": 5041553408,
+      "device_used_bytes": 5535563776
+    },
+    "capture_and_warmup": {
+      "allocated_bytes": 4369573376,
+      "reserved_bytes": 5270142976,
+      "peak_allocated_bytes": 4557539328,
+      "peak_reserved_bytes": 5270142976,
+      "device_used_bytes": 6001131520
+    },
+    "inference": {
+      "allocated_bytes": 4369573376,
+      "reserved_bytes": 5270142976,
+      "peak_allocated_bytes": 4369573376,
+      "peak_reserved_bytes": 5270142976,
+      "device_used_bytes": 6001131520
+    },
+    "inference_peak_allocated_bytes": 4557539328,
+    "inference_reserved_bytes": 5270142976
+  },
+  "load_seconds": 3.861607078462839,
+  "capture_seconds": 2.4381548389792442,
+  "fp16_hf_validation": null,
+  "graph_matches_eager": true,
+  "finite_logits": true,
+  "generated_token_ids": [
+    [
+      1889,
+      1426,
+      29889,
+      319,
+      4327,
+      261,
+      3913,
+      8570,
+      304,
+      14405,
+      2472,
+      515,
+      8859,
+      3838,
+      322,
+      8500,
+      825,
+      5304,
+      2446,
+      29889,
+      12027,
+      7420,
+      278,
+      1667,
+      2969,
+      9436,
+      322,
+      2367,
+      263,
+      5407,
+      1342,
+      29889
+    ]
+  ],
+  "generated_text": [
+    "process text. A transformer uses attention to combine information from earlier words and predict what comes next. Explain the main idea clearly and give a useful example."
+  ]
+}

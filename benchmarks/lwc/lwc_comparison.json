@@ -1,0 +1,38 @@
+{
+  "fp16_ppl_baseline": "Reused unchanged FP16 evaluation from benchmarks/calibrated/ppl_fp16.json",
+  "training": {
+    "samples": 128,
+    "tokens_per_sample": 2048,
+    "epochs": 20,
+    "lr": 0.01,
+    "alpha": 0.6,
+    "frozen_rotations_and_smoothing": true,
+    "split": "train"
+  },
+  "comparisons": {
+    "fake": {
+      "before_ppl": 6.156414078233989,
+      "lwc_ppl": 6.065405100329141,
+      "ppl_delta": -0.09100897790484819,
+      "ppl_reduction_percent": 1.4782790232809484,
+      "next_token_accuracy_before": 0.5885868829494824,
+      "next_token_accuracy_lwc": 0.5897934679607536,
+      "paired_block_bootstrap_ppl_ratio_95pct": [
+        0.983013774121831,
+        0.987438146824111
+      ]
+    },
+    "cuda": {
+      "before_ppl": 6.163763110474287,
+      "lwc_ppl": 6.064057707830659,
+      "ppl_delta": -0.09970540264362793,
+      "ppl_reduction_percent": 1.6176060120512314,
+      "next_token_accuracy_before": 0.5883838235207562,
+      "next_token_accuracy_lwc": 0.5903938175761179,
+      "paired_block_bootstrap_ppl_ratio_95pct": [
+        0.9813416290163725,
+        0.9862838322783526
+      ]
+    }
+  }
+}

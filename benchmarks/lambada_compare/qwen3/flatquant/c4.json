@@ -1,0 +1,1333 @@
+{
+  "status": "complete",
+  "config": {
+    "family": "qwen3",
+    "method": "flatquant",
+    "protocol": {
+      "family": "qwen3",
+      "model": "/mnt/public_models/qwen3-1.7b-base",
+      "dataset": "allenai/c4",
+      "split": "validation",
+      "source": "/mnt/yichen/wyc/QDLM/data/dataset/dataset/allenai/c4/en/c4-validation.00000-of-00008.json.gz",
+      "source_sha256": "1f25b6af12da84115301d4ee93ea5246c8fea5bb4a2008472794d95b917cc97f",
+      "selection": "First 1100 documents of English validation shard 00000-of-00008, joined with single spaces; first 256*2048 tokenizer tokens, matching FlatQuant get_c4_new eval_mode",
+      "tokenizer_use_fast": true,
+      "add_special_tokens": true,
+      "seqlen": 2048,
+      "token_count": 524288,
+      "token_ids_sha256": "b2ad730dfeb0bc0e7981ab5a29ae28af1768a64af1c58ef8503dc584bae49325",
+      "blocks": 256,
+      "scored_tokens": 524032,
+      "unused_tail_tokens": 0,
+      "scoring": "All complete selected blocks, shifted FP32 CE, no overlap, reset cache per block; no fitting on validation"
+    },
+    "mode": "true_int4",
+    "kv_bits": 4,
+    "prior_qa_run_sha256": "bfdc58cad314ce52a6cedfcb1ed9570f11dad5718b9b3b5ce21e14afdb4a5439",
+    "calibration_manifest_sha256": "1af5115f55622dc1d05e739cb2c34b90c7f08ebe2b59df8b0a7aeced79ca83be",
+    "source_sha256": {
+      "/mnt/yichen/xhb/DuQuant/benchmarks/eval_c4_common.py": "68b4e7995059e50ddeb50e575b42501a43cd083fe02f4e385dc57b35fb0b4bb7",
+      "benchmarks/eval_lambada_ppl.py": "aa2533ee072e7ca6db3d8db2a168b6ea0694ce38cef4bddf2f6fc810c9519d3b",
+      "benchmarks/comparison_models.py": "8a26420559dd1c7994925415993e990d455fd015922972f3b417f91a7d90d74e",
+      "benchmarks/flatquant_models.py": "d9d2a8b1a39a18fe736ec9311b0ae0181bc4d307b3e628ec210f7ca6f6d87766",
+      "benchmarks/qwen3_models.py": "216b704d5c085e6bcb87a1467058bc5cfe9c2983a75c48e77fbba4f3a617e13b",
+      "benchmarks/qwen3_flat_models.py": "8f209cde7f4554d8c4e1567688b2ea9bdaad6b6fef4c7a3f30e6cdce6bd6f823",
+      "duquant_cuda/backend.py": "1b880edc0a800b3adce2acdc528ce372c12302cc3b2326cd0382493004ac49bd",
+      "duquant_cuda/__init__.py": "3a8712a0f4ee44172fe9920086669350db2264bc1059eb50ac2ad2eaa4c43cc0",
+      "duquant_cuda/decoder.py": "f393f032ed1706006b97c912d5e5e243d3a2b0c748b98c2402fbe92ee6d8cd40",
+      "duquant_cuda/model.py": "0bbd75e524091db22a94c223469e0f7a4cd2e205e12c64be8fc6721c9c1c196a",
+      "duquant_cuda/calibration.py": "4fa5e27ee9dcff09bd216a1e45835017bfe4fd5677d66bdbf8867e5c0da362f1",
+      "duquant_cuda/lwc.py": "fa35d58e6e836aa5cbb8afdfcaafb15d3077bf33bacbbbcbb5020bbf7428f404",
+      "duquant_cuda/lwc_quant.py": "60e7efa659cb037d92eecf32f6ea01f7c9fc5f0968bf9dec1563011ec6396905",
+      "duquant_cuda/kv4.py": "ad945a3e38827b89eafa1561cc0db7a42148067a884d9700deb66a71f45b8020",
+      "duquant_cuda/ptq.py": "855c2be51ec5c7a06b6cf69ab2445d4de953104821d6049cfa70f3041632b40c"
+    }
+  },
+  "blocks": [
+    {
+      "index": 0,
+      "nll_sum": 5968.8475146637065,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 1,
+      "nll_sum": 6498.298782186757,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 2,
+      "nll_sum": 6845.718800323491,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 3,
+      "nll_sum": 6242.913394059044,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 4,
+      "nll_sum": 5732.01369862727,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 5,
+      "nll_sum": 5762.434712312999,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 6,
+      "nll_sum": 5269.46340456004,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 7,
+      "nll_sum": 4557.603192357497,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 8,
+      "nll_sum": 6700.4848516097845,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 9,
+      "nll_sum": 6474.905793549609,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 10,
+      "nll_sum": 5285.28439740242,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 11,
+      "nll_sum": 6834.101099252584,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 12,
+      "nll_sum": 6605.489946616784,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 13,
+      "nll_sum": 6464.2144270967465,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 14,
+      "nll_sum": 5768.186663456923,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 15,
+      "nll_sum": 5752.885983838743,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 16,
+      "nll_sum": 5179.866794304008,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 17,
+      "nll_sum": 6758.26705163272,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 18,
+      "nll_sum": 6207.879708553606,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 19,
+      "nll_sum": 5876.967669814127,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 20,
+      "nll_sum": 5528.68354229997,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 21,
+      "nll_sum": 6586.666048142812,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 22,
+      "nll_sum": 6620.221187782212,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 23,
+      "nll_sum": 6949.675593877655,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 24,
+      "nll_sum": 6759.344991773287,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 25,
+      "nll_sum": 5922.857393396585,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 26,
+      "nll_sum": 6007.023919274856,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 27,
+      "nll_sum": 6357.84729342116,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 28,
+      "nll_sum": 5228.02279285065,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 29,
+      "nll_sum": 6520.858794231754,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 30,
+      "nll_sum": 7299.880231853167,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 31,
+      "nll_sum": 6685.878237958008,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 32,
+      "nll_sum": 7047.981196412642,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 33,
+      "nll_sum": 7059.921065254748,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 34,
+      "nll_sum": 6361.590392534705,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 35,
+      "nll_sum": 5733.89700655303,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 36,
+      "nll_sum": 6651.722821682444,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 37,
+      "nll_sum": 7375.640345259104,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 38,
+      "nll_sum": 6095.434738279611,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 39,
+      "nll_sum": 5525.704702462383,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 40,
+      "nll_sum": 4288.0252935285425,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 41,
+      "nll_sum": 3878.2581822658963,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 42,
+      "nll_sum": 4146.26901454371,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 43,
+      "nll_sum": 4705.43798398262,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 44,
+      "nll_sum": 4592.45297604841,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 45,
+      "nll_sum": 5409.93443026545,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 46,
+      "nll_sum": 6612.801068238397,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 47,
+      "nll_sum": 5409.850605742047,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 48,
+      "nll_sum": 7212.072623716789,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 49,
+      "nll_sum": 6897.471648382954,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 50,
+      "nll_sum": 5129.067288172802,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 51,
+      "nll_sum": 5619.102142761694,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 52,
+      "nll_sum": 6081.1432595617225,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 53,
+      "nll_sum": 6025.765848812662,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 54,
+      "nll_sum": 6669.226576286914,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 55,
+      "nll_sum": 5704.498653993731,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 56,
+      "nll_sum": 5532.7094017366035,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 57,
+      "nll_sum": 7097.264324341682,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 58,
+      "nll_sum": 5784.979581149477,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 59,
+      "nll_sum": 5867.548340365887,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 60,
+      "nll_sum": 5064.7691528187215,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 61,
+      "nll_sum": 6600.515807117452,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 62,
+      "nll_sum": 6442.610765257152,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 63,
+      "nll_sum": 6265.565190618756,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 64,
+      "nll_sum": 6988.083035722899,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 65,
+      "nll_sum": 6178.996213760423,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 66,
+      "nll_sum": 7044.1292659828905,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 67,
+      "nll_sum": 4854.8052857192815,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 68,
+      "nll_sum": 5795.182591574216,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 69,
+      "nll_sum": 5707.1601944585345,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 70,
+      "nll_sum": 6685.929642983829,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 71,
+      "nll_sum": 6164.437402917974,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 72,
+      "nll_sum": 5943.156561004285,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 73,
+      "nll_sum": 6833.164172983328,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 74,
+      "nll_sum": 7010.971248670605,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 75,
+      "nll_sum": 6707.818101829675,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 76,
+      "nll_sum": 5889.5086319156835,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 77,
+      "nll_sum": 6303.126892268847,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 78,
+      "nll_sum": 6116.258457852004,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 79,
+      "nll_sum": 5811.32772862132,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 80,
+      "nll_sum": 7118.719647788908,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 81,
+      "nll_sum": 7269.001117810578,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 82,
+      "nll_sum": 8145.612807642203,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 83,
+      "nll_sum": 8408.674523818772,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 84,
+      "nll_sum": 7008.990572809416,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 85,
+      "nll_sum": 6003.811643835681,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 86,
+      "nll_sum": 6621.384738584296,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 87,
+      "nll_sum": 6885.634886076961,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 88,
+      "nll_sum": 6124.876882910932,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 89,
+      "nll_sum": 5520.039003111633,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 90,
+      "nll_sum": 5249.58832988959,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 91,
+      "nll_sum": 6489.565898189336,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 92,
+      "nll_sum": 5600.368591264305,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 93,
+      "nll_sum": 6453.843397575853,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 94,
+      "nll_sum": 6080.674064304549,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 95,
+      "nll_sum": 6871.820254076447,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 96,
+      "nll_sum": 6097.947284140275,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 97,
+      "nll_sum": 5871.3603835554495,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 98,
+      "nll_sum": 7229.966106370091,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 99,
+      "nll_sum": 5995.9249843257785,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 100,
+      "nll_sum": 6308.801020939689,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 101,
+      "nll_sum": 6419.195403457299,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 102,
+      "nll_sum": 5961.278797927647,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 103,
+      "nll_sum": 6281.17456740902,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 104,
+      "nll_sum": 5973.482740400388,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 105,
+      "nll_sum": 6280.403644424805,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 106,
+      "nll_sum": 6371.94162401979,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 107,
+      "nll_sum": 6588.5870511872345,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 108,
+      "nll_sum": 6609.225918233255,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 109,
+      "nll_sum": 3649.9410631764295,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 110,
+      "nll_sum": 4227.0339505493175,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 111,
+      "nll_sum": 6705.956879080455,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 112,
+      "nll_sum": 6373.27149294244,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 113,
+      "nll_sum": 5952.56058859879,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 114,
+      "nll_sum": 6010.789224019376,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 115,
+      "nll_sum": 5522.380983445233,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 116,
+      "nll_sum": 6303.219984581196,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 117,
+      "nll_sum": 5547.950175166603,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 118,
+      "nll_sum": 6367.673423720484,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 119,
+      "nll_sum": 5902.881078194641,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 120,
+      "nll_sum": 6183.636314721407,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 121,
+      "nll_sum": 5979.916439560144,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 122,
+      "nll_sum": 7528.772440401372,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 123,
+      "nll_sum": 6714.999135508115,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 124,
+      "nll_sum": 3776.4761333533897,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 125,
+      "nll_sum": 1579.7546030211533,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 126,
+      "nll_sum": 2095.154994501285,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 127,
+      "nll_sum": 6251.250574169142,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 128,
+      "nll_sum": 6101.281428965114,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 129,
+      "nll_sum": 6147.662576452065,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 130,
+      "nll_sum": 6349.007278511267,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 131,
+      "nll_sum": 5905.713842838537,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 132,
+      "nll_sum": 6413.61974452174,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 133,
+      "nll_sum": 6328.713852874149,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 134,
+      "nll_sum": 6004.913118881985,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 135,
+      "nll_sum": 6258.490757984226,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 136,
+      "nll_sum": 7058.777311634702,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 137,
+      "nll_sum": 6107.401697440437,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 138,
+      "nll_sum": 6429.09914560377,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 139,
+      "nll_sum": 6155.0856128045125,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 140,
+      "nll_sum": 6085.244862003223,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 141,
+      "nll_sum": 5802.420404910714,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 142,
+      "nll_sum": 5891.775807897648,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 143,
+      "nll_sum": 6129.674440056086,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 144,
+      "nll_sum": 5933.507878456265,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 145,
+      "nll_sum": 6409.100177008309,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 146,
+      "nll_sum": 5983.122674315615,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 147,
+      "nll_sum": 6445.719078147871,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 148,
+      "nll_sum": 6444.098081017146,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 149,
+      "nll_sum": 5885.980091148644,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 150,
+      "nll_sum": 6132.972712685703,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 151,
+      "nll_sum": 6711.393461499058,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 152,
+      "nll_sum": 6468.192026692093,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 153,
+      "nll_sum": 6008.364685240613,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 154,
+      "nll_sum": 6354.526867516892,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 155,
+      "nll_sum": 3769.979311222011,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 156,
+      "nll_sum": 3833.2620653337945,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 157,
+      "nll_sum": 5082.558573911263,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 158,
+      "nll_sum": 5844.493745079861,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 159,
+      "nll_sum": 6016.23872453659,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 160,
+      "nll_sum": 5630.410411667781,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 161,
+      "nll_sum": 6340.891983048212,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 162,
+      "nll_sum": 6653.836475190255,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 163,
+      "nll_sum": 6381.597198981093,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 164,
+      "nll_sum": 6909.001724304922,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 165,
+      "nll_sum": 6406.812626193219,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 166,
+      "nll_sum": 6797.518565017415,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 167,
+      "nll_sum": 7770.0938139992795,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 168,
+      "nll_sum": 7240.130040491349,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 169,
+      "nll_sum": 7295.750494686159,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 170,
+      "nll_sum": 6991.301804001603,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 171,
+      "nll_sum": 6329.460481472968,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 172,
+      "nll_sum": 6221.578409983049,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 173,
+      "nll_sum": 6276.1553439085255,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 174,
+      "nll_sum": 5706.149523448919,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 175,
+      "nll_sum": 6824.126123573427,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 176,
+      "nll_sum": 6400.49626320212,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 177,
+      "nll_sum": 6207.826734652161,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 178,
+      "nll_sum": 6509.988052202796,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 179,
+      "nll_sum": 6220.942438793747,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 180,
+      "nll_sum": 6751.326447759668,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 181,
+      "nll_sum": 4953.000662470557,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 182,
+      "nll_sum": 6459.825149963486,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 183,
+      "nll_sum": 6664.582126108515,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 184,
+      "nll_sum": 5652.52684899473,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 185,
+      "nll_sum": 7100.886852797645,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 186,
+      "nll_sum": 6577.807931560994,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 187,
+      "nll_sum": 6377.696663560244,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 188,
+      "nll_sum": 6873.434457060117,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 189,
+      "nll_sum": 6234.490186859155,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 190,
+      "nll_sum": 6678.537834692383,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 191,
+      "nll_sum": 6917.608066087323,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 192,
+      "nll_sum": 6267.796371047254,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 193,
+      "nll_sum": 6565.832571710824,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 194,
+      "nll_sum": 5771.041737969768,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 195,
+      "nll_sum": 3216.6445625568813,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 196,
+      "nll_sum": 6017.402119294187,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 197,
+      "nll_sum": 6455.717329568892,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 198,
+      "nll_sum": 7233.6959056870255,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 199,
+      "nll_sum": 6351.620933092752,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 200,
+      "nll_sum": 6541.791101835668,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 201,
+      "nll_sum": 6635.244025888984,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 202,
+      "nll_sum": 5744.109230390211,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 203,
+      "nll_sum": 6218.676353937306,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 204,
+      "nll_sum": 6165.010105897163,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 205,
+      "nll_sum": 6477.403836900834,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 206,
+      "nll_sum": 8109.21718712835,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 207,
+      "nll_sum": 6075.564782718306,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 208,
+      "nll_sum": 6384.8388704312965,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 209,
+      "nll_sum": 5878.846293372029,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 210,
+      "nll_sum": 5994.779503597143,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 211,
+      "nll_sum": 6637.13014889168,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 212,
+      "nll_sum": 5606.4607966003605,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 213,
+      "nll_sum": 4728.054840203789,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 214,
+      "nll_sum": 6760.594482414592,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 215,
+      "nll_sum": 7245.707574981112,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 216,
+      "nll_sum": 5100.331549828821,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 217,
+      "nll_sum": 5686.659490662958,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 218,
+      "nll_sum": 6294.907928464498,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 219,
+      "nll_sum": 5655.21093476074,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 220,
+      "nll_sum": 5675.003745291455,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 221,
+      "nll_sum": 6540.619070183111,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 222,
+      "nll_sum": 6049.64380376834,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 223,
+      "nll_sum": 6859.683923023054,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 224,
+      "nll_sum": 5355.992605682619,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 225,
+      "nll_sum": 6138.49044770711,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 226,
+      "nll_sum": 6492.402118403232,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 227,
+      "nll_sum": 4922.159581312606,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 228,
+      "nll_sum": 6198.650597962029,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 229,
+      "nll_sum": 6705.6126043525,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 230,
+      "nll_sum": 5500.33012281447,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 231,
+      "nll_sum": 5248.932913946279,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 232,
+      "nll_sum": 6756.781954665363,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 233,
+      "nll_sum": 6442.696763140717,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 234,
+      "nll_sum": 5187.916175007911,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 235,
+      "nll_sum": 4273.806003147889,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 236,
+      "nll_sum": 4063.9705104756067,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 237,
+      "nll_sum": 3381.35940209826,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 238,
+      "nll_sum": 4034.1317264494182,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 239,
+      "nll_sum": 3763.1413005374034,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 240,
+      "nll_sum": 4179.863408781748,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 241,
+      "nll_sum": 6249.254981361419,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 242,
+      "nll_sum": 5946.059222322845,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 243,
+      "nll_sum": 6171.763553215933,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 244,
+      "nll_sum": 5927.965626720252,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 245,
+      "nll_sum": 6170.953651085772,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 246,
+      "nll_sum": 6127.253333268454,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 247,
+      "nll_sum": 6344.94689802856,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 248,
+      "nll_sum": 6536.623072255403,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 249,
+      "nll_sum": 6598.525604868861,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 250,
+      "nll_sum": 6043.137466189757,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 251,
+      "nll_sum": 5908.531440662904,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 252,
+      "nll_sum": 6303.643422883324,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 253,
+      "nll_sum": 7169.432462019118,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 254,
+      "nll_sum": 5722.942756602366,
+      "scored_tokens": 2047
+    },
+    {
+      "index": 255,
+      "nll_sum": 6952.189421675881,
+      "scored_tokens": 2047
+    }
+  ],
+  "block_count": 256,
+  "scored_tokens": 524032,
+  "nll_sum": 1557304.4771699577,
+  "ppl": 19.526521662424628,
+  "elapsed_seconds": 13.021036870777607
+}

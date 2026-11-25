@@ -1,0 +1,59 @@
+{
+  "device": "NVIDIA GeForce RTX 4090",
+  "torch": "2.7.1+cu126",
+  "triton": "3.3.1",
+  "method": "CUDA Graph, hot-cache synthetic single layer, random fixed rotations, includes activation transform/quant/pack and GEMM",
+  "results": [
+    {
+      "K": 4096,
+      "N": 4096,
+      "M": 1,
+      "fp16_us": 16.614,
+      "duquant_us": 11.699,
+      "activation_us": 5.908,
+      "speedup": 1.42,
+      "relative_l2": 0.00041924286051653326,
+      "max_abs_error": 0.001953125,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 1,
+      "gemv": [
+        8,
+        256
+      ]
+    },
+    {
+      "K": 4096,
+      "N": 4096,
+      "M": 128,
+      "fp16_us": 32.897,
+      "duquant_us": 26.871,
+      "activation_us": 15.88,
+      "speedup": 1.224,
+      "relative_l2": 0.0019040550105273724,
+      "max_abs_error": 0.04541015625,
+      "packed_byte_mismatch": 3.0517578125e-05,
+      "gemm_config": 1,
+      "gemv": [
+        8,
+        256
+      ]
+    },
+    {
+      "K": 4096,
+      "N": 4096,
+      "M": 2048,
+      "fp16_us": 438.802,
+      "duquant_us": 294.274,
+      "activation_us": 168.242,
+      "speedup": 1.491,
+      "relative_l2": 0.0016871767584234476,
+      "max_abs_error": 0.0712890625,
+      "packed_byte_mismatch": 2.7418136596679688e-05,
+      "gemm_config": 1,
+      "gemv": [
+        8,
+        256
+      ]
+    }
+  ]
+}

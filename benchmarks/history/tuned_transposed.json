@@ -1,0 +1,383 @@
+{
+  "device": "NVIDIA GeForce RTX 4090",
+  "torch": "2.7.1+cu126",
+  "triton": "3.3.1",
+  "method": "CUDA Graph, hot-cache synthetic single layer, random fixed rotations, includes activation transform/quant/pack and GEMM",
+  "results": [
+    {
+      "K": 4096,
+      "N": 4096,
+      "M": 1,
+      "fp16_us": 17.051,
+      "duquant_us": 11.386,
+      "activation_us": 6.543,
+      "speedup": 1.498,
+      "relative_l2": 0.00041924286051653326,
+      "max_abs_error": 0.001953125,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 1,
+      "gemv": [
+        8,
+        512
+      ],
+      "rotation": [
+        32,
+        4
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 55.296,
+      "cold_duquant_us": 24.576,
+      "cold_speedup": 2.25
+    },
+    {
+      "K": 4096,
+      "N": 4096,
+      "M": 16,
+      "fp16_us": 16.281,
+      "duquant_us": 15.701,
+      "activation_us": 6.336,
+      "speedup": 1.037,
+      "relative_l2": 0.00036869230098091066,
+      "max_abs_error": 0.001953125,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 1,
+      "gemv": [
+        8,
+        512
+      ],
+      "rotation": [
+        16,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 55.296,
+      "cold_duquant_us": 35.84,
+      "cold_speedup": 1.543
+    },
+    {
+      "K": 4096,
+      "N": 4096,
+      "M": 128,
+      "fp16_us": 33.532,
+      "duquant_us": 20.795,
+      "activation_us": 9.769,
+      "speedup": 1.613,
+      "relative_l2": 0.00036791249294765294,
+      "max_abs_error": 0.00390625,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 1,
+      "gemv": [
+        8,
+        512
+      ],
+      "rotation": [
+        32,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 57.344,
+      "cold_duquant_us": 40.96,
+      "cold_speedup": 1.4
+    },
+    {
+      "K": 4096,
+      "N": 4096,
+      "M": 512,
+      "fp16_us": 117.637,
+      "duquant_us": 42.708,
+      "activation_us": 18.476,
+      "speedup": 2.754,
+      "relative_l2": 0.0004029821720905602,
+      "max_abs_error": 0.00390625,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 2,
+      "gemv": [
+        8,
+        512
+      ],
+      "rotation": [
+        64,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 136.192,
+      "cold_duquant_us": 57.344,
+      "cold_speedup": 2.375
+    },
+    {
+      "K": 4096,
+      "N": 4096,
+      "M": 2048,
+      "fp16_us": 448.858,
+      "duquant_us": 158.142,
+      "activation_us": 51.291,
+      "speedup": 2.838,
+      "relative_l2": 0.0003674487816169858,
+      "max_abs_error": 0.00390625,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 2,
+      "gemv": [
+        8,
+        512
+      ],
+      "rotation": [
+        64,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 459.776,
+      "cold_duquant_us": 174.08,
+      "cold_speedup": 2.641
+    },
+    {
+      "K": 4096,
+      "N": 11008,
+      "M": 1,
+      "fp16_us": 93.786,
+      "duquant_us": 16.386,
+      "activation_us": 6.632,
+      "speedup": 5.724,
+      "relative_l2": 0.00030665122903883457,
+      "max_abs_error": 0.001953125,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 1,
+      "gemv": [
+        16,
+        512
+      ],
+      "rotation": [
+        32,
+        4
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 117.76,
+      "cold_duquant_us": 45.056,
+      "cold_speedup": 2.614
+    },
+    {
+      "K": 4096,
+      "N": 11008,
+      "M": 16,
+      "fp16_us": 96.158,
+      "duquant_us": 16.934,
+      "activation_us": 6.299,
+      "speedup": 5.678,
+      "relative_l2": 0.00037703613634221256,
+      "max_abs_error": 0.00390625,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 1,
+      "gemv": [
+        16,
+        512
+      ],
+      "rotation": [
+        16,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 135.168,
+      "cold_duquant_us": 48.128,
+      "cold_speedup": 2.809
+    },
+    {
+      "K": 4096,
+      "N": 11008,
+      "M": 128,
+      "fp16_us": 122.612,
+      "duquant_us": 31.165,
+      "activation_us": 9.774,
+      "speedup": 3.934,
+      "relative_l2": 0.00048531987704336643,
+      "max_abs_error": 0.00390625,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 2,
+      "gemv": [
+        16,
+        512
+      ],
+      "rotation": [
+        32,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 168.96,
+      "cold_duquant_us": 57.344,
+      "cold_speedup": 2.946
+    },
+    {
+      "K": 4096,
+      "N": 11008,
+      "M": 512,
+      "fp16_us": 331.087,
+      "duquant_us": 84.141,
+      "activation_us": 18.673,
+      "speedup": 3.935,
+      "relative_l2": 0.0004038636980112642,
+      "max_abs_error": 0.00390625,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 2,
+      "gemv": [
+        16,
+        512
+      ],
+      "rotation": [
+        64,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 343.024,
+      "cold_duquant_us": 104.448,
+      "cold_speedup": 3.284
+    },
+    {
+      "K": 4096,
+      "N": 11008,
+      "M": 2048,
+      "fp16_us": 1271.902,
+      "duquant_us": 390.278,
+      "activation_us": 51.062,
+      "speedup": 3.259,
+      "relative_l2": 0.00040311599150300026,
+      "max_abs_error": 0.00390625,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 2,
+      "gemv": [
+        16,
+        512
+      ],
+      "rotation": [
+        64,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 1228.288,
+      "cold_duquant_us": 403.456,
+      "cold_speedup": 3.044
+    },
+    {
+      "K": 11008,
+      "N": 4096,
+      "M": 1,
+      "fp16_us": 94.807,
+      "duquant_us": 21.216,
+      "activation_us": 10.453,
+      "speedup": 4.469,
+      "relative_l2": 0.0004043708322569728,
+      "max_abs_error": 0.001953125,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 1,
+      "gemv": [
+        8,
+        512
+      ],
+      "rotation": [
+        32,
+        4
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 118.624,
+      "cold_duquant_us": 49.152,
+      "cold_speedup": 2.413
+    },
+    {
+      "K": 11008,
+      "N": 4096,
+      "M": 16,
+      "fp16_us": 95.863,
+      "duquant_us": 30.63,
+      "activation_us": 10.251,
+      "speedup": 3.13,
+      "relative_l2": 0.0003320480464026332,
+      "max_abs_error": 0.001953125,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 1,
+      "gemv": [
+        8,
+        512
+      ],
+      "rotation": [
+        16,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 137.152,
+      "cold_duquant_us": 71.68,
+      "cold_speedup": 1.913
+    },
+    {
+      "K": 11008,
+      "N": 4096,
+      "M": 128,
+      "fp16_us": 118.137,
+      "duquant_us": 41.283,
+      "activation_us": 19.058,
+      "speedup": 2.862,
+      "relative_l2": 0.0004444276273716241,
+      "max_abs_error": 0.00390625,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 1,
+      "gemv": [
+        8,
+        512
+      ],
+      "rotation": [
+        32,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 157.696,
+      "cold_duquant_us": 71.68,
+      "cold_speedup": 2.2
+    },
+    {
+      "K": 11008,
+      "N": 4096,
+      "M": 512,
+      "fp16_us": 329.755,
+      "duquant_us": 91.633,
+      "activation_us": 39.849,
+      "speedup": 3.599,
+      "relative_l2": 0.0003476689162198454,
+      "max_abs_error": 0.00390625,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 2,
+      "gemv": [
+        8,
+        512
+      ],
+      "rotation": [
+        64,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 334.848,
+      "cold_duquant_us": 118.784,
+      "cold_speedup": 2.819
+    },
+    {
+      "K": 11008,
+      "N": 4096,
+      "M": 2048,
+      "fp16_us": 1258.967,
+      "duquant_us": 393.05,
+      "activation_us": 195.089,
+      "speedup": 3.203,
+      "relative_l2": 0.00044625200098380446,
+      "max_abs_error": 0.00390625,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 2,
+      "gemv": [
+        8,
+        512
+      ],
+      "rotation": [
+        64,
+        8
+      ],
+      "transposed_rotation": true,
+      "cold_fp16_us": 1226.24,
+      "cold_duquant_us": 430.08,
+      "cold_speedup": 2.851
+    }
+  ]
+}

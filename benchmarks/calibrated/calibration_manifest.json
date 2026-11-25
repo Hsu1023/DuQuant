@@ -1,0 +1,347 @@
+{
+  "format_version": 1,
+  "status": "complete",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "config_sha256": "9242e7db1bc2a17873e66084c3b1c6ed10883076e156b338fd6a7775748e2e3c",
+  "dataset": "Salesforce/wikitext",
+  "dataset_config": "wikitext-2-raw-v1",
+  "split": "train",
+  "source_arrow": "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow",
+  "source_arrow_sha256": "57947bc7b58df4b19662c0609cc30651bc84328dab5fd588860b752072911789",
+  "token_ids_sha256": "50e50734c929876addcd7383a0636297bebbb98365b82256050d06e731b31ae3",
+  "sample_starts": [
+    237193,
+    384134,
+    355978,
+    1514384,
+    709188,
+    2809052,
+    1292417,
+    1055216,
+    2541514,
+    890110,
+    2545110,
+    149881,
+    2437746,
+    2857353,
+    664305,
+    1806359,
+    2677942,
+    1650592,
+    2135183,
+    1560533,
+    2282443,
+    1865853,
+    2105822,
+    1125083,
+    150677,
+    115112,
+    1526787,
+    1949906,
+    1335739,
+    1593898,
+    1776753,
+    2205166,
+    689914,
+    2350950,
+    744222,
+    990373,
+    967217,
+    100068,
+    741217,
+    1363748,
+    728084,
+    573350,
+    2139794,
+    2140033,
+    1508655,
+    2154770,
+    2828972,
+    2348350,
+    762706,
+    1869139,
+    1739256,
+    2203543,
+    1527798,
+    2489258,
+    1483890,
+    1517861,
+    1869690,
+    676057,
+    1677149,
+    1935279,
+    2746895,
+    2224473,
+    1048163,
+    2055267,
+    1170639,
+    2089037,
+    2100679,
+    2161711,
+    1484465,
+    2775310,
+    1907102,
+    1933625,
+    1471256,
+    2381127,
+    2338671,
+    1914914,
+    2040984,
+    2763565,
+    930342,
+    1361753,
+    696546,
+    2585142,
+    1124650,
+    2012285,
+    1298401,
+    1272118,
+    2114972,
+    2357990,
+    2171591,
+    2128008,
+    2732230,
+    2582886,
+    2466018,
+    1705699,
+    1307969,
+    871653,
+    2050622,
+    2147029,
+    1537624,
+    2869876,
+    2614163,
+    316147,
+    1432182,
+    35323,
+    802801,
+    445254,
+    246452,
+    2409270,
+    2738502,
+    205143,
+    1145463,
+    2481771,
+    950498,
+    2862518,
+    445711,
+    2190947,
+    572522,
+    1115018,
+    1026899,
+    882812,
+    253272,
+    1773845,
+    133685,
+    238221,
+    1519835,
+    1510865,
+    720921,
+    1046485
+  ],
+  "nsamples": 128,
+  "seqlen": 2048,
+  "seed": 2,
+  "alpha": 0.6,
+  "rotation_steps": 256,
+  "block_size": 128,
+  "algorithm": "Repository UniformAffineQuantizer.online_duquant_cali; 2 rotations + zigzag; FP16 maxima smoothing folded as smooth_and_let_inplace; rotation representative is propagated mean calibration input",
+  "attention": "Backend Flash SDPA; QK Hadamard + QK/V qdq",
+  "lwc_epochs": 0,
+  "let": false,
+  "layers": [
+    {
+      "index": 0,
+      "file": "layer_00.pt",
+      "sha256": "a94edaa330deeb1ab03bdca6851ea6b1e0cc9e4cedbf6eb8bbdba2c07f67cfea",
+      "seconds": 2.0246567837893963
+    },
+    {
+      "index": 1,
+      "file": "layer_01.pt",
+      "sha256": "5476359bb390c95647c869892d7a9dcaedd07b0299d548d27322a13d5ce7f441",
+      "seconds": 1.543205302208662
+    },
+    {
+      "index": 2,
+      "file": "layer_02.pt",
+      "sha256": "e0ca7271c605dd458b3632815de6d90a24c410c7506f74d7e94a62b9060afbd4",
+      "seconds": 1.5528856925666332
+    },
+    {
+      "index": 3,
+      "file": "layer_03.pt",
+      "sha256": "10eb08210b1bc2a366d1ba4aaec93c1d3c32bdd2bbd611f6899bffc1a4d97da7",
+      "seconds": 1.5334273874759674
+    },
+    {
+      "index": 4,
+      "file": "layer_04.pt",
+      "sha256": "cbc0b9e2e1fd1101e3b134683c92b6a7a8b4c5f3491b4e9fd23267ce603480cd",
+      "seconds": 1.5067630484700203
+    },
+    {
+      "index": 5,
+      "file": "layer_05.pt",
+      "sha256": "6eba674479928dfe29770a74838e06b5dfca2da48f59498983c295c58e4e3b67",
+      "seconds": 1.5276298895478249
+    },
+    {
+      "index": 6,
+      "file": "layer_06.pt",
+      "sha256": "b365068f7a68a580ed173eb675fe0c1078ee4135945526123da65dc2b9ed6033",
+      "seconds": 1.544640526175499
+    },
+    {
+      "index": 7,
+      "file": "layer_07.pt",
+      "sha256": "fb2644c78a64fd24381a6d1d24b053cf851636dda8cb344235000d44f6b2b51c",
+      "seconds": 1.563840452581644
+    },
+    {
+      "index": 8,
+      "file": "layer_08.pt",
+      "sha256": "76b4483ba1bd25a844cf329e8768ff0787b94ee694ec31dba485fa87be1aeca8",
+      "seconds": 1.5511643253266811
+    },
+    {
+      "index": 9,
+      "file": "layer_09.pt",
+      "sha256": "6f3c4219572b27e6dd6ddee963f98cb61b94fd45cf8349d5af8af9ca4cd2dd71",
+      "seconds": 1.538036584854126
+    },
+    {
+      "index": 10,
+      "file": "layer_10.pt",
+      "sha256": "f8b4552dfef202022a4dd6dc5eb808f0487b9eb7bd1265e13fb871cb1cce3678",
+      "seconds": 1.5468953736126423
+    },
+    {
+      "index": 11,
+      "file": "layer_11.pt",
+      "sha256": "bb7db8e02366d9bcede89facba06614166f77ea925a43224c5870ad7da3d6e99",
+      "seconds": 1.5542550161480904
+    },
+    {
+      "index": 12,
+      "file": "layer_12.pt",
+      "sha256": "ff2244bccd49cdeaa61102a97bf343b71223129f9528ae77bd3bcbdcfe669ff3",
+      "seconds": 1.552120242267847
+    },
+    {
+      "index": 13,
+      "file": "layer_13.pt",
+      "sha256": "8d129df5ef802714861a8169742d003003130d63456107da3e47060b684992f0",
+      "seconds": 1.5377427898347378
+    },
+    {
+      "index": 14,
+      "file": "layer_14.pt",
+      "sha256": "9ef9d69d275ad92248608b2acd0854fa9be5540d15dde5b0d82d0b01b3f3814b",
+      "seconds": 1.591038767248392
+    },
+    {
+      "index": 15,
+      "file": "layer_15.pt",
+      "sha256": "dfab6574c6a12daa295fbe066e628fb4cd1df4afa7a60351cd815fa2f0aa1058",
+      "seconds": 1.5559330731630325
+    },
+    {
+      "index": 16,
+      "file": "layer_16.pt",
+      "sha256": "943f66e3cdea40d7bd251461ae093af5fe56e34c4a2f282421da13be3c54200f",
+      "seconds": 1.5658580400049686
+    },
+    {
+      "index": 17,
+      "file": "layer_17.pt",
+      "sha256": "aeb2a4f54a0a91e07508efc2e0e9599b276019b5eb0a4514badccca6e13b286d",
+      "seconds": 1.5450319275259972
+    },
+    {
+      "index": 18,
+      "file": "layer_18.pt",
+      "sha256": "b5e0c8677cc3b595df413951e41bb2975881f69f88cf4319dab201b772fcbf5b",
+      "seconds": 1.5929665379226208
+    },
+    {
+      "index": 19,
+      "file": "layer_19.pt",
+      "sha256": "f15978ce27816c68d4a3dbd6ba01ab6a635bb8efe933ff7d5be01fb92b86fb2b",
+      "seconds": 1.5783332325518131
+    },
+    {
+      "index": 20,
+      "file": "layer_20.pt",
+      "sha256": "667a572311b731b835b8a03e6bcc585823a984bab3beb63876c72ce5903639dd",
+      "seconds": 1.5646143443882465
+    },
+    {
+      "index": 21,
+      "file": "layer_21.pt",
+      "sha256": "0b0a13e2d95a41f75032a5a8b557f7f2978b35b2c64157c852b0b5dbee922431",
+      "seconds": 1.621368233114481
+    },
+    {
+      "index": 22,
+      "file": "layer_22.pt",
+      "sha256": "71309b62a9b0026d2ade478574a9bdd8588832eeb585eb970c06bdbd855b83c9",
+      "seconds": 1.5642665848135948
+    },
+    {
+      "index": 23,
+      "file": "layer_23.pt",
+      "sha256": "4b87b5c59c9796ac59aa22ea9559b3c19344191441e39bb8e4f52fde1cd725db",
+      "seconds": 1.580219216644764
+    },
+    {
+      "index": 24,
+      "file": "layer_24.pt",
+      "sha256": "e648c42b54fabf48978d583b1a2e81d1b5e23e845a52ccfeb05fba001a21f8b3",
+      "seconds": 1.535273004323244
+    },
+    {
+      "index": 25,
+      "file": "layer_25.pt",
+      "sha256": "03472a941c911b9337b4b9f1c58bb798d73d340fd04260f42276c9665977a8be",
+      "seconds": 1.540635570883751
+    },
+    {
+      "index": 26,
+      "file": "layer_26.pt",
+      "sha256": "16db03fb79d575f131adce3f2239a669ff29feab21619e9c2feeae137f2a63a9",
+      "seconds": 1.5595060363411903
+    },
+    {
+      "index": 27,
+      "file": "layer_27.pt",
+      "sha256": "a2f0b51cd585e6791c8f7a5f99f44c0608dd80e4e2569b19b069c33ec595c325",
+      "seconds": 1.5652342103421688
+    },
+    {
+      "index": 28,
+      "file": "layer_28.pt",
+      "sha256": "3d0bcb2e037ae9cf617efbb4df19239249d70515dc7ac607c0cd217f53b3b42a",
+      "seconds": 1.5485563278198242
+    },
+    {
+      "index": 29,
+      "file": "layer_29.pt",
+      "sha256": "1fcbf8b4ff9d214397504084766df8c993ef5e375b319e708ffc3d37700fd3b7",
+      "seconds": 1.564580649137497
+    },
+    {
+      "index": 30,
+      "file": "layer_30.pt",
+      "sha256": "10b0b42e9ed8a9ed08130048146361862bf8989d971e6a936498eeb31a376fbc",
+      "seconds": 1.5676656626164913
+    },
+    {
+      "index": 31,
+      "file": "layer_31.pt",
+      "sha256": "dbb8ce2a56fc1ac94ba8f1416c5f1381996adff491f139a6d0e3eba5efff6648",
+      "seconds": 1.5789895355701447
+    }
+  ],
+  "elapsed_seconds": 51.06529442220926
+}

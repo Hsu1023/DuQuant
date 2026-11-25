@@ -1,0 +1,14 @@
+{
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "4",
+  "torch": "2.7.1+cu126",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "layer": 0,
+  "batch": 1,
+  "attention": "forced FP16 Flash SDPA for all modes",
+  "kv_storage": "FP16, quantized-dequantized K/V in W4A4",
+  "input": "actual token embeddings of repeated fixed prose",
+  "rotation": "fixed random orthogonal matrices and permutations, shared by QKV and gate/up, not calibrated",
+  "timing": "median of repeated CUDA Graph measurements, full block; fixed position for each decode scenario, historical cache prepared outside timing",
+  "results": []
+}

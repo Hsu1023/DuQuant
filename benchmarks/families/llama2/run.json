@@ -1,0 +1,18 @@
+{
+  "status": "complete",
+  "family": "llama2",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "seconds": 473.1514856927097,
+  "source_sha256": {
+    "duquant_cuda/backend.py": "1eaedef61d58dde7d3136a54c592171c0334e05e4571af834e51606a79d80a1a",
+    "duquant_cuda/__init__.py": "3a8712a0f4ee44172fe9920086669350db2264bc1059eb50ac2ad2eaa4c43cc0",
+    "duquant_cuda/decoder.py": "39c5e27326a43054257da412583f82e86fe81faa56da97ea282d760c12cfe094",
+    "duquant_cuda/model.py": "7653876dbfe0494d8caaa6bd49c495ec89fefdc8367c7611e5c19aa64e48b724",
+    "duquant_cuda/calibration.py": "4fa5e27ee9dcff09bd216a1e45835017bfe4fd5677d66bdbf8867e5c0da362f1",
+    "duquant_cuda/lwc.py": "fa35d58e6e836aa5cbb8afdfcaafb15d3077bf33bacbbbcbb5020bbf7428f404",
+    "duquant_cuda/lwc_quant.py": "60e7efa659cb037d92eecf32f6ea01f7c9fc5f0968bf9dec1563011ec6396905",
+    "duquant_cuda/gemm.cu": "96c73e45baf72cad7799414649fd7fb04cabc3458cafe7c32c966bfb6189bd5d",
+    "duquant_cuda/fused_gemm.cuh": "6fa7e0510093959f60755835ebebe60468bbb459d6b323ad6653cb9c892f7129",
+    "/mnt/yichen/xhb/DuQuant/benchmarks/run_family.py": "e02f0aa8cdbf6183cc47e09093f33fd4f01bef082ed0ebe1c839fe81401f7eb9"
+  }
+}

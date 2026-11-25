@@ -1,0 +1,166 @@
+{
+  "mode": "cuda",
+  "calibration_manifest_sha256": "14623f192f32afc15d5ebc7744e5bff8b58eee97968858556815ccc7f7cc6216",
+  "lwc_epochs": 0,
+  "model": "/mnt/public_models/Mistral-7B-Instruct-v0.3",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "0",
+  "torch": "2.7.1+cu126",
+  "layers": 32,
+  "batch": 1,
+  "prompt_tokens": 128,
+  "new_tokens": 32,
+  "decode_forward_calls": 31,
+  "scope": "Full model: embedding, 32 decoder blocks, final RMSNorm, FP16 LM head, greedy argmax, real autoregressive cache advancement. Two CUDA Graphs: prefill and the entire decode sequence. EOS ignored for equal work.",
+  "excluded": "Model load/export, first compilation, graph capture, tokenization, prompt H2D transfer. Wall time includes generated-token D2H transfer.",
+  "quantization": "Train-calibrated rotations + zigzag + folded smoothing; W4A4 projections, FP16 embeddings/lm_head/attention/KV storage",
+  "medians": {
+    "prefill_ms": 7.957808017730713,
+    "decode_ms": 182.0016632080078,
+    "gpu_total_ms": 189.96842193603516,
+    "wall_ms": 190.02477824687958
+  },
+  "decode_ms_per_token": 5.8710213938067035,
+  "decode_tokens_per_second": 170.32811378525932,
+  "end_to_end_tokens_per_second": 168.39909139862647,
+  "samples": [
+    {
+      "prefill_ms": 7.977312088012695,
+      "decode_ms": 181.95455932617188,
+      "gpu_total_ms": 189.93186950683594,
+      "wall_ms": 190.01192227005959
+    },
+    {
+      "prefill_ms": 7.951007843017578,
+      "decode_ms": 182.02316284179688,
+      "gpu_total_ms": 189.97418212890625,
+      "wall_ms": 190.0758631527424
+    },
+    {
+      "prefill_ms": 7.976384162902832,
+      "decode_ms": 181.99859619140625,
+      "gpu_total_ms": 189.9749755859375,
+      "wall_ms": 190.03140926361084
+    },
+    {
+      "prefill_ms": 7.951231956481934,
+      "decode_ms": 182.0016632080078,
+      "gpu_total_ms": 189.95289611816406,
+      "wall_ms": 189.9949200451374
+    },
+    {
+      "prefill_ms": 7.954432010650635,
+      "decode_ms": 181.99655151367188,
+      "gpu_total_ms": 189.9509735107422,
+      "wall_ms": 190.01814723014832
+    },
+    {
+      "prefill_ms": 7.9620161056518555,
+      "decode_ms": 182.00064086914062,
+      "gpu_total_ms": 189.96266174316406,
+      "wall_ms": 190.01281633973122
+    },
+    {
+      "prefill_ms": 7.955039978027344,
+      "decode_ms": 182.0016632080078,
+      "gpu_total_ms": 189.9567108154297,
+      "wall_ms": 190.00233709812164
+    },
+    {
+      "prefill_ms": 7.953887939453125,
+      "decode_ms": 182.19622802734375,
+      "gpu_total_ms": 190.15011596679688,
+      "wall_ms": 190.21328911185265
+    },
+    {
+      "prefill_ms": 7.970111846923828,
+      "decode_ms": 182.24024963378906,
+      "gpu_total_ms": 190.2103729248047,
+      "wall_ms": 190.25921449065208
+    },
+    {
+      "prefill_ms": 7.960576057434082,
+      "decode_ms": 182.24435424804688,
+      "gpu_total_ms": 190.20492553710938,
+      "wall_ms": 190.24164602160454
+    }
+  ],
+  "memory": {
+    "model_storage_bytes": 4078346240,
+    "kv_cache_bytes": 20840448,
+    "model_loaded": {
+      "allocated_bytes": 4086865920,
+      "reserved_bytes": 5244977152,
+      "peak_allocated_bytes": 4086865920,
+      "peak_reserved_bytes": 5244977152,
+      "device_used_bytes": 5738987520
+    },
+    "cache_allocated": {
+      "allocated_bytes": 4107708928,
+      "reserved_bytes": 5268045824,
+      "peak_allocated_bytes": 4107708928,
+      "peak_reserved_bytes": 5268045824,
+      "device_used_bytes": 5762056192
+    },
+    "capture_and_warmup": {
+      "allocated_bytes": 4116229632,
+      "reserved_bytes": 5301600256,
+      "peak_allocated_bytes": 4137463808,
+      "peak_reserved_bytes": 5301600256,
+      "device_used_bytes": 6032588800
+    },
+    "inference": {
+      "allocated_bytes": 4116229632,
+      "reserved_bytes": 5301600256,
+      "peak_allocated_bytes": 4116229632,
+      "peak_reserved_bytes": 5301600256,
+      "device_used_bytes": 6032588800
+    },
+    "inference_peak_allocated_bytes": 4137463808,
+    "inference_reserved_bytes": 5301600256
+  },
+  "load_seconds": 7.453146241605282,
+  "capture_seconds": 2.7531630881130695,
+  "fp16_hf_validation": null,
+  "graph_matches_eager": true,
+  "finite_logits": true,
+  "generated_token_ids": [
+    [
+      1032,
+      6625,
+      3525,
+      29491,
+      781,
+      781,
+      1425,
+      1224,
+      3526,
+      29493,
+      1032,
+      6284,
+      1031,
+      1117,
+      1032,
+      1980,
+      1070,
+      6367,
+      5936,
+      2997,
+      1137,
+      1117,
+      6450,
+      1066,
+      3148,
+      1072,
+      9038,
+      3698,
+      29501,
+      4859,
+      3013,
+      29491
+    ]
+  ],
+  "generated_text": [
+    "a useful example.\n\nIn this context, a transformer is a type of machine learning model that is designed to understand and generate human-like text."
+  ]
+}

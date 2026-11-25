@@ -1,0 +1,19 @@
+{
+  "format": "bin to safetensors; tensor values and dtypes unchanged",
+  "shards": [
+    {
+      "source": "pytorch_model-00001-of-00002.bin",
+      "target": "model-00001-of-00002.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "4133d2fcc5f31286881ea50806d95b721d016b533036a99dedce3f8fe88520e6",
+      "target_sha256": "adac7bf800c203beaaffefcc50d36df0b224bfc84822f0262953918c0d73bf35"
+    },
+    {
+      "source": "pytorch_model-00002-of-00002.bin",
+      "target": "model-00002-of-00002.safetensors",
+      "tensor_bitwise_equal": true,
+      "source_sha256": "d261d3c35e92d3070d1e61ed821ebfca812a847d2a880757d82728acf005c5ac",
+      "target_sha256": "b36a557335704792ab2c6bf4744014e6aacc56baeee4d91ec6651be9704c5f1c"
+    }
+  ]
+}

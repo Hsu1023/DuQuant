@@ -1,0 +1,35 @@
+{
+  "device": "NVIDIA GeForce RTX 4090",
+  "torch": "2.7.1+cu126",
+  "triton": "3.3.1",
+  "model": null,
+  "method": "CUDA Graph single layer, random activations and fixed rotations, includes activation transform/quant/pack and GEMM; optional cold timings flush 256 MiB before each invocation outside timing",
+  "results": [
+    {
+      "K": 4096,
+      "N": 4096,
+      "M": 16,
+      "fp16_us": 15.466,
+      "duquant_us": 14.341,
+      "activation_us": 6.084,
+      "speedup": 1.078,
+      "relative_l2": 0.00036625968641601503,
+      "max_abs_error": 0.00390625,
+      "packed_byte_mismatch": 0.0,
+      "gemm_config": 1,
+      "gemv": [
+        16,
+        512
+      ],
+      "rotation": [
+        16,
+        8
+      ],
+      "transposed_rotation": true,
+      "fused_epilogue": true,
+      "cold_fp16_us": 55.296,
+      "cold_duquant_us": 34.816,
+      "cold_speedup": 1.588
+    }
+  ]
+}

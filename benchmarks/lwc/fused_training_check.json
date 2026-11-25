@@ -1,0 +1,9 @@
+{
+  "epochs": 2,
+  "samples": 128,
+  "parameters_bitwise_equal": true,
+  "bounds_bitwise_equal": true,
+  "epoch_mse_equal": true,
+  "unfused_seconds": 22.224041063338518,
+  "fused_seconds": 15.038262519985437
+}

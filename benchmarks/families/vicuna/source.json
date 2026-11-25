@@ -1,0 +1,52 @@
+{
+  "provider": "ModelScope",
+  "repo_id": "AI-ModelScope/vicuna-7b-v1.5",
+  "revision": "master; exact downloaded content pinned by download_manifest.json SHA256",
+  "verified_files": [
+    {
+      "Name": "config.json",
+      "Size": 615,
+      "Sha256": "e122b598d0734b489590e99e3b3562a11ce67ea13bce390a7868b4f73ae6e615"
+    },
+    {
+      "Name": "generation_config.json",
+      "Size": 162,
+      "Sha256": "2b4818acc825ace1ce4a9daed9838645d103990a451adba4bc90696e38d3fc1f"
+    },
+    {
+      "Name": "pytorch_model-00001-of-00002.bin",
+      "Size": 9976634558,
+      "Sha256": "4133d2fcc5f31286881ea50806d95b721d016b533036a99dedce3f8fe88520e6"
+    },
+    {
+      "Name": "pytorch_model-00002-of-00002.bin",
+      "Size": 3500315539,
+      "Sha256": "d261d3c35e92d3070d1e61ed821ebfca812a847d2a880757d82728acf005c5ac"
+    },
+    {
+      "Name": "pytorch_model.bin.index.json",
+      "Size": 26788,
+      "Sha256": "aca3c1facc89d12311a667c32e85ac86e625990992ea8a189e3b036ba371b931"
+    },
+    {
+      "Name": "special_tokens_map.json",
+      "Size": 438,
+      "Sha256": "719833ff26ac897a3ec8ed946028a135de2a351470af59b4008744ab1f0ee9b7"
+    },
+    {
+      "Name": "tokenizer.model",
+      "Size": 499723,
+      "Sha256": "9e556afd44213b6bd1be2b850ebbbd98f5481437a8021afaf58ee7fb1818d347"
+    },
+    {
+      "Name": "tokenizer_config.json",
+      "Size": 749,
+      "Sha256": "1cbc84c8a5b41e0ec24e0da66677773569fb0ccfa753d5d184e343e2ec3815a0"
+    }
+  ],
+  "matching_hf_origin": {
+    "repo_id": "lmsys/vicuna-7b-v1.5",
+    "revision": "3321f76e3f527bd14065daf69dad9344000a201d",
+    "both_weight_shards_sha256_match": true
+  }
+}

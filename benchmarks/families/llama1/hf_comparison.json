@@ -1,0 +1,9 @@
+{
+  "hf_ppl": 5.677054246769191,
+  "fp16_ppl": 5.677062808592645,
+  "ppl_relative_delta": 1.5081454363130575e-06,
+  "full_top1_agreement": 0.9987963578790001,
+  "sampled_logit_relative_l2": 0.0012707086547136457,
+  "acceptance": "abs(PPL ratio - 1) < 0.5%; full top1 agreement > 99%; sampled logits relative L2 < 1%",
+  "passed": true
+}

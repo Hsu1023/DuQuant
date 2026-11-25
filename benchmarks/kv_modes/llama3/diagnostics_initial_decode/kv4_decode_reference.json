@@ -1,0 +1,202 @@
+{
+  "model": "/mnt/public_models/Llama-3-8B",
+  "kv_bits": 4,
+  "cases": [
+    {
+      "prompt": 1,
+      "step": 0,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1,
+      "step": 1,
+      "relative_l2": 0.2260855734348297,
+      "max_abs": 2.1875,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1,
+      "step": 2,
+      "relative_l2": 0.1644117683172226,
+      "max_abs": 2.23046875,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1,
+      "step": 3,
+      "relative_l2": 0.3353446125984192,
+      "max_abs": 5.20703125,
+      "top1_agrees": false,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1,
+      "step": 4,
+      "relative_l2": 0.39249733090400696,
+      "max_abs": 6.67578125,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1,
+      "step": 5,
+      "relative_l2": 0.1595643162727356,
+      "max_abs": 6.2734375,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1,
+      "step": 6,
+      "relative_l2": 0.09667948633432388,
+      "max_abs": 2.7265625,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1,
+      "step": 7,
+      "relative_l2": 1.1732031106948853,
+      "max_abs": 9.96875,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 129,
+      "step": 0,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 129,
+      "step": 1,
+      "relative_l2": 0.19675330817699432,
+      "max_abs": 2.54296875,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 129,
+      "step": 2,
+      "relative_l2": 0.17588302493095398,
+      "max_abs": 2.240234375,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 129,
+      "step": 3,
+      "relative_l2": 0.2897815704345703,
+      "max_abs": 3.142578125,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 129,
+      "step": 4,
+      "relative_l2": 0.2494327276945114,
+      "max_abs": 2.71875,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 129,
+      "step": 5,
+      "relative_l2": 0.20954693853855133,
+      "max_abs": 2.75390625,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 129,
+      "step": 6,
+      "relative_l2": 0.22757506370544434,
+      "max_abs": 2.6796875,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 129,
+      "step": 7,
+      "relative_l2": 0.22018921375274658,
+      "max_abs": 3.0078125,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1024,
+      "step": 0,
+      "relative_l2": 0.0,
+      "max_abs": 0.0,
+      "top1_agrees": true,
+      "bitwise_equal": true
+    },
+    {
+      "prompt": 1024,
+      "step": 1,
+      "relative_l2": 0.23890696465969086,
+      "max_abs": 3.361328125,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1024,
+      "step": 2,
+      "relative_l2": 0.30463770031929016,
+      "max_abs": 3.2578125,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1024,
+      "step": 3,
+      "relative_l2": 0.38479748368263245,
+      "max_abs": 5.45703125,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1024,
+      "step": 4,
+      "relative_l2": 0.21057568490505219,
+      "max_abs": 2.8515625,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1024,
+      "step": 5,
+      "relative_l2": 0.19509615004062653,
+      "max_abs": 2.8984375,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1024,
+      "step": 6,
+      "relative_l2": 0.2761448621749878,
+      "max_abs": 3.40625,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    },
+    {
+      "prompt": 1024,
+      "step": 7,
+      "relative_l2": 0.19291195273399353,
+      "max_abs": 3.078125,
+      "top1_agrees": true,
+      "bitwise_equal": false
+    }
+  ],
+  "max_relative_l2": 1.1732031106948853,
+  "top1_agreement": 0.9583333333333334,
+  "reference": "Exact integer-code linear algebra; PyTorch norms/activations; FP32 dense SDPA for KV4 single-token decode, Flash SDPA for prefill/KV16",
+  "protocol": "Identical reference-selected tokens supplied to both models; 3 prompt lengths x 8 steps; includes split-boundary and long-cache cases"
+}

@@ -1,0 +1,319 @@
+{
+  "status": "complete",
+  "variant": "rtn",
+  "method": "duquant_reconstruct",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "layers": [
+    {
+      "index": 0,
+      "file": "layer_00.pt",
+      "sha256": "49cceb8bfa718ad20592c395df84f5bfa68a109a28432320df5f449eef6e9b8b"
+    },
+    {
+      "index": 1,
+      "file": "layer_01.pt",
+      "sha256": "88779153e6bbfb873e7a490d525cbf599726f66df60269c133b4636c92aac9fb"
+    },
+    {
+      "index": 2,
+      "file": "layer_02.pt",
+      "sha256": "440788ebec1c473e5e741146b6d369bb06054373f651f87bf147497b0e260ffd"
+    },
+    {
+      "index": 3,
+      "file": "layer_03.pt",
+      "sha256": "7f794aa76af989dad871d6cee02b6ab3f1b0f4cbcf764b440da2bd53644aba11"
+    },
+    {
+      "index": 4,
+      "file": "layer_04.pt",
+      "sha256": "3b7fb43df644699d1a9bde897c19d2a24d55a49b1915be07092ad0fe0c175196"
+    },
+    {
+      "index": 5,
+      "file": "layer_05.pt",
+      "sha256": "9bc13ea84b3980fabb3998f4bdcbaa5fa44a9fdee2e5ad85f19ba04cc260de75"
+    },
+    {
+      "index": 6,
+      "file": "layer_06.pt",
+      "sha256": "0baaf1662f719920b82a1a21239dc44bf32a502da591b3d57af3af695d2a43d2"
+    },
+    {
+      "index": 7,
+      "file": "layer_07.pt",
+      "sha256": "802b727f21534a64103cc73ffd0b945a907db2113c801ee9aa6021ce18826753"
+    },
+    {
+      "index": 8,
+      "file": "layer_08.pt",
+      "sha256": "f497ca7ec3c0d6b106b0ffd48edf2f8116e1beb64fae560c4ce9ff637de445a8"
+    },
+    {
+      "index": 9,
+      "file": "layer_09.pt",
+      "sha256": "bc5634bf94d5092584e04b22be7fe6522eb8d918de2d9a06f25c52be18d7a5b8"
+    },
+    {
+      "index": 10,
+      "file": "layer_10.pt",
+      "sha256": "9a81390fea195b9ec4d51fc8b2d29f27492d6c88e65cb816c47fed92d3c7e212"
+    },
+    {
+      "index": 11,
+      "file": "layer_11.pt",
+      "sha256": "c9b7f5e3d444345fe841d4c94701512d4b5c12c4be31a248ded97d599b6603be"
+    },
+    {
+      "index": 12,
+      "file": "layer_12.pt",
+      "sha256": "5ce8aadf57ce1fd6414f4b1498a639fae67cde05200b3ab9876f1df9e6dbee78"
+    },
+    {
+      "index": 13,
+      "file": "layer_13.pt",
+      "sha256": "9acaf4ae0e896b0c710f215224773a0617c7affa870698783c40dd1dfcdca1b4"
+    },
+    {
+      "index": 14,
+      "file": "layer_14.pt",
+      "sha256": "5902ca5573a766c4d15dfa9159f4f55cda052816ab84fd9a5af97e92ac3c2d1f"
+    },
+    {
+      "index": 15,
+      "file": "layer_15.pt",
+      "sha256": "19ed96d53940677641c86998dacb0c37f39b0affcfa85786a0e04d486a20b6f2"
+    },
+    {
+      "index": 16,
+      "file": "layer_16.pt",
+      "sha256": "4e9a145133245875378441f6be9036f6e28e281deeac434553443b83ecc161d1"
+    },
+    {
+      "index": 17,
+      "file": "layer_17.pt",
+      "sha256": "3135ebb76513f4528e7cfdac958c0076d632c46794f89b140423e8b24be5f610"
+    },
+    {
+      "index": 18,
+      "file": "layer_18.pt",
+      "sha256": "30d1206d790102187b8018d78a4cf0ed523803873e463222cbf77179da55a698"
+    },
+    {
+      "index": 19,
+      "file": "layer_19.pt",
+      "sha256": "e665c15b4e728ae744de77a238c4a39164fdf2ef76e0a99832d19284ff97acf3"
+    },
+    {
+      "index": 20,
+      "file": "layer_20.pt",
+      "sha256": "516fe00b3626dd2e8c818930dbf76c2a3d8ac9084cf540ed7ba04aee95178271"
+    },
+    {
+      "index": 21,
+      "file": "layer_21.pt",
+      "sha256": "a99328b8469c70dc41851017153c3b391a3b847a6ab4a45e95231d75517d4f2c"
+    },
+    {
+      "index": 22,
+      "file": "layer_22.pt",
+      "sha256": "e52792757a11de712b537dca83cb9345dc5b9f3d59a5296d7a1feb5acf7ba9c4"
+    },
+    {
+      "index": 23,
+      "file": "layer_23.pt",
+      "sha256": "e839c344660964ba492dcf772d4ab41b91de6046cb325e8700b948ee11bd26a7"
+    },
+    {
+      "index": 24,
+      "file": "layer_24.pt",
+      "sha256": "7660ae5202850f30843d7150d41f1dd6982f2098a6c2445d9810948f32e62217"
+    },
+    {
+      "index": 25,
+      "file": "layer_25.pt",
+      "sha256": "d4e77b135d5c96aaf050f063b48ec9b5b85cc1c1a0e7017c39a938efbc8f0929"
+    },
+    {
+      "index": 26,
+      "file": "layer_26.pt",
+      "sha256": "da8b0cd574651b2a1818833862df49edc5ce7c4e1dffecd896c3cdeb930e0925"
+    },
+    {
+      "index": 27,
+      "file": "layer_27.pt",
+      "sha256": "e415bf6e6f980d8cecb32cafdabb74b2768ac2859574c0a1fe3f3fd590e9e67c"
+    },
+    {
+      "index": 28,
+      "file": "layer_28.pt",
+      "sha256": "61d559ba55c6cfa0dad00fa028f1e0a3277900aa767df18b09d01158e40f09b2"
+    },
+    {
+      "index": 29,
+      "file": "layer_29.pt",
+      "sha256": "77ac0e485ba0fa169992149208b94ff8647e4a7f42d3fbf899d668a4a5904f4f"
+    },
+    {
+      "index": 30,
+      "file": "layer_30.pt",
+      "sha256": "c03123525a39d3471caa2c5098f6003770898cd283cdec4208c5051a35a6b1f1"
+    },
+    {
+      "index": 31,
+      "file": "layer_31.pt",
+      "sha256": "957657d4b2a06ef906c2b934ea7f70e677f3b1dc0048365bc3a4ee6c363eca92"
+    }
+  ],
+  "training": {
+    "dataset": "Salesforce/wikitext",
+    "dataset_config": "wikitext-2-raw-v1",
+    "split": "train",
+    "source_arrow": "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow",
+    "source_arrow_sha256": "57947bc7b58df4b19662c0609cc30651bc84328dab5fd588860b752072911789",
+    "token_ids_sha256": "50e50734c929876addcd7383a0636297bebbb98365b82256050d06e731b31ae3",
+    "nsamples": 128,
+    "seqlen": 2048,
+    "seed": 2,
+    "sample_starts": [
+      237193,
+      384134,
+      355978,
+      1514384,
+      709188,
+      2809052,
+      1292417,
+      1055216,
+      2541514,
+      890110,
+      2545110,
+      149881,
+      2437746,
+      2857353,
+      664305,
+      1806359,
+      2677942,
+      1650592,
+      2135183,
+      1560533,
+      2282443,
+      1865853,
+      2105822,
+      1125083,
+      150677,
+      115112,
+      1526787,
+      1949906,
+      1335739,
+      1593898,
+      1776753,
+      2205166,
+      689914,
+      2350950,
+      744222,
+      990373,
+      967217,
+      100068,
+      741217,
+      1363748,
+      728084,
+      573350,
+      2139794,
+      2140033,
+      1508655,
+      2154770,
+      2828972,
+      2348350,
+      762706,
+      1869139,
+      1739256,
+      2203543,
+      1527798,
+      2489258,
+      1483890,
+      1517861,
+      1869690,
+      676057,
+      1677149,
+      1935279,
+      2746895,
+      2224473,
+      1048163,
+      2055267,
+      1170639,
+      2089037,
+      2100679,
+      2161711,
+      1484465,
+      2775310,
+      1907102,
+      1933625,
+      1471256,
+      2381127,
+      2338671,
+      1914914,
+      2040984,
+      2763565,
+      930342,
+      1361753,
+      696546,
+      2585142,
+      1124650,
+      2012285,
+      1298401,
+      1272118,
+      2114972,
+      2357990,
+      2171591,
+      2128008,
+      2732230,
+      2582886,
+      2466018,
+      1705699,
+      1307969,
+      871653,
+      2050622,
+      2147029,
+      1537624,
+      2869876,
+      2614163,
+      316147,
+      1432182,
+      35323,
+      802801,
+      445254,
+      246452,
+      2409270,
+      2738502,
+      205143,
+      1145463,
+      2481771,
+      950498,
+      2862518,
+      445711,
+      2190947,
+      572522,
+      1115018,
+      1026899,
+      882812,
+      253272,
+      1773845,
+      133685,
+      238221,
+      1519835,
+      1510865,
+      720921,
+      1046485
+    ]
+  },
+  "training_manifest_sha256": "3ce65475a277f4430cc5eb568b622e4d7709d729bd3f8f6185680f4b47c0fcd0",
+  "parent_manifest_sha256": "df79e72f49d8afc05e2dc36ebced0c32daddcb71a7dbb32f23145f1e01c9dc63",
+  "rotations": "Unchanged parent rotations/permutation",
+  "quantization": "W4 symmetric per-channel; A4 scalar-ratio asymmetric per-token; Q16; KV4 per-head128",
+  "gptq": null,
+  "source_sha256": {
+    "/mnt/yichen/xhb/DuQuant/benchmarks/export_llama_reconstruct.py": "9a7b52b7ebd2611e12595a870ca47136f62585c11625ec2f4170e992c17c0bb4",
+    "benchmarks/duquant_reconstruct.py": "e6f605353fae42274ca97471ab077da161e4986d79b965f986d6ee27d76c89a6",
+    "duquant_cuda/ptq.py": "855c2be51ec5c7a06b6cf69ab2445d4de953104821d6049cfa70f3041632b40c"
+  }
+}

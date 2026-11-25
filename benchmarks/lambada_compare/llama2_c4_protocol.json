@@ -1,0 +1,18 @@
+{
+  "family": "llama2",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "dataset": "allenai/c4",
+  "split": "validation",
+  "source": "/mnt/yichen/wyc/QDLM/data/dataset/dataset/allenai/c4/en/c4-validation.00000-of-00008.json.gz",
+  "source_sha256": "1f25b6af12da84115301d4ee93ea5246c8fea5bb4a2008472794d95b917cc97f",
+  "selection": "First 1100 documents of English validation shard 00000-of-00008, joined with single spaces; first 256*2048 tokenizer tokens, matching FlatQuant get_c4_new eval_mode",
+  "tokenizer_use_fast": false,
+  "add_special_tokens": true,
+  "seqlen": 2048,
+  "token_count": 524288,
+  "token_ids_sha256": "971168528327c35f4663eef2b1c881cb97aa692174a1cd16311063bc25604ef7",
+  "blocks": 256,
+  "scored_tokens": 524032,
+  "unused_tail_tokens": 0,
+  "scoring": "All complete selected blocks, shifted FP32 CE, no overlap, reset cache per block; no fitting on validation"
+}

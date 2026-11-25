@@ -1,0 +1,300 @@
+{
+  "status": "complete",
+  "variant": "gptq",
+  "method": "duquant_reconstruct",
+  "model": "/mnt/public_models/qwen3-1.7b-base",
+  "layers": [
+    {
+      "index": 0,
+      "file": "layer_00.pt",
+      "sha256": "7c43d11a8d81d611b2c10b1c630d32511335ff1a6def452cf75f26ac51637793"
+    },
+    {
+      "index": 1,
+      "file": "layer_01.pt",
+      "sha256": "3128a5e1fa057f8323224c1013d91897b9199893b73872bd6131b0744e2a2062"
+    },
+    {
+      "index": 2,
+      "file": "layer_02.pt",
+      "sha256": "33e2183e5172fbfc79aa8133fedaf97674b4ea03ae69727c09af3ffc9ef8950e"
+    },
+    {
+      "index": 3,
+      "file": "layer_03.pt",
+      "sha256": "a92769f61cf60b8f1ea2c11fe76fae3bbc63d33a01513f442ddc1ec739440371"
+    },
+    {
+      "index": 4,
+      "file": "layer_04.pt",
+      "sha256": "8f9522f0311cd53b4f363614c315e596093d512ce62c7ebe0a1db208866e8107"
+    },
+    {
+      "index": 5,
+      "file": "layer_05.pt",
+      "sha256": "07ace13191c20a6e437c636c10600161e2959508c67d09ce7695cb04d3901fd6"
+    },
+    {
+      "index": 6,
+      "file": "layer_06.pt",
+      "sha256": "80db67f948016790da757a18e9f49f88cb4eb4410c81d9d4b0d4fee64107fd5b"
+    },
+    {
+      "index": 7,
+      "file": "layer_07.pt",
+      "sha256": "abf973cd85a27f0674beb4754f3f80c2bf4f2286a4d0c020eca976fc75d8b380"
+    },
+    {
+      "index": 8,
+      "file": "layer_08.pt",
+      "sha256": "6fa91014deb6202784069833894bee995ae326ce8709393a75cf9157b91b3e37"
+    },
+    {
+      "index": 9,
+      "file": "layer_09.pt",
+      "sha256": "50402d83706f29d74532aae1be986a92734f0546d0be881152096afa4fd5d887"
+    },
+    {
+      "index": 10,
+      "file": "layer_10.pt",
+      "sha256": "7aa7cbbc87897879bbc3adf07b3bc5339fc32f72930c77378b465a4e7b07226d"
+    },
+    {
+      "index": 11,
+      "file": "layer_11.pt",
+      "sha256": "f1d2f7efb379fb0c92874fe3c726f3f7682f24b011dadcaf85d559d814750e43"
+    },
+    {
+      "index": 12,
+      "file": "layer_12.pt",
+      "sha256": "1c206726408126743ce98b02c0e37157182e888e89cabb4f088d6d3136e8a3e4"
+    },
+    {
+      "index": 13,
+      "file": "layer_13.pt",
+      "sha256": "4bed2530ed1e15c1556baa6e9fe1c60a20d833025cd5612511fd643fa4d23ce8"
+    },
+    {
+      "index": 14,
+      "file": "layer_14.pt",
+      "sha256": "f160686f55d42a4932e5b512b3d0903d01eca50d1b2d8a488312b1d7928243d9"
+    },
+    {
+      "index": 15,
+      "file": "layer_15.pt",
+      "sha256": "d94c1291675a264b4cba55f680110f416bb4b551f806836aba23bd45f1386e43"
+    },
+    {
+      "index": 16,
+      "file": "layer_16.pt",
+      "sha256": "0cad16c8917e2261107ffa8ef36996127e7c9547bc2b4afe05c7f6589be51e34"
+    },
+    {
+      "index": 17,
+      "file": "layer_17.pt",
+      "sha256": "e1392790baccac210fce170b603febdea4714b8f40e7a9e45a871ef6683ce8c3"
+    },
+    {
+      "index": 18,
+      "file": "layer_18.pt",
+      "sha256": "a0fd1b5f9d6f043356c8460cdfebe786deab94b6d34c9f17efeee977c371f41c"
+    },
+    {
+      "index": 19,
+      "file": "layer_19.pt",
+      "sha256": "e385b60719dc9c76acd4f9b99bccb1397bc2764f2e178d2392a56e3da0e13200"
+    },
+    {
+      "index": 20,
+      "file": "layer_20.pt",
+      "sha256": "66194d06c0b754fc01c1f5d454057d8095a19ee98757e75fa2f2d4d3fba2e70a"
+    },
+    {
+      "index": 21,
+      "file": "layer_21.pt",
+      "sha256": "51f10f04bf0cf6bb16eac6da153e2a4a4e971ef8e038f167bc9d9ebb5b2c372f"
+    },
+    {
+      "index": 22,
+      "file": "layer_22.pt",
+      "sha256": "77cb294cba3f2860947c0855ade86d428c55ff21d0084400a41be8a53979c6d3"
+    },
+    {
+      "index": 23,
+      "file": "layer_23.pt",
+      "sha256": "87694d84880a945cbbbb234e00f8bc310f4a0b612cb06fecd7890f38865ac6d7"
+    },
+    {
+      "index": 24,
+      "file": "layer_24.pt",
+      "sha256": "0dd27407f7dcba0a8b0dd64452583ff4633d75768c6b9a9a021604794ec69010"
+    },
+    {
+      "index": 25,
+      "file": "layer_25.pt",
+      "sha256": "b6a212706e81fe111f5d110c8a585a76cd20ec7b4d9f8ff7c6480ec3d6943d62"
+    },
+    {
+      "index": 26,
+      "file": "layer_26.pt",
+      "sha256": "4deb5de121a7a7679638b3650aaaa0c24f751cc62f07925201c1769d6232c8d2"
+    },
+    {
+      "index": 27,
+      "file": "layer_27.pt",
+      "sha256": "2f2667cdc37568efb7391f55a9283b7b2e32c0a0bf2183bfd08086b303a12522"
+    }
+  ],
+  "training": {
+    "source_arrow": "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow",
+    "split": "train",
+    "nsamples": 128,
+    "seqlen": 2048,
+    "seed": 2,
+    "sample_starts": [
+      237193,
+      384134,
+      355978,
+      1514384,
+      709188,
+      1292417,
+      1055216,
+      890110,
+      149881,
+      2437746,
+      664305,
+      1806359,
+      1650592,
+      2135183,
+      1560533,
+      2282443,
+      1865853,
+      2105822,
+      1125083,
+      150677,
+      115112,
+      1526787,
+      1949906,
+      1335739,
+      1593898,
+      1776753,
+      2205166,
+      689914,
+      2350950,
+      744222,
+      990373,
+      967217,
+      100068,
+      741217,
+      1363748,
+      728084,
+      573350,
+      2139794,
+      2140033,
+      1508655,
+      2154770,
+      2348350,
+      762706,
+      1869139,
+      1739256,
+      2203543,
+      1527798,
+      2489258,
+      1483890,
+      1517861,
+      1869690,
+      676057,
+      1677149,
+      1935279,
+      2224473,
+      1048163,
+      2055267,
+      1170639,
+      2089037,
+      2100679,
+      2161711,
+      1484465,
+      1907102,
+      1933625,
+      1471256,
+      2381127,
+      2338671,
+      1914914,
+      2040984,
+      930342,
+      1361753,
+      696546,
+      1124650,
+      2012285,
+      1298401,
+      1272118,
+      2114972,
+      2357990,
+      2171591,
+      2128008,
+      2466018,
+      1705699,
+      1307969,
+      871653,
+      2050622,
+      2147029,
+      1537624,
+      316147,
+      1432182,
+      35323,
+      802801,
+      445254,
+      246452,
+      2409270,
+      205143,
+      1145463,
+      2481771,
+      950498,
+      445711,
+      2190947,
+      572522,
+      1115018,
+      1026899,
+      882812,
+      253272,
+      1773845,
+      133685,
+      238221,
+      1519835,
+      1510865,
+      720921,
+      1046485,
+      98325,
+      347721,
+      483280,
+      282975,
+      106303,
+      171440,
+      88688,
+      1564883,
+      1072441,
+      535978,
+      659001,
+      770656,
+      2194004,
+      8121,
+      1617180,
+      2472367
+    ],
+    "tokens_sha256": "a77855809a82ff27afd82ac828b90478d0d8d66360417acda1239de49d734ddf"
+  },
+  "training_manifest_sha256": "ca6fb3b2a2affec338c9dc127d399217185c5f0c5726f6ae03513576fc60819e",
+  "parent_manifest_sha256": "ed673402a85285605f555bd218baedbc5d4dbc750b69c8f27cff84a5af2702b4",
+  "rotations": "Unchanged parent rotations/permutation",
+  "quantization": "W4 symmetric per-channel; A4 scalar-ratio asymmetric per-token; Q16; KV4 per-head128",
+  "gptq": {
+    "blocksize": 128,
+    "damp": 0.01,
+    "act_order": false
+  },
+  "source_sha256": {
+    "/mnt/yichen/xhb/DuQuant/benchmarks/export_duquant_reconstruct.py": "26d2e10dd452994ef024c291b2b47c91a498900ed957a4643dc121fad4d6ba01",
+    "benchmarks/duquant_reconstruct.py": "e6f605353fae42274ca97471ab077da161e4986d79b965f986d6ee27d76c89a6",
+    "duquant_cuda/ptq.py": "855c2be51ec5c7a06b6cf69ab2445d4de953104821d6049cfa70f3041632b40c"
+  }
+}

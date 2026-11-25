@@ -1,0 +1,54 @@
+{
+  "status": "complete",
+  "counts": {
+    "piqa": 1838,
+    "arc_easy": 2376,
+    "arc_challenge": 1172,
+    "boolq": 3270,
+    "hellaswag": 10042,
+    "winogrande": 1267
+  },
+  "total_questions": 19965,
+  "total_requests": 67106,
+  "max_input_tokens": 1270,
+  "primary_metrics": {
+    "piqa": "acc",
+    "arc_easy": "acc",
+    "arc_challenge": "acc_norm",
+    "boolq": "acc",
+    "hellaswag": "acc_norm",
+    "winogrande": "acc"
+  },
+  "num_fewshot": 0,
+  "context_length": 4096,
+  "truncated_requests": 0,
+  "tokenization": "Qwen3 fast tokenizer; separate context and continuation; no special tokens; no chat template",
+  "scoring": "Causal loglikelihood of complete continuation only; right padding ignored; acc_norm divides by original choice character count; BoolQ ties choose no",
+  "splits": {
+    "piqa": "validation",
+    "arc_easy": "test",
+    "arc_challenge": "test",
+    "boolq": "validation",
+    "hellaswag": "validation",
+    "winogrande": "validation"
+  },
+  "source_sha256": {
+    "/mnt/yichen/wyc/QDLM/data/dataset/dataset/piqa/physicaliqa-train-dev.zip": "54d32a04f59a7e354396f321723c8d7ec35cc6b08506563d8d1ffcc15ce98ddd",
+    "/mnt/yichen/wyc/QDLM/data/dataset/dataset/ai2_arc/ARC-Easy/test-00000-of-00001.parquet": "4160597d618ae851c7eb04e281574f3f654776216ac6b6641588d64527b47177",
+    "/mnt/yichen/wyc/QDLM/data/dataset/dataset/ai2_arc/ARC-Challenge/test-00000-of-00001.parquet": "62f03257e737aed263f55c6abf87c7bb0028a44a6bdd2a26eb1279eb42c1d1e9",
+    "/mnt/yichen/wyc/QDLM/data/dataset/dataset/super_glue/BoolQ.zip": "853fbe7922f70c59629f06a39e8d9ca440c3d740e760fd3b87a5ddf3dcba2436",
+    "/mnt/yichen/wyc/QDLM/data/dataset/dataset/hellaswag/hellaswag_val.jsonl": "0aa3b88843990f3f10a97b9575c94d7b71fb2205240ba04ae4884d9e9c992588",
+    "/mnt/yichen/wyc/QDLM/data/dataset/dataset/winogrande/winogrande_1.1.zip": "3619ab104d8be2977b25c90ff420cb42d491707dcc75362a1e5d22bc082b7318"
+  },
+  "documents_sha256": "c0bbda093562be9a806617b19b012980a87927958826dac81a3f8bbe48cfc104",
+  "requests_sha256": "40c7ad4c5ce98e6ec9e377589fad62d970b367070bb488a1c2719a23c749b9df",
+  "template_sha256": {
+    "lm_eval/tasks/piqa.py": "e240fb99f9370495b79c84a0f20e2647c2da3d01c0e383a3c91195f7218af04b",
+    "lm_eval/tasks/arc.py": "295725591cac5d4941601a5f841d533cd5157e3f0bc73e8122d529d2b808821e",
+    "lm_eval/tasks/superglue.py": "5a60a722bc4dd504ec667ed9d6a8aed799ab793275b9eb7818a7220a20e3b9ce",
+    "lm_eval/tasks/hellaswag.py": "9ff1956fd1752be544da62a1ad7def36fa8fc06136a544dc495a3dc0e66b9356",
+    "lm_eval/tasks/winogrande.py": "fe8625d2457547314168cc055d0520f8190c18825628139da4acf5bd94f7c000",
+    "lm_eval/base.py": "fb3673822b947b9331b11bfe1b40ba31ce8cb465e61e989e7141c728c57cd746"
+  },
+  "model": "/mnt/public_models/qwen3-1.7b-base"
+}

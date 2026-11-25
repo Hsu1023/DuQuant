@@ -1,0 +1,146 @@
+{
+  "status": "complete",
+  "config": {
+    "method": "fp16",
+    "mode": "cuda",
+    "protocol": {
+      "status": "complete",
+      "counts": {
+        "piqa": 1838,
+        "arc_easy": 2376,
+        "arc_challenge": 1172,
+        "boolq": 3270,
+        "hellaswag": 10042,
+        "winogrande": 1267
+      },
+      "total_questions": 19965,
+      "total_requests": 67106,
+      "max_input_tokens": 1270,
+      "primary_metrics": {
+        "piqa": "acc",
+        "arc_easy": "acc",
+        "arc_challenge": "acc_norm",
+        "boolq": "acc",
+        "hellaswag": "acc_norm",
+        "winogrande": "acc"
+      },
+      "num_fewshot": 0,
+      "context_length": 4096,
+      "truncated_requests": 0,
+      "tokenization": "Qwen3 fast tokenizer; separate context and continuation; no special tokens; no chat template",
+      "scoring": "Causal loglikelihood of complete continuation only; right padding ignored; acc_norm divides by original choice character count; BoolQ ties choose no",
+      "splits": {
+        "piqa": "validation",
+        "arc_easy": "test",
+        "arc_challenge": "test",
+        "boolq": "validation",
+        "hellaswag": "validation",
+        "winogrande": "validation"
+      },
+      "source_sha256": {
+        "/mnt/yichen/wyc/QDLM/data/dataset/dataset/piqa/physicaliqa-train-dev.zip": "54d32a04f59a7e354396f321723c8d7ec35cc6b08506563d8d1ffcc15ce98ddd",
+        "/mnt/yichen/wyc/QDLM/data/dataset/dataset/ai2_arc/ARC-Easy/test-00000-of-00001.parquet": "4160597d618ae851c7eb04e281574f3f654776216ac6b6641588d64527b47177",
+        "/mnt/yichen/wyc/QDLM/data/dataset/dataset/ai2_arc/ARC-Challenge/test-00000-of-00001.parquet": "62f03257e737aed263f55c6abf87c7bb0028a44a6bdd2a26eb1279eb42c1d1e9",
+        "/mnt/yichen/wyc/QDLM/data/dataset/dataset/super_glue/BoolQ.zip": "853fbe7922f70c59629f06a39e8d9ca440c3d740e760fd3b87a5ddf3dcba2436",
+        "/mnt/yichen/wyc/QDLM/data/dataset/dataset/hellaswag/hellaswag_val.jsonl": "0aa3b88843990f3f10a97b9575c94d7b71fb2205240ba04ae4884d9e9c992588",
+        "/mnt/yichen/wyc/QDLM/data/dataset/dataset/winogrande/winogrande_1.1.zip": "3619ab104d8be2977b25c90ff420cb42d491707dcc75362a1e5d22bc082b7318"
+      },
+      "documents_sha256": "c0bbda093562be9a806617b19b012980a87927958826dac81a3f8bbe48cfc104",
+      "requests_sha256": "40c7ad4c5ce98e6ec9e377589fad62d970b367070bb488a1c2719a23c749b9df",
+      "template_sha256": {
+        "lm_eval/tasks/piqa.py": "e240fb99f9370495b79c84a0f20e2647c2da3d01c0e383a3c91195f7218af04b",
+        "lm_eval/tasks/arc.py": "295725591cac5d4941601a5f841d533cd5157e3f0bc73e8122d529d2b808821e",
+        "lm_eval/tasks/superglue.py": "5a60a722bc4dd504ec667ed9d6a8aed799ab793275b9eb7818a7220a20e3b9ce",
+        "lm_eval/tasks/hellaswag.py": "9ff1956fd1752be544da62a1ad7def36fa8fc06136a544dc495a3dc0e66b9356",
+        "lm_eval/tasks/winogrande.py": "fe8625d2457547314168cc055d0520f8190c18825628139da4acf5bd94f7c000",
+        "lm_eval/base.py": "fb3673822b947b9331b11bfe1b40ba31ce8cb465e61e989e7141c728c57cd746"
+      },
+      "model": "/mnt/public_models/qwen3-1.7b-base"
+    },
+    "source_sha256": {
+      "/mnt/yichen/xhb/DuQuant/benchmarks/eval_qwen3.py": "3fcef304f85f19d460810a643f1be4eb548404e2af1eee79b236e3c0aca19f1d",
+      "benchmarks/qwen3_models.py": "95c24d4d007fd6932b300778f709144ab54c2a472e7cff5bc9abb59cefebaa6c",
+      "benchmarks/eval_qa.py": "628253a6478276a2bd1c89ed6911d3b85334b1225f095fe843f7813625547cbc",
+      "duquant_cuda/backend.py": "1b880edc0a800b3adce2acdc528ce372c12302cc3b2326cd0382493004ac49bd",
+      "duquant_cuda/__init__.py": "3a8712a0f4ee44172fe9920086669350db2264bc1059eb50ac2ad2eaa4c43cc0",
+      "duquant_cuda/decoder.py": "f393f032ed1706006b97c912d5e5e243d3a2b0c748b98c2402fbe92ee6d8cd40",
+      "duquant_cuda/model.py": "0bbd75e524091db22a94c223469e0f7a4cd2e205e12c64be8fc6721c9c1c196a",
+      "duquant_cuda/calibration.py": "4fa5e27ee9dcff09bd216a1e45835017bfe4fd5677d66bdbf8867e5c0da362f1",
+      "duquant_cuda/lwc.py": "fa35d58e6e836aa5cbb8afdfcaafb15d3077bf33bacbbbcbb5020bbf7428f404",
+      "duquant_cuda/lwc_quant.py": "60e7efa659cb037d92eecf32f6ea01f7c9fc5f0968bf9dec1563011ec6396905",
+      "duquant_cuda/kv4.py": "ad945a3e38827b89eafa1561cc0db7a42148067a884d9700deb66a71f45b8020",
+      "duquant_cuda/ptq.py": "855c2be51ec5c7a06b6cf69ab2445d4de953104821d6049cfa70f3041632b40c"
+    },
+    "batch_cap": 16,
+    "token_budget": 8192,
+    "limit_requests": 0,
+    "calibration_manifest_sha256": null
+  },
+  "completed_requests": 67106,
+  "total_requests": 67106,
+  "elapsed_seconds": 165.60244157537818,
+  "tasks": {
+    "piqa": {
+      "count": 1838,
+      "correct": 1395,
+      "correct_norm": 1395,
+      "acc": 0.7589771490750816,
+      "acc_norm": 0.7589771490750816,
+      "primary_metric": "acc",
+      "primary": 0.7589771490750816,
+      "standard_error": 0.009979042717267255
+    },
+    "arc_easy": {
+      "count": 2376,
+      "correct": 1753,
+      "correct_norm": 1628,
+      "acc": 0.7377946127946128,
+      "acc_norm": 0.6851851851851852,
+      "primary_metric": "acc",
+      "primary": 0.7377946127946128,
+      "standard_error": 0.009025197991724939
+    },
+    "arc_challenge": {
+      "count": 1172,
+      "correct": 487,
+      "correct_norm": 528,
+      "acc": 0.41552901023890787,
+      "acc_norm": 0.45051194539249145,
+      "primary_metric": "acc_norm",
+      "primary": 0.45051194539249145,
+      "standard_error": 0.01453964609847157
+    },
+    "boolq": {
+      "count": 3270,
+      "correct": 2586,
+      "correct_norm": 2427,
+      "acc": 0.7908256880733945,
+      "acc_norm": 0.7422018348623853,
+      "primary_metric": "acc",
+      "primary": 0.7908256880733945,
+      "standard_error": 0.007113561625206195
+    },
+    "hellaswag": {
+      "count": 10042,
+      "correct": 4948,
+      "correct_norm": 6680,
+      "acc": 0.4927305317665804,
+      "acc_norm": 0.6652061342362079,
+      "primary_metric": "acc_norm",
+      "primary": 0.6652061342362079,
+      "standard_error": 0.004709538864916623
+    },
+    "winogrande": {
+      "count": 1267,
+      "correct": 813,
+      "correct_norm": 813,
+      "acc": 0.6416732438831886,
+      "acc_norm": 0.6416732438831886,
+      "primary_metric": "acc",
+      "primary": 0.6416732438831886,
+      "standard_error": 0.01347658117256752
+    }
+  },
+  "mean_accuracy": 0.6741647955758294,
+  "scores_sha256": "2e9a79bd1dfcc7fb27e79f9f5c9046781933ac12d19a9808d37a564c1abb0d89"
+}

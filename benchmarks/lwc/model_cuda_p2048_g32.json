@@ -1,0 +1,136 @@
+{
+  "mode": "cuda",
+  "calibration_manifest_sha256": "8c6a810d52eb4c3d37140569926637a954c241d8ac38f832f011a94f4807dc63",
+  "lwc_epochs": 20,
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "1",
+  "torch": "2.7.1+cu126",
+  "layers": 32,
+  "batch": 1,
+  "prompt_tokens": 2048,
+  "new_tokens": 32,
+  "decode_forward_calls": 31,
+  "scope": "Full model: embedding, 32 decoder blocks, final RMSNorm, FP16 LM head, greedy argmax, real autoregressive cache advancement. Two CUDA Graphs: prefill and the entire decode sequence. EOS ignored for equal work.",
+  "excluded": "Model load/export, first compilation, graph capture, tokenization, prompt H2D transfer. Wall time includes generated-token D2H transfer.",
+  "quantization": "LWC per-channel weight clipping; Train-calibrated rotations + zigzag + folded smoothing; W4A4 projections, FP16 embeddings/lm_head/attention/KV storage",
+  "medians": {
+    "prefill_ms": 56.448158264160156,
+    "decode_ms": 207.9815673828125,
+    "gpu_total_ms": 264.4599914550781,
+    "wall_ms": 264.5651176571846
+  },
+  "decode_ms_per_token": 6.709082818800403,
+  "decode_tokens_per_second": 149.05167025182166,
+  "end_to_end_tokens_per_second": 120.95320911301928,
+  "samples": [
+    {
+      "prefill_ms": 56.47555160522461,
+      "decode_ms": 207.78700256347656,
+      "gpu_total_ms": 264.2625732421875,
+      "wall_ms": 264.3940784037113
+    },
+    {
+      "prefill_ms": 56.448158264160156,
+      "decode_ms": 208.36044311523438,
+      "gpu_total_ms": 264.80859375,
+      "wall_ms": 264.87671211361885
+    },
+    {
+      "prefill_ms": 56.44771194458008,
+      "decode_ms": 208.0122833251953,
+      "gpu_total_ms": 264.4599914550781,
+      "wall_ms": 264.5651176571846
+    },
+    {
+      "prefill_ms": 56.540992736816406,
+      "decode_ms": 207.9815673828125,
+      "gpu_total_ms": 264.5225524902344,
+      "wall_ms": 264.6098658442497
+    },
+    {
+      "prefill_ms": 56.348670959472656,
+      "decode_ms": 207.604736328125,
+      "gpu_total_ms": 263.9533996582031,
+      "wall_ms": 264.02224972844124
+    }
+  ],
+  "memory": {
+    "model_storage_bytes": 3798343680,
+    "kv_cache_bytes": 1089994752,
+    "model_loaded": {
+      "allocated_bytes": 3808960512,
+      "reserved_bytes": 5043650560,
+      "peak_allocated_bytes": 3808960512,
+      "peak_reserved_bytes": 5043650560,
+      "device_used_bytes": 5537660928
+    },
+    "cache_allocated": {
+      "allocated_bytes": 4898988544,
+      "reserved_bytes": 5081399296,
+      "peak_allocated_bytes": 4898988544,
+      "peak_reserved_bytes": 5081399296,
+      "device_used_bytes": 5575409664
+    },
+    "capture_and_warmup": {
+      "allocated_bytes": 4907509248,
+      "reserved_bytes": 5502926848,
+      "peak_allocated_bytes": 5290123776,
+      "peak_reserved_bytes": 5502926848,
+      "device_used_bytes": 6233915392
+    },
+    "inference": {
+      "allocated_bytes": 4907509248,
+      "reserved_bytes": 5502926848,
+      "peak_allocated_bytes": 4907509248,
+      "peak_reserved_bytes": 5502926848,
+      "device_used_bytes": 6233915392
+    },
+    "inference_peak_allocated_bytes": 5290123776,
+    "inference_reserved_bytes": 5502926848
+  },
+  "load_seconds": 4.474300213158131,
+  "capture_seconds": 2.5642474815249443,
+  "fp16_hf_validation": null,
+  "graph_matches_eager": true,
+  "finite_logits": true,
+  "generated_token_ids": [
+    [
+      8859,
+      3838,
+      322,
+      8500,
+      825,
+      5304,
+      2446,
+      29889,
+      12027,
+      7420,
+      278,
+      1667,
+      2969,
+      9436,
+      322,
+      2367,
+      263,
+      5407,
+      1342,
+      29889,
+      29871,
+      450,
+      6437,
+      310,
+      445,
+      7639,
+      338,
+      304,
+      2274,
+      920,
+      4086,
+      4733
+    ]
+  ],
+  "generated_text": [
+    "earlier words and predict what comes next. Explain the main idea clearly and give a useful example.  The purpose of this experiment is to understand how language models"
+  ]
+}

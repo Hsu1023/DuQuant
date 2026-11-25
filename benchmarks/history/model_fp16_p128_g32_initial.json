@@ -1,0 +1,130 @@
+{
+  "mode": "fp16",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "visible_devices": "4",
+  "torch": "2.7.1+cu126",
+  "layers": 32,
+  "batch": 1,
+  "prompt_tokens": 128,
+  "new_tokens": 32,
+  "decode_forward_calls": 31,
+  "scope": "Full model: embedding, 32 decoder blocks, final RMSNorm, FP16 LM head, greedy argmax, real autoregressive cache advancement. Two CUDA Graphs: prefill and the entire decode sequence. EOS ignored for equal work.",
+  "excluded": "Model load/export, first compilation, graph capture, tokenization, prompt H2D transfer. Wall time includes generated-token D2H transfer.",
+  "quantization": "FP16 throughout with identical fused blocks and Flash SDPA",
+  "medians": {
+    "prefill_ms": 17.830463409423828,
+    "decode_ms": 441.6512145996094,
+    "gpu_total_ms": 459.4915466308594,
+    "wall_ms": 459.5896042883396
+  },
+  "decode_ms_per_token": 14.246813374180947,
+  "decode_tokens_per_second": 70.19113493914847,
+  "end_to_end_tokens_per_second": 69.62733643540744,
+  "samples": [
+    {
+      "prefill_ms": 17.85468864440918,
+      "decode_ms": 441.6368713378906,
+      "gpu_total_ms": 459.4915466308594,
+      "wall_ms": 459.5896042883396
+    },
+    {
+      "prefill_ms": 17.812095642089844,
+      "decode_ms": 441.6512145996094,
+      "gpu_total_ms": 459.4632873535156,
+      "wall_ms": 459.54104140400887
+    },
+    {
+      "prefill_ms": 17.828895568847656,
+      "decode_ms": 441.6307067871094,
+      "gpu_total_ms": 459.4596252441406,
+      "wall_ms": 459.5302939414978
+    },
+    {
+      "prefill_ms": 17.830463409423828,
+      "decode_ms": 441.74951171875,
+      "gpu_total_ms": 459.5799560546875,
+      "wall_ms": 459.64493975043297
+    },
+    {
+      "prefill_ms": 17.840576171875,
+      "decode_ms": 441.7945556640625,
+      "gpu_total_ms": 459.6351318359375,
+      "wall_ms": 459.7363695502281
+    }
+  ],
+  "memory": {
+    "model_storage_bytes": 13478961152,
+    "kv_cache_bytes": 83361792,
+    "model_loaded": {
+      "allocated_bytes": 13487480832,
+      "reserved_bytes": 13501464576,
+      "peak_allocated_bytes": 26968936448,
+      "peak_reserved_bytes": 26981957632,
+      "device_used_bytes": 13995474944
+    },
+    "cache_allocated": {
+      "allocated_bytes": 13571967488,
+      "reserved_bytes": 13585350656,
+      "peak_allocated_bytes": 26968936448,
+      "peak_reserved_bytes": 26981957632,
+      "device_used_bytes": 14079361024
+    },
+    "inference": {
+      "allocated_bytes": 13580488192,
+      "reserved_bytes": 13616807936,
+      "peak_allocated_bytes": 13580488192,
+      "peak_reserved_bytes": 13616807936,
+      "device_used_bytes": 14236647424
+    }
+  },
+  "load_seconds": 6.886143043637276,
+  "capture_seconds": 6.268664717674255,
+  "fp16_hf_validation": {
+    "prompt": "The capital of France is",
+    "logit_relative_l2": 0.0008375220932066441,
+    "top1_agrees": true,
+    "next_token": "a"
+  },
+  "graph_matches_eager": true,
+  "finite_logits": true,
+  "generated_token_ids": [
+    [
+      263,
+      5407,
+      1342,
+      29889,
+      29871,
+      450,
+      6437,
+      310,
+      445,
+      7639,
+      338,
+      304,
+      2274,
+      920,
+      4086,
+      4733,
+      1889,
+      1426,
+      29889,
+      319,
+      4327,
+      261,
+      3913,
+      8570,
+      304,
+      14405,
+      2472,
+      515,
+      8859,
+      3838,
+      322,
+      8500
+    ]
+  ],
+  "generated_text": [
+    "a useful example.  The purpose of this experiment is to understand how language models process text. A transformer uses attention to combine information from earlier words and predict"
+  ]
+}

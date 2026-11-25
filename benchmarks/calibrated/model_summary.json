@@ -1,0 +1,82 @@
+{
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "model": "/mnt/public_models/llama2-7b-hf",
+  "calibration_manifest_sha256": "7252d2f0c71598d66e95df9343b08788c4fd8a5d56180e4fcddc3a088bb5a39b",
+  "caveat": "Train-calibrated W4A4; see ppl_summary.json for full quality evaluation.",
+  "results": [
+    {
+      "prompt_tokens": 128,
+      "new_tokens": 32,
+      "batch": 1,
+      "wall_ms": {
+        "fp16": 461.18565648794174,
+        "w4a4": 179.11498248577118
+      },
+      "end_to_end_speedup": 2.574802230877465,
+      "prefill_ms": {
+        "fp16": 17.842111587524414,
+        "w4a4": 7.370016098022461
+      },
+      "decode_tokens_per_second": {
+        "fp16": 69.93364892496966,
+        "w4a4": 180.54185412606782
+      },
+      "decode_speedup": 2.581616387838812,
+      "memory": {
+        "fp16": {
+          "model_gib": 12.553260803222656,
+          "kv_gib": 0.07763671875,
+          "peak_allocated_gib": 12.667224884033203,
+          "reserved_gib": 12.681640625,
+          "device_used_gib": 13.2589111328125
+        },
+        "w4a4": {
+          "model_gib": 3.5374832153320312,
+          "kv_gib": 0.07763671875,
+          "peak_allocated_gib": 3.6544394493103027,
+          "reserved_gib": 4.728515625,
+          "device_used_gib": 5.4093017578125
+        }
+      },
+      "reserved_reduction_fraction": 0.627136916679501,
+      "generated_token_ids_match": true
+    },
+    {
+      "prompt_tokens": 2048,
+      "new_tokens": 32,
+      "batch": 1,
+      "wall_ms": {
+        "fp16": 656.9015458226204,
+        "w4a4": 260.9250508248806
+      },
+      "end_to_end_speedup": 2.5175871145599538,
+      "prefill_ms": {
+        "fp16": 179.88604736328125,
+        "w4a4": 54.91609573364258
+      },
+      "decode_tokens_per_second": {
+        "fp16": 65.00812147143489,
+        "w4a4": 150.58265452092766
+      },
+      "decode_speedup": 2.316366803293877,
+      "memory": {
+        "fp16": {
+          "model_gib": 12.553260803222656,
+          "kv_gib": 1.01513671875,
+          "peak_allocated_gib": 13.883127212524414,
+          "reserved_gib": 14.021484375,
+          "device_used_gib": 14.5987548828125
+        },
+        "w4a4": {
+          "model_gib": 3.5374832153320312,
+          "kv_gib": 1.01513671875,
+          "peak_allocated_gib": 4.926811695098877,
+          "reserved_gib": 5.125,
+          "device_used_gib": 5.8057861328125
+        }
+      },
+      "reserved_reduction_fraction": 0.6344894832149324,
+      "generated_token_ids_match": true
+    }
+  ]
+}
