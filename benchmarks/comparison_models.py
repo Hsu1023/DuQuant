@@ -4,6 +4,7 @@ Method-specific basis changes follow the pinned official implementations.
 The evaluation arithmetic, affine quantizer and GPTQ implementation are shared.
 This is a controlled-format comparison, not a reproduction of paper defaults.
 """
+import os
 import importlib.util
 import json
 import math
@@ -20,11 +21,11 @@ from duquant_cuda.backend import DuQuantLinearCUDA
 from duquant_cuda.decoder import LlamaDecoderBlock, qdq, load_layer_weights
 from duquant_cuda.model import LlamaInferenceModel
 
-QUAROT=Path('/mnt/yichen/wyc/QDLM/QuaRot')
+QUAROT=Path(os.environ.get('DUQUANT_QUAROT', '/mnt/yichen/wyc/QDLM/QuaRot'))
 spec=importlib.util.spec_from_file_location('comparison_hadamard',QUAROT/'fake_quant/hadamard_utils.py')
 had=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(had)
-MODEL=Path('/mnt/public_models/llama2-7b-hf')
+MODEL=Path(os.environ.get('DUQUANT_LLAMA2', '/mnt/public_models/llama2-7b-hf'))
 BASE=ROOT/'benchmarks/cache/qa_compare'
 NAMES=('qkv','o','gate_up','down')
 

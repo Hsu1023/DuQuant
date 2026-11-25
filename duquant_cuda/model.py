@@ -23,6 +23,8 @@ from .decoder import (
 )
 import triton
 
+from .backend import DuQuantLinearCUDA
+
 
 class LlamaInferenceModel(torch.nn.Module):
     def __init__(self, blocks, embedding, final_norm, lm_head, eps):
@@ -33,6 +35,16 @@ class LlamaInferenceModel(torch.nn.Module):
         self.register_buffer("lm_head", lm_head)
         self.h = embedding.shape[1]
         self.eps = eps
+        # Decode-time cross-layer L2 prefetch on Hopper: each DuQuant linear
+        # knows the next one in execution order (qkv, o, gate_up, down, ...).
+        chain = [
+            getattr(block, name, None)
+            for block in self.blocks
+            for name in ("qkv", "o", "gate_up", "down")
+        ]
+        chain = [lin for lin in chain if isinstance(lin, DuQuantLinearCUDA)]
+        for cur, nxt in zip(chain, chain[1:]):
+            object.__setattr__(cur, "prefetch_next", nxt)  # plain reference, not a submodule
 
     def caches(self, batch, capacity):
         return [block.cache(batch, capacity) for block in self.blocks]

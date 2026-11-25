@@ -14,7 +14,9 @@ import torch.nn.functional as F
 
 PARENT=ROOT/'benchmarks/cache/ptq_llama2_final/sym_gptq'
 BASE=ROOT/'benchmarks/cache/llama_reconstruct'
-REPORT=ROOT/'benchmarks/llama_reconstruct'
+import os
+# Override to keep reports of a new run (e.g. on another GPU) apart from the tracked ones.
+REPORT=Path(os.environ.get('DUQUANT_LLAMA_RECONSTRUCT_REPORT',ROOT/'benchmarks/llama_reconstruct'))
 NAMES=('qkv','o','gate_up','down')
 CFG=json.loads((MODEL/'config.json').read_text())
 

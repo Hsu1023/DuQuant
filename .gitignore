@@ -25,3 +25,4 @@ Rot.pkl
 # Local benchmark logs and per-example text; retain numeric result artifacts.
 /benchmarks/**/*.log
 /benchmarks/**/*.jsonl
+benchmarks/cache

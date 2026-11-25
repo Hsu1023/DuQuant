@@ -4,6 +4,7 @@ Defaults to seed-42 uncalibrated parameters; --calibration loads a train-only
 export. Full blocks, no overlap, shifted FP32 CE, exact scored-token denominator.
 """
 
+import os
 import argparse
 import gc
 import hashlib
@@ -20,7 +21,7 @@ import torch.nn.functional as F
 from torch.nn.attention import SDPBackend, sdpa_kernel
 from duquant_cuda.model import LlamaInferenceModel
 
-DEFAULT_ARROW = "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-test.arrow"
+DEFAULT_ARROW = os.environ.get("DUQUANT_WIKITEXT_TEST", "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-test.arrow")
 
 
 def score_next_tokens(logits, token_ids):
@@ -144,7 +145,7 @@ def load_tokens(args):
 @torch.inference_mode()
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--model", default="/mnt/public_models/llama2-7b-hf")
+    p.add_argument("--model", default=os.environ.get("DUQUANT_LLAMA2", "/mnt/public_models/llama2-7b-hf"))
     p.add_argument(
         "--mode", choices=["fp16", "fake", "cuda", "integer_reference", "hf"], required=True
     )

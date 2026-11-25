@@ -1,3 +1,4 @@
+import os
 import json,time
 from pathlib import Path
 import numpy as np
@@ -9,7 +10,7 @@ docs=[json.loads(x) for x in (root/'documents.jsonl').read_text().splitlines()]
 reqs=[json.loads(x) for x in (root/'requests.jsonl').read_text().splitlines()]
 scores=np.load('benchmarks/qa_compare/results/fp16/scores.npy')
 selected=[d for d in docs if d['index']<2]
-model=AutoModelForCausalLM.from_pretrained('/mnt/public_models/llama2-7b-hf',torch_dtype=torch.float16,attn_implementation='sdpa',local_files_only=True).cuda().eval()
+model=AutoModelForCausalLM.from_pretrained(os.environ.get('DUQUANT_LLAMA2', '/mnt/public_models/llama2-7b-hf'),torch_dtype=torch.float16,attn_implementation='sdpa',local_files_only=True).cuda().eval()
 errors=[];rows=[]
 with torch.inference_mode(),sdpa_kernel(SDPBackend.FLASH_ATTENTION):
  for d in selected:

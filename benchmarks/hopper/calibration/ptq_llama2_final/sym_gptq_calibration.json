@@ -1,0 +1,1218 @@
+[
+  {
+    "layer": 0,
+    "seconds": 52.85372594604269,
+    "details": {
+      "qkv": {
+        "damping": 3.0061364668654278e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00010982850411285956,
+        "gptq_hessian_error": 3.808717944290644e-06
+      },
+      "o": {
+        "damping": 1.6090989447548054e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 2.811081571962859e-07,
+        "gptq_hessian_error": 7.572131366373469e-09
+      },
+      "gate_up": {
+        "damping": 2.5330207790830173e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 5.611649519482324e-05,
+        "gptq_hessian_error": 2.130768586729848e-05
+      },
+      "down": {
+        "damping": 5.720203262171708e-07,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 2.551360012148507e-06,
+        "gptq_hessian_error": 4.2971993252649554e-07
+      }
+    }
+  },
+  {
+    "layer": 1,
+    "seconds": 3.599555332912132,
+    "details": {
+      "qkv": {
+        "damping": 9.215959289576858e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.000552727491594851,
+        "gptq_hessian_error": 7.222961479177077e-05
+      },
+      "o": {
+        "damping": 3.7486838664335664e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 2.2731630906491773e-06,
+        "gptq_hessian_error": 2.303956421201292e-07
+      },
+      "gate_up": {
+        "damping": 5.334519300959073e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00012090025729564734,
+        "gptq_hessian_error": 4.6905465857234115e-05
+      },
+      "down": {
+        "damping": 1.2864672953583067e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0007886092062108219,
+        "gptq_hessian_error": 6.646035672019934e-06
+      }
+    }
+  },
+  {
+    "layer": 2,
+    "seconds": 3.6299222219968215,
+    "details": {
+      "qkv": {
+        "damping": 0.00013619742821902037,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0015743761323392391,
+        "gptq_hessian_error": 0.0004662804227943222
+      },
+      "o": {
+        "damping": 3.840710633085109e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 8.148102097038645e-06,
+        "gptq_hessian_error": 2.4013959318835987e-06
+      },
+      "gate_up": {
+        "damping": 5.3956388001097366e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00022263608353082523,
+        "gptq_hessian_error": 0.00010791625610964243
+      },
+      "down": {
+        "damping": 1.160414967671386e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 1.836281080613844e-05,
+        "gptq_hessian_error": 8.931088814279065e-06
+      }
+    }
+  },
+  {
+    "layer": 3,
+    "seconds": 3.6502357939025387,
+    "details": {
+      "qkv": {
+        "damping": 0.000191194805665873,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0031673756117622056,
+        "gptq_hessian_error": 0.0013715436992545922
+      },
+      "o": {
+        "damping": 3.340887360536726e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 1.0001305781770498e-05,
+        "gptq_hessian_error": 2.9365851332840975e-06
+      },
+      "gate_up": {
+        "damping": 6.745105201844126e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0003603806849135909,
+        "gptq_hessian_error": 0.00019644460705823676
+      },
+      "down": {
+        "damping": 1.4858445638310513e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 3.874592948704958e-05,
+        "gptq_hessian_error": 1.9724302546819672e-05
+      }
+    }
+  },
+  {
+    "layer": 4,
+    "seconds": 3.6209709539543837,
+    "details": {
+      "qkv": {
+        "damping": 0.00017905296408571303,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.002962981661160787,
+        "gptq_hessian_error": 0.001351639162749052
+      },
+      "o": {
+        "damping": 5.333446551958332e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 2.1818857931066304e-05,
+        "gptq_hessian_error": 6.837827186245704e-06
+      },
+      "gate_up": {
+        "damping": 7.914133311714977e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00048570144315098607,
+        "gptq_hessian_error": 0.0002673231931619866
+      },
+      "down": {
+        "damping": 2.481737055859412e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 8.110298949759454e-05,
+        "gptq_hessian_error": 3.787591413129121e-05
+      }
+    }
+  },
+  {
+    "layer": 5,
+    "seconds": 3.622895284090191,
+    "details": {
+      "qkv": {
+        "damping": 0.00018935679690912366,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0033164930840333304,
+        "gptq_hessian_error": 0.0015667059148351352
+      },
+      "o": {
+        "damping": 7.55855580791831e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 3.8571597542613745e-05,
+        "gptq_hessian_error": 1.0695370292523876e-05
+      },
+      "gate_up": {
+        "damping": 8.799970237305388e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0005923637817072314,
+        "gptq_hessian_error": 0.00032669466075509093
+      },
+      "down": {
+        "damping": 2.847319365173462e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00010761251905933022,
+        "gptq_hessian_error": 5.6848286476451904e-05
+      }
+    }
+  },
+  {
+    "layer": 6,
+    "seconds": 3.6198855449911207,
+    "details": {
+      "qkv": {
+        "damping": 0.00023966644948814064,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0044270555178324384,
+        "gptq_hessian_error": 0.0022187107242643833
+      },
+      "o": {
+        "damping": 1.013039582176134e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 5.727390089305118e-05,
+        "gptq_hessian_error": 1.7886972273117863e-05
+      },
+      "gate_up": {
+        "damping": 9.566114749759436e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0007173669372880181,
+        "gptq_hessian_error": 0.0004022052554890167
+      },
+      "down": {
+        "damping": 3.4170602702943143e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00016437802696600556,
+        "gptq_hessian_error": 8.355069439858198e-05
+      }
+    }
+  },
+  {
+    "layer": 7,
+    "seconds": 3.6280472020152956,
+    "details": {
+      "qkv": {
+        "damping": 0.0002486507873982191,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.004615147598087788,
+        "gptq_hessian_error": 0.002387661642084519
+      },
+      "o": {
+        "damping": 1.0341710549255367e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 6.992091948632151e-05,
+        "gptq_hessian_error": 2.3983368009794503e-05
+      },
+      "gate_up": {
+        "damping": 0.00010376095451647416,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0008260907475338426,
+        "gptq_hessian_error": 0.00047166004430416016
+      },
+      "down": {
+        "damping": 3.8085390769992955e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00021941355953458697,
+        "gptq_hessian_error": 0.00011391245061531663
+      }
+    }
+  },
+  {
+    "layer": 8,
+    "seconds": 3.6359094450017437,
+    "details": {
+      "qkv": {
+        "damping": 0.00026393632288090885,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0046448176726698875,
+        "gptq_hessian_error": 0.002414759248495102
+      },
+      "o": {
+        "damping": 1.3412397493084427e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00010602365364320576,
+        "gptq_hessian_error": 3.8813508581370115e-05
+      },
+      "gate_up": {
+        "damping": 0.00010806904901983216,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0008577545888202135,
+        "gptq_hessian_error": 0.0004954383123752683
+      },
+      "down": {
+        "damping": 4.573733804136282e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0002652958210092038,
+        "gptq_hessian_error": 0.00013973227760288864
+      }
+    }
+  },
+  {
+    "layer": 9,
+    "seconds": 3.6248311650706455,
+    "details": {
+      "qkv": {
+        "damping": 0.0002353760792175308,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0048702675849199295,
+        "gptq_hessian_error": 0.0026359126592675843
+      },
+      "o": {
+        "damping": 1.6237709132838063e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00014665056369267404,
+        "gptq_hessian_error": 5.544890882447362e-05
+      },
+      "gate_up": {
+        "damping": 0.00011183499009348452,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0008938334189182104,
+        "gptq_hessian_error": 0.0005283392099447029
+      },
+      "down": {
+        "damping": 4.905349214823218e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00030383613193407655,
+        "gptq_hessian_error": 0.00016445685469079763
+      }
+    }
+  },
+  {
+    "layer": 10,
+    "seconds": 3.6319578120019287,
+    "details": {
+      "qkv": {
+        "damping": 0.00023740387405268848,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.005052745963136355,
+        "gptq_hessian_error": 0.002772908347348372
+      },
+      "o": {
+        "damping": 2.1871835997444578e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00021804324933327734,
+        "gptq_hessian_error": 8.024187263799831e-05
+      },
+      "gate_up": {
+        "damping": 0.00011508284660521895,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0009270722782889078,
+        "gptq_hessian_error": 0.000553876681383266
+      },
+      "down": {
+        "damping": 5.368079655454494e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00035409751581028104,
+        "gptq_hessian_error": 0.0001896580506581813
+      }
+    }
+  },
+  {
+    "layer": 11,
+    "seconds": 3.6270783339859918,
+    "details": {
+      "qkv": {
+        "damping": 0.00028898773598484695,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.005474880337715149,
+        "gptq_hessian_error": 0.003069760277867317
+      },
+      "o": {
+        "damping": 2.200036215072032e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00022878736490383744,
+        "gptq_hessian_error": 8.393613097723573e-05
+      },
+      "gate_up": {
+        "damping": 0.00011943420395255089,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0009894306056721265,
+        "gptq_hessian_error": 0.0006029346827850785
+      },
+      "down": {
+        "damping": 5.429333214124199e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0003951163962483406,
+        "gptq_hessian_error": 0.00021345207642298192
+      }
+    }
+  },
+  {
+    "layer": 12,
+    "seconds": 3.6271159650059417,
+    "details": {
+      "qkv": {
+        "damping": 0.00025925072259269655,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.005782219270865123,
+        "gptq_hessian_error": 0.0032891823599735894
+      },
+      "o": {
+        "damping": 2.207143734267447e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0002595421392470598,
+        "gptq_hessian_error": 0.00010131610906682909
+      },
+      "gate_up": {
+        "damping": 0.00012268582941032946,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0010260604321956635,
+        "gptq_hessian_error": 0.0006273408355407937
+      },
+      "down": {
+        "damping": 5.349658295017434e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0004471602151170373,
+        "gptq_hessian_error": 0.0002486240118741989
+      }
+    }
+  },
+  {
+    "layer": 13,
+    "seconds": 3.630062122014351,
+    "details": {
+      "qkv": {
+        "damping": 0.00025781369186006486,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.005819701900084813,
+        "gptq_hessian_error": 0.003373455877105395
+      },
+      "o": {
+        "damping": 2.1883819499635138e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00026986136799678206,
+        "gptq_hessian_error": 0.00010246614692732692
+      },
+      "gate_up": {
+        "damping": 0.00012827645696233958,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0010868976282518963,
+        "gptq_hessian_error": 0.0006522510720546855
+      },
+      "down": {
+        "damping": 5.751295702793868e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0005890343454666436,
+        "gptq_hessian_error": 0.00030602203332819045
+      }
+    }
+  },
+  {
+    "layer": 14,
+    "seconds": 3.629834191990085,
+    "details": {
+      "qkv": {
+        "damping": 0.00025870304671116173,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.006960509344935417,
+        "gptq_hessian_error": 0.003614066168665886
+      },
+      "o": {
+        "damping": 3.976077641709708e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0005456470535136759,
+        "gptq_hessian_error": 0.0001994187623495236
+      },
+      "gate_up": {
+        "damping": 0.00013487144315149635,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.001202162268549897,
+        "gptq_hessian_error": 0.0007052164698062941
+      },
+      "down": {
+        "damping": 6.2912399698689114e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.000748849066440016,
+        "gptq_hessian_error": 0.00036685701343230903
+      }
+    }
+  },
+  {
+    "layer": 15,
+    "seconds": 3.649771263008006,
+    "details": {
+      "qkv": {
+        "damping": 0.0002498299290891737,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.005908952405055364,
+        "gptq_hessian_error": 0.003282994652787844
+      },
+      "o": {
+        "damping": 1.756183701218106e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00026229085051454604,
+        "gptq_hessian_error": 0.00010671623749658465
+      },
+      "gate_up": {
+        "damping": 0.00013903788931202143,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0012810789915018302,
+        "gptq_hessian_error": 0.0007761988875477813
+      },
+      "down": {
+        "damping": 5.7403922255616635e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0008094633813016117,
+        "gptq_hessian_error": 0.0004299760330468416
+      }
+    }
+  },
+  {
+    "layer": 16,
+    "seconds": 3.6471120739588514,
+    "details": {
+      "qkv": {
+        "damping": 0.00026477876235730946,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.006154991686344147,
+        "gptq_hessian_error": 0.0034571069603164992
+      },
+      "o": {
+        "damping": 2.5100651328102686e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0004444329533725977,
+        "gptq_hessian_error": 0.00017620809376239777
+      },
+      "gate_up": {
+        "damping": 0.00014414614997804165,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.001446273697670116,
+        "gptq_hessian_error": 0.0008495834677718407
+      },
+      "down": {
+        "damping": 6.174957889015786e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.001091171521693468,
+        "gptq_hessian_error": 0.0005657721776515245
+      }
+    }
+  },
+  {
+    "layer": 17,
+    "seconds": 3.630298785981722,
+    "details": {
+      "qkv": {
+        "damping": 0.00025213390472345054,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.006199907511472702,
+        "gptq_hessian_error": 0.0034658825024962425
+      },
+      "o": {
+        "damping": 1.947511191247031e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00034077998134307563,
+        "gptq_hessian_error": 0.0001425536029273644
+      },
+      "gate_up": {
+        "damping": 0.00014833208115305752,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.001639091691305471,
+        "gptq_hessian_error": 0.0009698719652586205
+      },
+      "down": {
+        "damping": 5.809955837321468e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.001147010363638401,
+        "gptq_hessian_error": 0.0006468831561505795
+      }
+    }
+  },
+  {
+    "layer": 18,
+    "seconds": 3.647321952972561,
+    "details": {
+      "qkv": {
+        "damping": 0.00024718217900954187,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.006530404090881348,
+        "gptq_hessian_error": 0.0036799324055512748
+      },
+      "o": {
+        "damping": 1.6141708329087123e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00032978644594550133,
+        "gptq_hessian_error": 0.00013930784189142287
+      },
+      "gate_up": {
+        "damping": 0.0001539223885629326,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0018542414141255756,
+        "gptq_hessian_error": 0.0010905465067819107
+      },
+      "down": {
+        "damping": 6.083802873035893e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0014117974787950516,
+        "gptq_hessian_error": 0.0007738163694739342
+      }
+    }
+  },
+  {
+    "layer": 19,
+    "seconds": 3.6312341160373762,
+    "details": {
+      "qkv": {
+        "damping": 0.00024615926668047905,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0071411579847335815,
+        "gptq_hessian_error": 0.003702630288898945
+      },
+      "o": {
+        "damping": 2.8880362151539885e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.000651776441372931,
+        "gptq_hessian_error": 0.0002527298347558826
+      },
+      "gate_up": {
+        "damping": 0.00016221505939029157,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0020500906678133234,
+        "gptq_hessian_error": 0.0011832329422928566
+      },
+      "down": {
+        "damping": 6.948852387722582e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.001662797061726451,
+        "gptq_hessian_error": 0.0008668189402669668
+      }
+    }
+  },
+  {
+    "layer": 20,
+    "seconds": 3.6314268780406564,
+    "details": {
+      "qkv": {
+        "damping": 0.00025715629453770816,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.006761172786355019,
+        "gptq_hessian_error": 0.003701568270723025
+      },
+      "o": {
+        "damping": 1.11234212454292e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0002588973438832909,
+        "gptq_hessian_error": 0.00010439114703331143
+      },
+      "gate_up": {
+        "damping": 0.00016544281970709562,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0021997201581333958,
+        "gptq_hessian_error": 0.0012792864337910054
+      },
+      "down": {
+        "damping": 7.12488917997689e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0018494422547519207,
+        "gptq_hessian_error": 0.001027503632940352
+      }
+    }
+  },
+  {
+    "layer": 21,
+    "seconds": 3.633365351939574,
+    "details": {
+      "qkv": {
+        "damping": 0.00026008879649452865,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0071090348064899445,
+        "gptq_hessian_error": 0.003915504862864812
+      },
+      "o": {
+        "damping": 1.0193925845669582e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00026861403603106737,
+        "gptq_hessian_error": 0.00011779888882301748
+      },
+      "gate_up": {
+        "damping": 0.00016732503718230873,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0023538522249044375,
+        "gptq_hessian_error": 0.0013914478206357292
+      },
+      "down": {
+        "damping": 7.1932454375200905e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0018761188257485628,
+        "gptq_hessian_error": 0.0011304134968668222
+      }
+    }
+  },
+  {
+    "layer": 22,
+    "seconds": 3.634353068075143,
+    "details": {
+      "qkv": {
+        "damping": 0.00026166418683715165,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.007613605509201686,
+        "gptq_hessian_error": 0.004243265216549237
+      },
+      "o": {
+        "damping": 1.7159762137453072e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.000511166057549417,
+        "gptq_hessian_error": 0.0002028838498517871
+      },
+      "gate_up": {
+        "damping": 0.000166960948263295,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0024822702588037002,
+        "gptq_hessian_error": 0.001475046193876932
+      },
+      "down": {
+        "damping": 7.133696271921508e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0019711439963430166,
+        "gptq_hessian_error": 0.0012677463237196207
+      }
+    }
+  },
+  {
+    "layer": 23,
+    "seconds": 3.6328354149591178,
+    "details": {
+      "qkv": {
+        "damping": 0.00026180598069913685,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.008112465341885885,
+        "gptq_hessian_error": 0.004620754159986973
+      },
+      "o": {
+        "damping": 1.2540188436105382e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00041592406341806054,
+        "gptq_hessian_error": 0.0001958018692675978
+      },
+      "gate_up": {
+        "damping": 0.00017096498049795628,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0026262454515279727,
+        "gptq_hessian_error": 0.0015830636717552363
+      },
+      "down": {
+        "damping": 7.517817721236497e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0021415981464087963,
+        "gptq_hessian_error": 0.001408378011547029
+      }
+    }
+  },
+  {
+    "layer": 24,
+    "seconds": 3.6269570200238377,
+    "details": {
+      "qkv": {
+        "damping": 0.00026237976271659136,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.007544863969087601,
+        "gptq_hessian_error": 0.004323543049395084
+      },
+      "o": {
+        "damping": 1.9498920664773323e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0005837990902364254,
+        "gptq_hessian_error": 0.0002193332475144416
+      },
+      "gate_up": {
+        "damping": 0.00016968890849966556,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.002734350083872329,
+        "gptq_hessian_error": 0.001677402230196221
+      },
+      "down": {
+        "damping": 7.624462341482285e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.002193907741457224,
+        "gptq_hessian_error": 0.0014871811727061868
+      }
+    }
+  },
+  {
+    "layer": 25,
+    "seconds": 3.6360383009305224,
+    "details": {
+      "qkv": {
+        "damping": 0.00026517617516219616,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.008558435986439386,
+        "gptq_hessian_error": 0.005059519161780675
+      },
+      "o": {
+        "damping": 1.8496184566174634e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0006415530806407332,
+        "gptq_hessian_error": 0.00017814984312281013
+      },
+      "gate_up": {
+        "damping": 0.0001761642488418147,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.002944922031358231,
+        "gptq_hessian_error": 0.0018030713463938514
+      },
+      "down": {
+        "damping": 8.922850611270405e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0024873092770576477,
+        "gptq_hessian_error": 0.001600712537765503
+      }
+    }
+  },
+  {
+    "layer": 26,
+    "seconds": 3.635482221026905,
+    "details": {
+      "qkv": {
+        "damping": 0.0002627162612043321,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.008099284023046494,
+        "gptq_hessian_error": 0.004723732049266498
+      },
+      "o": {
+        "damping": 2.4086823032121174e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0008224240154959261,
+        "gptq_hessian_error": 0.00023486680584028363
+      },
+      "gate_up": {
+        "damping": 0.00017878382641356438,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0031251741010089253,
+        "gptq_hessian_error": 0.001913067906401878
+      },
+      "down": {
+        "damping": 8.835791959427297e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0025079618208110332,
+        "gptq_hessian_error": 0.001735126250423491
+      }
+    }
+  },
+  {
+    "layer": 27,
+    "seconds": 3.637837674934417,
+    "details": {
+      "qkv": {
+        "damping": 0.0002575239341240376,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.00876802330215772,
+        "gptq_hessian_error": 0.005193834503491719
+      },
+      "o": {
+        "damping": 1.564547528687399e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0006351026822812855,
+        "gptq_hessian_error": 0.0002624875050969422
+      },
+      "gate_up": {
+        "damping": 0.00018369975441601127,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.003315480989079143,
+        "gptq_hessian_error": 0.002039368589257085
+      },
+      "down": {
+        "damping": 9.988947567762807e-06,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0028626678977161646,
+        "gptq_hessian_error": 0.0019058356992900372
+      }
+    }
+  },
+  {
+    "layer": 28,
+    "seconds": 3.632927060010843,
+    "details": {
+      "qkv": {
+        "damping": 0.0002613957622088492,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.008743231495221456,
+        "gptq_hessian_error": 0.005153574359913667
+      },
+      "o": {
+        "damping": 2.208804653491825e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0009253415046259761,
+        "gptq_hessian_error": 0.00029499863740056753
+      },
+      "gate_up": {
+        "damping": 0.00019063330546487123,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.003468762303507605,
+        "gptq_hessian_error": 0.00210666136686192
+      },
+      "down": {
+        "damping": 1.211680682899896e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0034326515160501003,
+        "gptq_hessian_error": 0.002108951797708869
+      }
+    }
+  },
+  {
+    "layer": 29,
+    "seconds": 3.632166538038291,
+    "details": {
+      "qkv": {
+        "damping": 0.00025578911299817264,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.007760884861151378,
+        "gptq_hessian_error": 0.004536449288328488
+      },
+      "o": {
+        "damping": 2.86537306237733e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0010841763578355312,
+        "gptq_hessian_error": 0.0003117361047770828
+      },
+      "gate_up": {
+        "damping": 0.00024483466404490173,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0038475096225738525,
+        "gptq_hessian_error": 0.0022154053629830825
+      },
+      "down": {
+        "damping": 1.4588779777113814e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.004053198732435703,
+        "gptq_hessian_error": 0.0022673781495541334
+      }
+    }
+  },
+  {
+    "layer": 30,
+    "seconds": 3.6276767119998112,
+    "details": {
+      "qkv": {
+        "damping": 0.00025419716257601976,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.008314242586493492,
+        "gptq_hessian_error": 0.0047528985887765884
+      },
+      "o": {
+        "damping": 2.3160795535659418e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0010350237134844065,
+        "gptq_hessian_error": 0.0003257105709053576
+      },
+      "gate_up": {
+        "damping": 0.0004335414560046047,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0045833961908207385,
+        "gptq_hessian_error": 0.0024345317898794663
+      },
+      "down": {
+        "damping": 2.4320219381479546e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.007187510374933481,
+        "gptq_hessian_error": 0.002683100523427129
+      }
+    }
+  },
+  {
+    "layer": 31,
+    "seconds": 3.63190197001677,
+    "details": {
+      "qkv": {
+        "damping": 0.00022422539768740535,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0061234670380751295,
+        "gptq_hessian_error": 0.0033024633303284645
+      },
+      "o": {
+        "damping": 5.275369403534569e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0014878918882459402,
+        "gptq_hessian_error": 0.0003561524208635092
+      },
+      "gate_up": {
+        "damping": 0.0002566400507930666,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.0036669179450633913,
+        "gptq_hessian_error": 0.0018895318688348282
+      },
+      "down": {
+        "damping": 6.399709673132747e-05,
+        "dead_columns": 0,
+        "blocksize": 128,
+        "act_order": false,
+        "rtn_hessian_error": 0.019471541047096252,
+        "gptq_hessian_error": 0.0035367857199162245
+      }
+    }
+  }
+]

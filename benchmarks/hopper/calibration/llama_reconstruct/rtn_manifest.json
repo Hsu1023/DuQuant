@@ -1,0 +1,316 @@
+{
+  "status": "complete",
+  "variant": "rtn",
+  "method": "duquant_reconstruct",
+  "model": "/work/nvme/bfne/huggingface/hub/models--meta-llama--Llama-2-7b-hf/snapshots/01c7f73d771dfac7d292323805ebc428287df4f9",
+  "layers": [
+    {
+      "index": 0,
+      "file": "layer_00.pt",
+      "sha256": "1e4eaeaca6e7fd0ddc8b07d30112458931f021cc909c9dd6e6ba8a1d8b008869"
+    },
+    {
+      "index": 1,
+      "file": "layer_01.pt",
+      "sha256": "1e06909815adbd017f8051a813eed00ad188fc2870966a96541ded78d81c827f"
+    },
+    {
+      "index": 2,
+      "file": "layer_02.pt",
+      "sha256": "43ded0fdf868e9b57215eb428f1316960434cc19f9eaa361a68a2fa5a078117a"
+    },
+    {
+      "index": 3,
+      "file": "layer_03.pt",
+      "sha256": "6466fdf8ddd6196dc070439d1b5859068b8b143fa67b486b4110dd01ae3cc0ac"
+    },
+    {
+      "index": 4,
+      "file": "layer_04.pt",
+      "sha256": "0063edb2ee2fab316428318e50bc39b7ba43c6d62f178f83c03375d2ea924569"
+    },
+    {
+      "index": 5,
+      "file": "layer_05.pt",
+      "sha256": "f93217ad70471e57211fde3c2ec35e8a45fe52637395bdbd2e1c5b88d090acb8"
+    },
+    {
+      "index": 6,
+      "file": "layer_06.pt",
+      "sha256": "2bd4909d693cb7d64e7a512aa4158808f27c86d0934db06995e144dcb71f70b9"
+    },
+    {
+      "index": 7,
+      "file": "layer_07.pt",
+      "sha256": "cf90fabfc64eb06476a13f0516f071def99d506fdf86b7cf317ac35d00c8960e"
+    },
+    {
+      "index": 8,
+      "file": "layer_08.pt",
+      "sha256": "cb136644e0682446eabcd6963268a08eb0e962cd3554a029a0ff8c46f5652555"
+    },
+    {
+      "index": 9,
+      "file": "layer_09.pt",
+      "sha256": "b7ea66d3f03b73e804a1c7473409dd5159d737fffd9c929c85d91e9708cbe12b"
+    },
+    {
+      "index": 10,
+      "file": "layer_10.pt",
+      "sha256": "bfd12fe2e0e72e9df597b6591c8b7f30086dc63293c9ebb2fef05322038fb59d"
+    },
+    {
+      "index": 11,
+      "file": "layer_11.pt",
+      "sha256": "53dd83c47d17e91c288e10e88702ffb49e843dcd9ad4fc0e405036c7a991f5b6"
+    },
+    {
+      "index": 12,
+      "file": "layer_12.pt",
+      "sha256": "2b64c4cb14ae97549451199cf87d9265ac9a0c7b18027b41f007a8a616323f91"
+    },
+    {
+      "index": 13,
+      "file": "layer_13.pt",
+      "sha256": "a3dfbe1676e6bdea6cf0fa57b0dbbe82d6ae1a662a12b01ff74c323ce99a1bb5"
+    },
+    {
+      "index": 14,
+      "file": "layer_14.pt",
+      "sha256": "df5fb164b5c09f15b45878d3af24ae06cd580f23c1a081d078ff7a83de29b550"
+    },
+    {
+      "index": 15,
+      "file": "layer_15.pt",
+      "sha256": "3f73b65647557c49857403c6f4403e1a978255a8d93b55c2c042542ee6cb7b9e"
+    },
+    {
+      "index": 16,
+      "file": "layer_16.pt",
+      "sha256": "6f55125e68a32647afc809a784c8ef41d56a5af24edd0636306b772e5f569f8e"
+    },
+    {
+      "index": 17,
+      "file": "layer_17.pt",
+      "sha256": "a1867694d2d37d0f3465ec59c22eda6b4e8438bd3b4cc7735e9a3453f65e977f"
+    },
+    {
+      "index": 18,
+      "file": "layer_18.pt",
+      "sha256": "2a3d05fa2dfee8ab63a0a8aa8501293bc0e15d700f4213bef8c9ad713dcc6056"
+    },
+    {
+      "index": 19,
+      "file": "layer_19.pt",
+      "sha256": "903ebb935e62c34396ebd72801a99209608141212166390f8dc96002502286b8"
+    },
+    {
+      "index": 20,
+      "file": "layer_20.pt",
+      "sha256": "a7b295e7cd1f9b8c7f772daceddbce1a673364131fded5d711409e6cba54dc13"
+    },
+    {
+      "index": 21,
+      "file": "layer_21.pt",
+      "sha256": "d4bfbba4377d5035e0061fc09916308e92dd0e124b66a6c641b91c6c0d34bad8"
+    },
+    {
+      "index": 22,
+      "file": "layer_22.pt",
+      "sha256": "48a34d0fcc6f043efbfcf9900f97339b1283e7a5f3ff855fce850652521f5e48"
+    },
+    {
+      "index": 23,
+      "file": "layer_23.pt",
+      "sha256": "6c5c40f72ebe8aa90993b48096cdbe8d39e59c3d45d623e7a699040b58a047e3"
+    },
+    {
+      "index": 24,
+      "file": "layer_24.pt",
+      "sha256": "d6dd23207e7c9fe35cccd38a4ac41edc2d8bf003701906fc3d2471919826fb5e"
+    },
+    {
+      "index": 25,
+      "file": "layer_25.pt",
+      "sha256": "bb97d234cc0ceb2446accf6d8e667ffc2c481c1415ab232d957cf9ca6dc3f5f4"
+    },
+    {
+      "index": 26,
+      "file": "layer_26.pt",
+      "sha256": "a6c671d7530e5b112146698bdd4fffe7fe168617666d92f638ee4ee144ab2960"
+    },
+    {
+      "index": 27,
+      "file": "layer_27.pt",
+      "sha256": "0ff2d9f0a634c2d3122e6f9c27ae85b9b9ca0d4a7225e1690b74fa848864bd7d"
+    },
+    {
+      "index": 28,
+      "file": "layer_28.pt",
+      "sha256": "f725d6389223d8b2ef7d872f7d4237bc71e0bc91750a70f748cd18484e2c2b31"
+    },
+    {
+      "index": 29,
+      "file": "layer_29.pt",
+      "sha256": "8d1e995e48949042f4bbdce4a20acc5bb00226ca4a864d15024d322290ec71ce"
+    },
+    {
+      "index": 30,
+      "file": "layer_30.pt",
+      "sha256": "80622fabe85c310f406ef9f100b33d38ed29d05801d9fd03640f825bf6b07957"
+    },
+    {
+      "index": 31,
+      "file": "layer_31.pt",
+      "sha256": "ef5c136eb143437d0df4bcb35e2321d4eee8f7adb30141961ce8544e0966d552"
+    }
+  ],
+  "training": {
+    "source_arrow": "/work/nvme/bfne/huggingface/datasets/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow",
+    "split": "train",
+    "nsamples": 128,
+    "seqlen": 2048,
+    "seed": 2,
+    "sample_starts": [
+      237193,
+      384134,
+      355978,
+      1514384,
+      709188,
+      2809052,
+      1292417,
+      1055216,
+      2541514,
+      890110,
+      2545110,
+      149881,
+      2437746,
+      2857353,
+      664305,
+      1806359,
+      2677942,
+      1650592,
+      2135183,
+      1560533,
+      2282443,
+      1865853,
+      2105822,
+      1125083,
+      150677,
+      115112,
+      1526787,
+      1949906,
+      1335739,
+      1593898,
+      1776753,
+      2205166,
+      689914,
+      2350950,
+      744222,
+      990373,
+      967217,
+      100068,
+      741217,
+      1363748,
+      728084,
+      573350,
+      2139794,
+      2140033,
+      1508655,
+      2154770,
+      2828972,
+      2348350,
+      762706,
+      1869139,
+      1739256,
+      2203543,
+      1527798,
+      2489258,
+      1483890,
+      1517861,
+      1869690,
+      676057,
+      1677149,
+      1935279,
+      2746895,
+      2224473,
+      1048163,
+      2055267,
+      1170639,
+      2089037,
+      2100679,
+      2161711,
+      1484465,
+      2775310,
+      1907102,
+      1933625,
+      1471256,
+      2381127,
+      2338671,
+      1914914,
+      2040984,
+      2763565,
+      930342,
+      1361753,
+      696546,
+      2585142,
+      1124650,
+      2012285,
+      1298401,
+      1272118,
+      2114972,
+      2357990,
+      2171591,
+      2128008,
+      2732230,
+      2582886,
+      2466018,
+      1705699,
+      1307969,
+      871653,
+      2050622,
+      2147029,
+      1537624,
+      2869876,
+      2614163,
+      316147,
+      1432182,
+      35323,
+      802801,
+      445254,
+      246452,
+      2409270,
+      2738502,
+      205143,
+      1145463,
+      2481771,
+      950498,
+      2862518,
+      445711,
+      2190947,
+      572522,
+      1115018,
+      1026899,
+      882812,
+      253272,
+      1773845,
+      133685,
+      238221,
+      1519835,
+      1510865,
+      720921,
+      1046485
+    ],
+    "tokens_sha256": "50e50734c929876addcd7383a0636297bebbb98365b82256050d06e731b31ae3"
+  },
+  "training_manifest_sha256": "6a09b5277f056ce629a0b8848c277ed5792720145ce0a925b82d29e8b43cf2da",
+  "parent_manifest_sha256": "7bf40f78b77a9b5aa55a0976fbb8de3329229045bb63d1792b5dd51f7da57d19",
+  "rotations": "Unchanged parent rotations/permutation",
+  "quantization": "W4 symmetric per-channel; A4 scalar-ratio asymmetric per-token; Q16; KV4 per-head128",
+  "gptq": null,
+  "source_sha256": {
+    "/work/nvme/bfne/duquant/DuQuant_calib/benchmarks/export_llama_reconstruct.py": "9a7b52b7ebd2611e12595a870ca47136f62585c11625ec2f4170e992c17c0bb4",
+    "benchmarks/duquant_reconstruct.py": "e6f605353fae42274ca97471ab077da161e4986d79b965f986d6ee27d76c89a6",
+    "duquant_cuda/ptq.py": "855c2be51ec5c7a06b6cf69ab2445d4de953104821d6049cfa70f3041632b40c"
+  }
+}

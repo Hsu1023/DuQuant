@@ -1,5 +1,6 @@
 """Train-only calibration: FP16 activation maxima, folded smoothing, DuQuant search."""
 
+import os
 import argparse
 import hashlib
 import json
@@ -23,13 +24,13 @@ from duquant_cuda.calibration import (
     CalibratingLinear,
 )
 
-TRAIN_ARROW = "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow"
+TRAIN_ARROW = os.environ.get("DUQUANT_WIKITEXT_TRAIN", "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow")
 
 
 @torch.inference_mode()
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--model", default="/mnt/public_models/llama2-7b-hf")
+    p.add_argument("--model", default=os.environ.get("DUQUANT_LLAMA2", "/mnt/public_models/llama2-7b-hf"))
     p.add_argument("--output", default="benchmarks/cache/calibrated_w4a4")
     p.add_argument("--nsamples", type=int, default=128)
     p.add_argument("--seqlen", type=int, default=2048)

@@ -255,7 +255,7 @@ def worker(args):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--model", default="/mnt/public_models/llama2-7b-hf")
+    p.add_argument("--model", default=os.environ.get("DUQUANT_LLAMA2", "/mnt/public_models/llama2-7b-hf"))
     p.add_argument("--mode", choices=["fp16", "cuda"], required=True)
     p.add_argument("--prompt", type=int, default=128)
     p.add_argument("--new-tokens", type=int, default=32)

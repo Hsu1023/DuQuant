@@ -1,4 +1,4 @@
-"""Experimental single-layer DuQuant W4A4 inference (FP16, sm_89).
+"""Experimental single-layer DuQuant W4A4 inference (FP16, sm_89 / sm_90).
 
 CUTLASS is an external build dependency. Set CUTLASS_PATH to its checkout.
 Weights are transformed and packed once; every forward transforms and quantizes
@@ -8,53 +8,74 @@ its actual input. No output/activation caching is used.
 import ctypes
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import torch
 import triton
 import triton.language as tl
 
 _LIB = None
+_LIB90 = None
+
+
+def _arch(device=None):
+    major, minor = torch.cuda.get_device_capability(device)
+    return major * 10 + minor
+
+
+def _nvcc():
+    cuda = os.environ.get("CUDA_HOME")
+    if cuda:
+        return str(Path(cuda) / "bin/nvcc")
+    found = shutil.which("nvcc")
+    return found or "/usr/local/cuda-12.4/bin/nvcc"
+
+
+def _build(src, so, arch, deps=()):
+    root = src.parent
+    build = root / "build"
+    build.mkdir(exist_ok=True)
+    if so.exists() and so.stat().st_mtime >= max(
+        p.stat().st_mtime for p in (src, *deps)
+    ):
+        return
+    cutlass = os.environ.get("CUTLASS_PATH")
+    if not cutlass:
+        raise RuntimeError("Set CUTLASS_PATH to a CUTLASS checkout (tested with 3.x).")
+    log = build / (so.stem + "_compile.log")
+    result = subprocess.run(
+        [
+            _nvcc(),
+            "-O3",
+            "-std=c++17",
+            "--expt-relaxed-constexpr",
+            "-DNDEBUG",
+            f"-arch={arch}",
+            "--shared",
+            "-Xcompiler=-fPIC",
+            "-I" + str(Path(cutlass) / "include"),
+            "-I" + str(Path(cutlass) / "tools/util/include"),
+            str(src),
+            "-o",
+            str(so) + ".tmp",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    log.write_text(result.stdout + result.stderr)
+    if result.returncode:
+        raise RuntimeError(f"CUDA compilation failed; see {log}")
+    os.replace(str(so) + ".tmp", so)
 
 
 def load_gemm():
+    """Ada/Ampere path: CUTLASS Sm80 u4 x u4 IMMA (packed activations)."""
     global _LIB
     if _LIB is not None:
         return _LIB
     root = Path(__file__).resolve().parent
-    build = root / "build"
-    build.mkdir(exist_ok=True)
-    so = build / "gemm.so"
-    src = root / "gemm.cu"
-    if not so.exists() or so.stat().st_mtime < max(
-        src.stat().st_mtime, (root / "fused_gemm.cuh").stat().st_mtime
-    ):
-        cutlass = os.environ.get("CUTLASS_PATH")
-        if not cutlass:
-            raise RuntimeError(
-                "Set CUTLASS_PATH to a CUTLASS checkout (tested with 3.x)."
-            )
-        cuda = os.environ.get("CUDA_HOME", "/usr/local/cuda-12.4")
-        result = subprocess.run(
-            [
-                str(Path(cuda) / "bin/nvcc"),
-                "-O3",
-                "-std=c++17",
-                "--expt-relaxed-constexpr",
-                "-arch=sm_89",
-                "--shared",
-                "-Xcompiler=-fPIC",
-                "-I" + str(Path(cutlass) / "include"),
-                str(src),
-                "-o",
-                str(so) + ".tmp",
-            ],
-            capture_output=True,
-            text=True,
-        )
-        (build / "compile.log").write_text(result.stdout + result.stderr)
-        if result.returncode:
-            raise RuntimeError(f"CUDA compilation failed; see {build / 'compile.log'}")
-        os.replace(str(so) + ".tmp", so)
+    so = root / "build" / "gemm.so"
+    _build(root / "gemm.cu", so, "sm_89", (root / "fused_gemm.cuh",))
     lib = ctypes.CDLL(str(so))
     lib.duquant_gemm.argtypes = (
         [ctypes.c_void_p] * 3 + [ctypes.c_int] * 3 + [ctypes.c_void_p, ctypes.c_int]
@@ -63,6 +84,39 @@ def load_gemm():
     lib.duquant_gemm_fused.argtypes = lib.duquant_gemm.argtypes + [ctypes.c_void_p] * 7
     lib.duquant_gemm_fused.restype = ctypes.c_int
     _LIB = lib
+    return lib
+
+
+def load_gemm_sm90():
+    """Hopper path: packed u4 weights widened in registers, s8 activations, INT8 wgmma."""
+    global _LIB90
+    if _LIB90 is not None:
+        return _LIB90
+    root = Path(__file__).resolve().parent
+    so = root / "build" / "gemm_sm90.so"
+    _build(root / "gemm_sm90.cu", so, "sm_90a", (root / "small_m.cuh", root / "linear_small.cuh"))
+    lib = ctypes.CDLL(str(so))
+    lib.duquant_sm90_gemm.argtypes = (
+        [ctypes.c_void_p] * 3 + [ctypes.c_int] * 3 + [ctypes.c_void_p, ctypes.c_int]
+    )
+    lib.duquant_sm90_gemm.restype = ctypes.c_int
+    lib.duquant_sm90_gemm_fused.argtypes = (
+        lib.duquant_sm90_gemm.argtypes + [ctypes.c_void_p] * 7
+    )
+    lib.duquant_sm90_gemm_fused.restype = ctypes.c_int
+    lib.duquant_gemv_u4.argtypes = lib.duquant_sm90_gemm_fused.argtypes
+    lib.duquant_gemv_u4.restype = ctypes.c_int
+    lib.duquant_linear_small.argtypes = (
+        [ctypes.c_void_p] * 6
+        + [ctypes.c_int] * 3
+        + [ctypes.c_float, ctypes.c_void_p, ctypes.c_int]
+        + [ctypes.c_void_p] * 11
+        + [ctypes.c_int, ctypes.c_longlong, ctypes.c_void_p, ctypes.c_void_p]
+        + [ctypes.c_void_p] * 3
+        + [ctypes.c_int, ctypes.c_void_p, ctypes.c_longlong]
+    )
+    lib.duquant_linear_small.restype = ctypes.c_int
+    _LIB90 = lib
     return lib
 
 
@@ -111,6 +165,7 @@ def _quant(
     K: tl.constexpr,
     CLIP: tl.constexpr,
     B: tl.constexpr,
+    UNPACKED: tl.constexpr = False,
 ):
     row = tl.program_id(0)
     j = tl.arange(0, B)
@@ -146,16 +201,21 @@ def _quant(
         tl.int32
     )
     q = tl.where(j < K, q, 0)
-    # Interleave adjacent low/high nibbles.
-    pairs = tl.reshape(q, (B // 2, 2))
-    packed = tl.sum(
-        pairs * tl.full((1, 2), 1, tl.int32) * (1 << (tl.arange(0, 2)[None, :] * 4)), 1
-    )
-    tl.store(
-        Q + row * (K // 2) + tl.arange(0, B // 2),
-        packed.to(tl.uint8),
-        tl.arange(0, B // 2) < K // 2,
-    )
+    if UNPACKED:
+        # s8 codes in [0,15], one byte per element (Hopper INT8 wgmma operand).
+        tl.store(Q + row * K + j, q.to(tl.int8), j < K)
+    else:
+        # Interleave adjacent low/high nibbles.
+        pairs = tl.reshape(q, (B // 2, 2))
+        packed = tl.sum(
+            pairs * tl.full((1, 2), 1, tl.int32) * (1 << (tl.arange(0, 2)[None, :] * 4)),
+            1,
+        )
+        tl.store(
+            Q + row * (K // 2) + tl.arange(0, B // 2),
+            packed.to(tl.uint8),
+            tl.arange(0, B // 2) < K // 2,
+        )
     tl.store(S + row, scale)
     tl.store(Z + row, zp)
     tl.store(SUM + row, tl.sum(q, 0))
@@ -339,8 +399,38 @@ class DuQuantLinearCUDA(torch.nn.Module):
             if bias is not None
             else torch.zeros(self.n, device=weight.device, dtype=weight.dtype),
         )
-        self.gemm = load_gemm()
+        # Hopper has no INT4 MMA: use the s8-activation / u4-weight wgmma kernel.
+        self.hopper = _arch(weight.device) == 90
+        self.gemm = load_gemm_sm90() if self.hopper else load_gemm()
         self.gemm_config = None
+        # Hopper decode path (see use_small): the cooperative CUDA kernel does the
+        # whole layer (transform, quantization, dp4a GEMV); larger M uses the s8 wgmma GEMM.
+        self.small_m = 4 if self.hopper else 0
+        self.small_gemv_config = None
+        self.prefetch_bytes = 16 << 20  # L2 warm-up overlapping the activation phases
+        self.small_trace = None  # optional int64 [grid, 8] globaltimer trace (debug)
+        # Next DuQuantLinearCUDA in execution order (set by the model); its
+        # rotations and leading weight bytes are prefetched into L2 during decode.
+        self.prefetch_next = None
+        self.next_weight_prefetch = 8 << 20
+        if self.hopper:
+            self.register_buffer("perm32", self.perm.to(torch.int32).contiguous())
+            # R1^T and R2^T padded to 132 halves per row (Tensor Core B operands,
+            # bank spreading in the kernel).
+            r1t = torch.zeros((128, 132), device=weight.device, dtype=torch.float16)
+            r1t[:, :128] = self.r1.t()
+            self.register_buffer("r1t", r1t, persistent=False)
+            r2t = torch.zeros((128, 132), device=weight.device, dtype=torch.float16)
+            r2t[:, :128] = self.r2.t()
+            self.register_buffer("r2t", r2t, persistent=False)
+            # Barrier counters of the cooperative small-M kernel: one slot of 4
+            # per (row bucket, config, with/without GEMV) because the epoch is
+            # derived from the grid size.
+            self.register_buffer(
+                "small_counters",
+                torch.zeros((3, 3, 2, 4), device=weight.device, dtype=torch.int64),
+                persistent=False,
+            )
         self.fused_epilogue = True
         self.gemv_bn = 16
         self.gemv_bk = 512
@@ -348,17 +438,92 @@ class DuQuantLinearCUDA(torch.nn.Module):
         self.rotation_warps = None
         self.transposed_rotation = True
 
+    def sm90_config(self, m):
+        """Shape-only sm90 GEMM dispatch, from a GH200 sweep of the LLaMA shapes.
+
+        Configs 0-4: data-parallel token tiles 16/32/64/128/256; 5-8: Stream-K
+        16/32/64/128. Stream-K pays off when there are few output tiles and a
+        long K (down projection: N=4096, K=11008).
+        """
+        n, k = self.n, self.k
+        sk = k >= 8192 and n <= 8192
+        if m <= 16:
+            return 5 if sk else 0
+        if m <= 64:
+            return 6 if sk else (0 if n <= 4096 else 1 if m <= 32 else 2)
+        if m <= 128:
+            return 7 if sk else (6 if n <= 4096 else 3)
+        if m <= 256:
+            return 8 if sk else (2 if n <= 4096 else 4 if n <= 16384 else 3)
+        if m <= 512:
+            return 3 if n <= 4096 else 4
+        return 4
+
+    def use_small(self, m):
+        # Cooperative decode kernel: always for M <= 2; for 3-4 rows only when
+        # N is small enough that the GEMM path is not already faster.
+        return m <= self.small_m and (m <= 2 or self.n <= 8192)
+
     def launch_config(self, m):
         # Shape-only dispatch: no activation-dependent tuning in forward.
         bm = self.rotation_bm or (16 if m <= 32 else 32 if m <= 128 else 64)
         warps = self.rotation_warps or (4 if m == 1 else 8)
         gemm = self.gemm_config
-        if gemm is None:
+        if gemm is None and self.hopper:
+            gemm = self.sm90_config(m)
+        elif gemm is None:
             gemm = 2 if m >= 256 or (m >= 64 and self.n >= 8192) else 1
         return bm, warps, gemm
 
-    def activation(self, x):
+    def _next_prefetch_args(self):
+        nxt = self.prefetch_next
+        if nxt is None or not getattr(nxt, "hopper", False):
+            return (0, 0, 0, 0, 0, 0)
+        w_bytes = min(nxt.weight.numel(), self.next_weight_prefetch)
+        return (nxt.r1t.data_ptr(), nxt.r2t.data_ptr(), nxt.perm32.data_ptr(), nxt.k,
+                nxt.weight.data_ptr(), w_bytes)
+
+    def small_linear(self, x, y=None):
+        """Hopper decode path (M <= 4): one cooperative kernel for the whole layer.
+
+        With y=None only the activation transform/quantization runs and the
+        packed codes, scales, zero points and code sums are returned.
+        """
         m = x.numel() // self.k
+        nb = self.k // 128
+        dev = x.device
+        part = torch.empty((3, m, nb), device=dev, dtype=torch.float32)
+        a = torch.empty((m, self.k // 2), device=dev, dtype=torch.uint8)
+        s = torch.empty(m, device=dev, dtype=torch.float16)
+        zero = torch.empty_like(s)
+        sums = torch.empty(m, device=dev, dtype=torch.int32)
+        cfg = self.small_gemv_config
+        if cfg is None:
+            cfg = 1
+        status = self.gemm.duquant_linear_small(
+            x.data_ptr(), self.r1t.data_ptr(), self.r2t.data_ptr(), self.perm32.data_ptr(),
+            self.weight.data_ptr(), y.data_ptr() if y is not None else 0,
+            m, self.n, self.k, float(self.act_clip),
+            torch.cuda.current_stream().cuda_stream, cfg,
+            self.weight_scale.data_ptr(), self.weight_zero.data_ptr(),
+            self.weight_correction.data_ptr(), self.epilogue_bias.data_ptr(),
+            part[0].data_ptr(), part[1].data_ptr(), part[2].data_ptr(),
+            a.data_ptr(), s.data_ptr(), zero.data_ptr(), sums.data_ptr(),
+            int(y is not None), self.prefetch_bytes,
+            self.small_counters[(max(m, 1) - 1).bit_length(), cfg, int(y is not None)].data_ptr(),
+            self.small_trace.data_ptr() if self.small_trace is not None else 0,
+            *self._next_prefetch_args(),
+        )
+        if status:
+            raise RuntimeError(f"small-M DuQuant kernel failed: {status}")
+        return a, s, zero, sums
+
+    def activation(self, x, unpacked=None):
+        m = x.numel() // self.k
+        if unpacked is None and self.use_small(m):
+            return self.small_linear(x)
+        if unpacked is None:
+            unpacked = self.hopper and m > 1
         t = torch.empty_like(x)
         z = torch.empty_like(x)
         bm, warps, _ = self.launch_config(m)
@@ -387,7 +552,11 @@ class DuQuantLinearCUDA(torch.nn.Module):
             self.transposed_rotation and m > 1,
             num_warps=warps,
         )
-        a = torch.empty((m, self.k // 2), device=x.device, dtype=torch.uint8)
+        a = torch.empty(
+            (m, self.k) if unpacked else (m, self.k // 2),
+            device=x.device,
+            dtype=torch.int8 if unpacked else torch.uint8,
+        )
         s = torch.empty(m, device=x.device, dtype=torch.float16)
         zero = torch.empty_like(s)
         sums = torch.empty(m, device=x.device, dtype=torch.int32)
@@ -401,6 +570,7 @@ class DuQuantLinearCUDA(torch.nn.Module):
             self.k,
             self.act_clip,
             triton.next_power_of_2(self.k),
+            unpacked,
         )
         return a, s, zero, sums
 
@@ -417,6 +587,12 @@ class DuQuantLinearCUDA(torch.nn.Module):
             return torch.empty((*x.shape[:-1], self.n), device=x.device, dtype=x.dtype)
         _, _, gemm_config = self.launch_config(m)
         with torch.cuda.device(x.device):
+            if self.use_small(m):
+                y = torch.empty(
+                    (*x.shape[:-1], self.n), device=x.device, dtype=torch.float16
+                )
+                self.small_linear(x, y)
+                return y
             a, s, z, sums = self.activation(x)
             y = torch.empty(
                 (*x.shape[:-1], self.n), device=x.device, dtype=torch.float16
@@ -440,7 +616,12 @@ class DuQuantLinearCUDA(torch.nn.Module):
                     self.gemv_bk,
                 )
             elif self.fused_epilogue:
-                status = self.gemm.duquant_gemm_fused(
+                fused = (
+                    self.gemm.duquant_sm90_gemm_fused
+                    if self.hopper
+                    else self.gemm.duquant_gemm_fused
+                )
+                status = fused(
                     a.data_ptr(),
                     self.weight.data_ptr(),
                     y.data_ptr(),
@@ -461,7 +642,10 @@ class DuQuantLinearCUDA(torch.nn.Module):
                     raise RuntimeError(f"CUTLASS fused GEMM failed: {status}")
             else:
                 c = torch.empty((m, self.n), device=x.device, dtype=torch.int32)
-                status = self.gemm.duquant_gemm(
+                plain = (
+                    self.gemm.duquant_sm90_gemm if self.hopper else self.gemm.duquant_gemm
+                )
+                status = plain(
                     a.data_ptr(),
                     self.weight.data_ptr(),
                     c.data_ptr(),

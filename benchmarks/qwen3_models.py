@@ -1,4 +1,5 @@
 """Qwen3-1.7B adaptation; existing LLaMA experiments are left intact."""
+import os
 import sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
@@ -12,7 +13,7 @@ from duquant_cuda.model import LlamaInferenceModel
 from flatquant_models import FlatKVCache
 from comparison_models import had
 
-MODEL=Path('/mnt/public_models/qwen3-1.7b-base')
+MODEL=Path(os.environ.get('DUQUANT_QWEN3','/mnt/public_models/qwen3-1.7b-base'))
 BASE=ROOT/'benchmarks/cache/qwen3_compare'
 REPORT=ROOT/'benchmarks/qwen3_compare'
 CFG=json.loads((MODEL/'config.json').read_text())

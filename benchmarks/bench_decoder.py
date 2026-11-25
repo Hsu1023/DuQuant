@@ -44,7 +44,7 @@ def embedded_prompt(path, length, batch):
 @torch.inference_mode()
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--model", default="/mnt/public_models/llama2-7b-hf")
+    p.add_argument("--model", default=os.environ.get("DUQUANT_LLAMA2", "/mnt/public_models/llama2-7b-hf"))
     p.add_argument("--prefill", default="128,512,2048")
     p.add_argument("--decode-context", default="128,2048,4095")
     p.add_argument("--batch", type=int, default=1)

@@ -45,6 +45,19 @@ Measured on one NVIDIA GeForce RTX 4090 (Ada), batch size 1, 1024-token prompt a
 
 [Measurements and memory accounting](benchmarks/llama_reconstruct/performance/summary.json) · [Generation benchmark](benchmarks/bench_llama_reconstruct.py). The standalone backend is separate from the original `main.py` workflow.
 
+## Hopper INT4 inference
+
+We add a Hopper (SM90) backend behind the same interface and checkpoint format, selected automatically. Hopper has no INT4 Tensor Cores, so packed INT4 weights are widened to INT8 in registers for an INT8 `wgmma` GEMM with a fused dequantization epilogue. Decoding runs each linear (rotations, permutation, A4 quantization and INT4 GEMV) as a single kernel.
+
+| LLaMA-2-7B | End-to-end time ↓ | Speedup ↑ | Model storage ↓ | Peak allocated GPU memory ↓ | Peak memory reduction ↑ |
+|---|---:|---:|---:|---:|---:|
+| FP16 | 180.25 ms | 1.00× | 12.55 GiB | 13.28 GiB | — |
+| DuQuant RTN W4A4KV4 | 140.73 ms | **1.28×** | 3.55 GiB | 3.98 GiB | **70.1%** |
+
+Measured on one NVIDIA GH200 120GB with the same protocol as the Ada table above.
+
+[Measurements and memory accounting](benchmarks/hopper/performance/summary.json) · [Hopper backend details](duquant_cuda/HOPPER.md).
+
 ## W4A4KV4 evaluation
 
 We align the quantization configuration with the comparison methods: symmetric per-channel W4, asymmetric per-token A4, Q16, and asymmetric KV4 with group size 128. We add layerwise reconstruction to learn foldable channel scales and W/A/K/V clipping while keeping DuQuant rotations and permutations fixed. The channel scales fold into existing weights. Both RTN and GPTQ exports use the learned clipping. Reconstruction uses 128 × 2048 WikiText-2 training tokens and 15 epochs per layer; evaluation data are not used for parameter selection.

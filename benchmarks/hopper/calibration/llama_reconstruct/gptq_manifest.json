@@ -1,0 +1,320 @@
+{
+  "status": "complete",
+  "variant": "gptq",
+  "method": "duquant_reconstruct",
+  "model": "/work/nvme/bfne/huggingface/hub/models--meta-llama--Llama-2-7b-hf/snapshots/01c7f73d771dfac7d292323805ebc428287df4f9",
+  "layers": [
+    {
+      "index": 0,
+      "file": "layer_00.pt",
+      "sha256": "d015bfe689f11a668de7e5e3d0918de4992e24157aa222535018e012d9e06801"
+    },
+    {
+      "index": 1,
+      "file": "layer_01.pt",
+      "sha256": "c5ec519858ca1f219c66fed0755070f022850030e11dd8668e375030aedbce48"
+    },
+    {
+      "index": 2,
+      "file": "layer_02.pt",
+      "sha256": "f2dac81388bf23abefce70cc9f494f2d885fee49fe1b6279febe9d1c39c7ca78"
+    },
+    {
+      "index": 3,
+      "file": "layer_03.pt",
+      "sha256": "3242c32ef83ef5e24469ed1e42066a36392c96ec4a0117c09b8b77d869f0749e"
+    },
+    {
+      "index": 4,
+      "file": "layer_04.pt",
+      "sha256": "2c9f5ed2916792226f5195231d4df7b46c54fb0e0c265a16784769ce0c41e66f"
+    },
+    {
+      "index": 5,
+      "file": "layer_05.pt",
+      "sha256": "04b4f0e6431fe58a7a9ab3cd5fb634775186b772bc21f27aa8e5b698edaea942"
+    },
+    {
+      "index": 6,
+      "file": "layer_06.pt",
+      "sha256": "db3fba606d9dee3bf0ed0d59fdfcf3985f958cb955c1d70cf2aef3ba241426f8"
+    },
+    {
+      "index": 7,
+      "file": "layer_07.pt",
+      "sha256": "c4241edfd10bfe42c318f673d066e445799a3ea1d8fd5aa6c05d111f11d84255"
+    },
+    {
+      "index": 8,
+      "file": "layer_08.pt",
+      "sha256": "dee9af3c6195489357c066945e53040dda5bdd985638338bfb19b25bd62990a7"
+    },
+    {
+      "index": 9,
+      "file": "layer_09.pt",
+      "sha256": "1ac3f0d974a68b009c1ebc40b7873cf18a53b976d0ee108bf6551ba5909195c1"
+    },
+    {
+      "index": 10,
+      "file": "layer_10.pt",
+      "sha256": "3c85c594b37936401694b39160009c08b6d30b788303671da02aae821a450b10"
+    },
+    {
+      "index": 11,
+      "file": "layer_11.pt",
+      "sha256": "ba57d14bc5914ab4fe337291ac3849d4787a6feff578b09cb1e1de8e509e8c1b"
+    },
+    {
+      "index": 12,
+      "file": "layer_12.pt",
+      "sha256": "527e00e699b50c9105d91576f50796369bdbb8b97d9396e6da8393e9df65ed32"
+    },
+    {
+      "index": 13,
+      "file": "layer_13.pt",
+      "sha256": "7e240945498e62df8c026e80d961f2d100376713c5334fb8233c3745265f3194"
+    },
+    {
+      "index": 14,
+      "file": "layer_14.pt",
+      "sha256": "6490173c35c705bd4d54458cb6456704a4e78113b462b1baa3f2b413323cd7c9"
+    },
+    {
+      "index": 15,
+      "file": "layer_15.pt",
+      "sha256": "aedbf253e4aff7ffc475022506759fd5884af6a136c6a75b252e5ea0e7b1a56f"
+    },
+    {
+      "index": 16,
+      "file": "layer_16.pt",
+      "sha256": "731c1936f1b4fcc23971df552c7f8bcdbeef8a8b3ba503cc9b57575b91c81acf"
+    },
+    {
+      "index": 17,
+      "file": "layer_17.pt",
+      "sha256": "8167d3ea885b90762d31ee6a5cb13dd483e89dc435937d5ea4df45e2d8fc5b4c"
+    },
+    {
+      "index": 18,
+      "file": "layer_18.pt",
+      "sha256": "1447177ffa0f9eace1f5a49a58f4b54c16f76b1db2f899d8377354833e5498ce"
+    },
+    {
+      "index": 19,
+      "file": "layer_19.pt",
+      "sha256": "6119b4784368e688abc8d9103668e749dcdd9a76d11e1e8aa28f5dcd2333664f"
+    },
+    {
+      "index": 20,
+      "file": "layer_20.pt",
+      "sha256": "0791911e2e4ef3624745bca2a09c1ee54a150b5f3d2805f97dc8c0db3da1d712"
+    },
+    {
+      "index": 21,
+      "file": "layer_21.pt",
+      "sha256": "72618e85fc590abcf82b4d08dcc9b6fa6bb17ecaaec4660fdf7969dc8a1f704f"
+    },
+    {
+      "index": 22,
+      "file": "layer_22.pt",
+      "sha256": "e99e324348a3c611ede61123af1852a646b883fff54d88cd2b424ebd4d087fea"
+    },
+    {
+      "index": 23,
+      "file": "layer_23.pt",
+      "sha256": "47b36e9c9eb6a855415f63dc71a0ce8118aa007a24a81ea97059eaa864e0b6d7"
+    },
+    {
+      "index": 24,
+      "file": "layer_24.pt",
+      "sha256": "4f1ed0343d4ceb100a27f03b8fdfaf1c35a8d0ef7092602fea81813e94e54609"
+    },
+    {
+      "index": 25,
+      "file": "layer_25.pt",
+      "sha256": "ce62c7b959d11148898f5d8bfcd0b01c9fcb3907644d7e1eb5747125a84f5acc"
+    },
+    {
+      "index": 26,
+      "file": "layer_26.pt",
+      "sha256": "e2599906493575f1f48a10da567ddfbeede787c3b78055b6851cfb152a975dd8"
+    },
+    {
+      "index": 27,
+      "file": "layer_27.pt",
+      "sha256": "601d2efaf0a2c8a0731a32d8224a0125ac1aa8e42512b94c3ab7c2e69aaec302"
+    },
+    {
+      "index": 28,
+      "file": "layer_28.pt",
+      "sha256": "30cd7f7bee1a6a695200fe5f4ad675f0657da3ffcae6c1a4a81aac27e6466978"
+    },
+    {
+      "index": 29,
+      "file": "layer_29.pt",
+      "sha256": "573f2b0eb801530de4f276fd4e25de640080f31a38fdf35fb4755a05138b7b57"
+    },
+    {
+      "index": 30,
+      "file": "layer_30.pt",
+      "sha256": "fb281b81f10ef367b5ff7aae7b48a1a3ebc873154a0f1e4b17458150af17106f"
+    },
+    {
+      "index": 31,
+      "file": "layer_31.pt",
+      "sha256": "a924cd27af1ddea4c9b4cfda87cf7f47fa87d44746ba6bb596f059eeeeb05399"
+    }
+  ],
+  "training": {
+    "source_arrow": "/work/nvme/bfne/huggingface/datasets/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow",
+    "split": "train",
+    "nsamples": 128,
+    "seqlen": 2048,
+    "seed": 2,
+    "sample_starts": [
+      237193,
+      384134,
+      355978,
+      1514384,
+      709188,
+      2809052,
+      1292417,
+      1055216,
+      2541514,
+      890110,
+      2545110,
+      149881,
+      2437746,
+      2857353,
+      664305,
+      1806359,
+      2677942,
+      1650592,
+      2135183,
+      1560533,
+      2282443,
+      1865853,
+      2105822,
+      1125083,
+      150677,
+      115112,
+      1526787,
+      1949906,
+      1335739,
+      1593898,
+      1776753,
+      2205166,
+      689914,
+      2350950,
+      744222,
+      990373,
+      967217,
+      100068,
+      741217,
+      1363748,
+      728084,
+      573350,
+      2139794,
+      2140033,
+      1508655,
+      2154770,
+      2828972,
+      2348350,
+      762706,
+      1869139,
+      1739256,
+      2203543,
+      1527798,
+      2489258,
+      1483890,
+      1517861,
+      1869690,
+      676057,
+      1677149,
+      1935279,
+      2746895,
+      2224473,
+      1048163,
+      2055267,
+      1170639,
+      2089037,
+      2100679,
+      2161711,
+      1484465,
+      2775310,
+      1907102,
+      1933625,
+      1471256,
+      2381127,
+      2338671,
+      1914914,
+      2040984,
+      2763565,
+      930342,
+      1361753,
+      696546,
+      2585142,
+      1124650,
+      2012285,
+      1298401,
+      1272118,
+      2114972,
+      2357990,
+      2171591,
+      2128008,
+      2732230,
+      2582886,
+      2466018,
+      1705699,
+      1307969,
+      871653,
+      2050622,
+      2147029,
+      1537624,
+      2869876,
+      2614163,
+      316147,
+      1432182,
+      35323,
+      802801,
+      445254,
+      246452,
+      2409270,
+      2738502,
+      205143,
+      1145463,
+      2481771,
+      950498,
+      2862518,
+      445711,
+      2190947,
+      572522,
+      1115018,
+      1026899,
+      882812,
+      253272,
+      1773845,
+      133685,
+      238221,
+      1519835,
+      1510865,
+      720921,
+      1046485
+    ],
+    "tokens_sha256": "50e50734c929876addcd7383a0636297bebbb98365b82256050d06e731b31ae3"
+  },
+  "training_manifest_sha256": "6a09b5277f056ce629a0b8848c277ed5792720145ce0a925b82d29e8b43cf2da",
+  "parent_manifest_sha256": "7bf40f78b77a9b5aa55a0976fbb8de3329229045bb63d1792b5dd51f7da57d19",
+  "rotations": "Unchanged parent rotations/permutation",
+  "quantization": "W4 symmetric per-channel; A4 scalar-ratio asymmetric per-token; Q16; KV4 per-head128",
+  "gptq": {
+    "blocksize": 128,
+    "damp": 0.01,
+    "act_order": false
+  },
+  "source_sha256": {
+    "/work/nvme/bfne/duquant/DuQuant_calib/benchmarks/export_llama_reconstruct.py": "9a7b52b7ebd2611e12595a870ca47136f62585c11625ec2f4170e992c17c0bb4",
+    "benchmarks/duquant_reconstruct.py": "e6f605353fae42274ca97471ab077da161e4986d79b965f986d6ee27d76c89a6",
+    "duquant_cuda/ptq.py": "855c2be51ec5c7a06b6cf69ab2445d4de953104821d6049cfa70f3041632b40c"
+  }
+}

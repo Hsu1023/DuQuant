@@ -1,5 +1,6 @@
 """Same-input stage diagnostics on the first training-text block (no test data)."""
 
+import os
 import json
 import sys
 from pathlib import Path
@@ -14,9 +15,9 @@ from datasets import Dataset
 from safetensors import safe_open
 from torch.nn.attention import sdpa_kernel, SDPBackend
 
-p = Path("/mnt/public_models/llama2-7b-hf")
+p = Path(os.environ.get("DUQUANT_LLAMA2", "/mnt/public_models/llama2-7b-hf"))
 d = Dataset.from_file(
-    "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow"
+    os.environ.get("DUQUANT_WIKITEXT_TRAIN", "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-train.arrow")
 )
 tok = (
     AutoTokenizer.from_pretrained(p, use_fast=False, local_files_only=True)(

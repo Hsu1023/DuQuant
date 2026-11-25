@@ -131,7 +131,7 @@ def main():
                     layer.gemv_bn, layer.gemv_bk = best[1]
                 else:
                     best = (float("inf"), None)
-                    for config in (0, 1, 2):
+                    for config in range(9 if layer.hopper else 3):
                         layer.gemm_config = config
                         t = timed(lambda: layer(x))
                         if t < best[0]:
@@ -142,7 +142,8 @@ def main():
             rel = ((out.float() - ref.float()).norm() / ref.float().norm()).item()
             maxerr = (out - ref).abs().max().item()
             a, s, z, sums = layer.activation(x)
-            mismatch = (a != pack(qa).reshape_as(a)).float().mean().item()
+            codes = qa.to(torch.int8) if a.dtype == torch.int8 else pack(qa)
+            mismatch = (a != codes.reshape_as(a)).float().mean().item()
             # Different accumulation order in rotations may change borderline
             # quantization bins. Large errors must never be timed as successes.
             if rel > 0.002:

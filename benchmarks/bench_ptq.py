@@ -1,4 +1,5 @@
 """Same-device generation check for searched RTN/GPTQ and FP16."""
+import os
 import hashlib
 import json
 from pathlib import Path
@@ -20,7 +21,7 @@ def main():
     if (root/"summary.json").exists():
         raise FileExistsError("Preserve completed performance runs; use a fresh directory")
     for name, mode, bits, calibration in jobs:
-        command = [sys.executable, "benchmarks/bench_model.py", "--model", "/mnt/public_models/llama2-7b-hf",
+        command = [sys.executable, "benchmarks/bench_model.py", "--model", os.environ.get("DUQUANT_LLAMA2", "/mnt/public_models/llama2-7b-hf"),
                    "--mode", mode, "--kv-bits", str(bits), "--prompt", "1024", "--new-tokens", "32",
                    "--repeats", "10", "--output", str(root/f"{name}.json")]
         if calibration:

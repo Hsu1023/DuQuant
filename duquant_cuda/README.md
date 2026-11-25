@@ -4,6 +4,8 @@
 
 ## 实现
 
+Hopper（sm_90 / GH200）使用单独的 INT8 wgmma GEMM 与单次 launch 的 decode kernel，接口不变、自动分派，见 [HOPPER.md](HOPPER.md)。
+
 - `backend.py`：PyTorch 接口、Triton 双旋转、量化/packing、单 token packed INT4 GEMV。
 - `gemm.cu`：CUTLASS 无符号 INT4 Tensor Core GEMM，保留 INT32 输出版本用于对照。
 - `fused_gemm.cuh`：把非对称零点修正、缩放、bias、FP16 写回融合到 GEMM epilogue，省掉 INT32 中间矩阵。

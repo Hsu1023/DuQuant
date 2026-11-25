@@ -3,6 +3,7 @@
 Local source archives are read only. All methods consume the identical saved
 requests. Raw and character-length-normalized accuracy are both retained.
 """
+import os
 import hashlib
 import json
 from pathlib import Path
@@ -68,7 +69,7 @@ def main():
         add('winogrande',i,[left+d['option1'],left+d['option2']],[' '+right.strip()]*2,int(label)-1)
     counts={t:sum(d['task']==t for d in docs) for t in EXPECTED}
     assert counts==EXPECTED,counts
-    tokenizer=AutoTokenizer.from_pretrained('/mnt/public_models/llama2-7b-hf',use_fast=False,local_files_only=True)
+    tokenizer=AutoTokenizer.from_pretrained(os.environ.get('DUQUANT_LLAMA2', '/mnt/public_models/llama2-7b-hf'),use_fast=False,local_files_only=True)
     requests=[]
     for docid,doc in enumerate(docs):
         doc['requests']=[]

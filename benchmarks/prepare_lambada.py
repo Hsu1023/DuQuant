@@ -1,4 +1,5 @@
 """Freeze English LAMBADA OpenAI and both families' WikiText test tokens."""
+import os
 import sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
@@ -11,7 +12,7 @@ from eval_ppl import DEFAULT_ARROW
 
 BASE=ROOT/'benchmarks/cache/lambada_compare'
 REPORT=ROOT/'benchmarks/lambada_compare'
-MODELS={'llama2':Path('/mnt/public_models/llama2-7b-hf'),'qwen3':Path('/mnt/public_models/qwen3-1.7b-base')}
+MODELS={'llama2':Path(os.environ.get('DUQUANT_LLAMA2', '/mnt/public_models/llama2-7b-hf')),'qwen3':Path('/mnt/public_models/qwen3-1.7b-base')}
 
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
