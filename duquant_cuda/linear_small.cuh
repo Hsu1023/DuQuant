@@ -25,6 +25,14 @@
 // The cooperative launch only guarantees co-residency. Barriers use 64-bit
 // counters that are never reset; the launch epoch comes from an arrival counter
 // (one counter slot per distinct grid size, see backend.small_counters).
+//
+// Smaller GPUs (Ampere; A40: 84 SMs, 99 KB shared memory per block) cannot
+// always hold one resident worker per 128-block with both rotations staged:
+//   own > 1   worker CTA w handles blocks w, w + W, w + 2W, ... (W workers);
+//   alias_r2  R2^T is loaded into the R1^T slot after every owned block has
+//             finished rotation A (no overlap of the R2 load, ~33 KB less smem).
+// The host picks the first fitting layout in launch_plan; Hopper and A100 use
+// own = 1 without aliasing (the original single-block worker path).
 #include "small_m.cuh"
 
 namespace duq {
@@ -46,6 +54,8 @@ struct SmallParams {
   // Next linear in execution order (nullable): prefetched into L2.
   const void* next_r1t; const void* next_r2; const void* next_perm; int next_k;
   const void* next_w; long long next_w_bytes;
+  int own;       // 128-blocks per worker CTA (set by the host)
+  int alias_r2;  // R2^T shares the R1^T shared-memory slot
 };
 
 __device__ __forceinline__ long long gtimer() {
@@ -128,13 +138,15 @@ __device__ __forceinline__ float round_div(float v, float s, float inv) {
   return nearbyintf(q);
 }
 
+constexpr int kMaxOwn = 4;  // max 128-blocks per worker CTA
+
 template <int MR>
-__host__ __device__ constexpr size_t act_smem(int k) {
-  return size_t(2 * 128 * kPad) * 2      // padded R1^T, R2^T
-         + size_t(MR) * (k / 128) * kXb * 2  // x rows (padded blocks)
-         + size_t(MR) * kGs * 2          // g
-         + size_t(MR) * 128 * 2          // z
-         + 128 * 4;                      // perm block
+__host__ __device__ constexpr size_t act_smem(int k, int own = 1, bool alias = false) {
+  return size_t((alias ? 1 : 2) * 128 * kPad) * 2  // padded R1^T, R2^T
+         + size_t(MR) * (k / 128) * kXb * 2      // x rows (padded blocks)
+         + size_t(own) * MR * kGs * 2            // g per owned block
+         + size_t(own) * MR * 128 * 2            // z per owned block
+         + size_t(own) * 128 * 4;                // perm of each owned block
 }
 
 // D = A(16x16, row) * B(16x8, col) + D, FP16 inputs, FP32 accumulate.
@@ -166,18 +178,22 @@ __global__ void __launch_bounds__(kThreads) linear_small(SmallParams p) {
   const size_t row_bytes = size_t(k) / 2;
   const int kb = k / 32;  // 16-byte vectors per packed row
   const int b = blockIdx.x;
-  const bool worker = b < nb;  // host guarantees every block has a resident worker
+  // W worker CTAs; worker b owns blocks b, b + W, ... (p.own of them at most).
+  const int nbw = min(nb, int(gridDim.x));
+  const bool worker = b < nbw;  // host guarantees own * W >= nb
+  const int own = worker ? (nb - 1 - b) / nbw + 1 : 0;
+  const bool alias = p.alias_r2 != 0;
 
   DUQ_MARK(0)
   if (tid == 0) s_epoch = atomicAdd(p.counters, 1ull) / gridDim.x;
 
   // Activation-transform scratch (workers only).
   __half* sR1t = reinterpret_cast<__half*>(smem);
-  __half* sR2t = sR1t + 128 * kPad;
-  __half* sx = sR2t + 128 * kPad;
-  __half* sg = sx + size_t(MR) * nb * kXb;
-  __half* sz = sg + MR * kGs;
-  int* sperm = reinterpret_cast<int*>(sz + MR * 128);
+  __half* sR2t = alias ? sR1t : sR1t + 128 * kPad;
+  __half* sx = sR1t + (alias ? 1 : 2) * 128 * kPad;
+  __half* sg = sx + size_t(MR) * nb * kXb;   // [own][MR][kGs]
+  __half* sz = sg + p.own * MR * kGs;        // [own][MR][128]
+  int* sperm = reinterpret_cast<int*>(sz + p.own * MR * 128);  // [own][128]
   if (worker) {
     // r1t / r2t arrive transposed and padded to [128][kPad] from the host.
     for (int i = tid; i < 128 * kPad / 8; i += kThreads) cp_async16(sR1t + i * 8, p.r1t + i * 8);
@@ -185,9 +201,11 @@ __global__ void __launch_bounds__(kThreads) linear_small(SmallParams p) {
       const int r = v / (k / 8), e = (v % (k / 8)) * 8;
       cp_async16(sx + (size_t(r) * nb + (e >> 7)) * kXb + (e & 127), p.x + size_t(v) * 8);
     }
-    if (tid < 32) cp_async16(sperm + tid * 4, p.perm + b * 128 + tid * 4);
+    for (int i = tid; i < own * 32; i += kThreads)
+      cp_async16(sperm + i * 4, p.perm + (b + (i >> 5) * nbw) * 128 + (i & 31) * 4);
     cp_async_commit();
-    for (int i = tid; i < 128 * kPad / 8; i += kThreads) cp_async16(sR2t + i * 8, p.r2t + i * 8);
+    if (!alias)
+      for (int i = tid; i < 128 * kPad / 8; i += kThreads) cp_async16(sR2t + i * 8, p.r2t + i * 8);
     cp_async_commit();
   }
 
@@ -224,12 +242,14 @@ __global__ void __launch_bounds__(kThreads) linear_small(SmallParams p) {
     // output g) x (token 0/1) so every lane loads its own source block, and only
     // the diagonal (row source == column) entries are kept. Tokens 2-3 use a
     // second mma with the same B operand.
-    {
+    for (int o = 0; o < own; ++o) {
       const int g = lane >> 2, t = lane & 3;
+      const int* operm = sperm + o * 128;
+      __half* og = sg + o * MR * kGs;
 #pragma unroll
       for (int half = 0; half < 2; ++half) {
         const int i = (warp + half * kWarps) * 8 + g;
-        const int c = sperm[i], src = c >> 7, col = c & 127;
+        const int c = operm[i], src = c >> 7, col = c & 127;
         const __half* x0 = sx + (size_t(0) * nb + src) * kXb;
         const __half* x1 = sx + (size_t(1) * nb + src) * kXb;
         const __half* x2 = sx + (size_t(2) * nb + src) * kXb;
@@ -258,21 +278,28 @@ __global__ void __launch_bounds__(kThreads) linear_small(SmallParams p) {
         // the diagonal entry for output i (column g) sits in lanes with g>>1 == t.
         if ((g >> 1) == t) {
           const int e = g & 1;
-          if (m > 0) sg[0 * kGs + i] = __float2half_rn(acc[e]);
-          if (m > 1) sg[1 * kGs + i] = __float2half_rn(acc[2 + e]);
-          if (MR > 2 && m > 2) sg[2 * kGs + i] = __float2half_rn(acc2[e]);
-          if (MR > 3 && m > 3) sg[3 * kGs + i] = __float2half_rn(acc2[2 + e]);
+          if (m > 0) og[0 * kGs + i] = __float2half_rn(acc[e]);
+          if (m > 1) og[1 * kGs + i] = __float2half_rn(acc[2 + e]);
+          if (MR > 2 && m > 2) og[2 * kGs + i] = __float2half_rn(acc2[e]);
+          if (MR > 3 && m > 3) og[3 * kGs + i] = __float2half_rn(acc2[2 + e]);
         }
       }
     }
     __syncthreads();
+    if (alias) {
+      // Every owned block is past rotation A: R2^T may now replace R1^T.
+      for (int i = tid; i < 128 * kPad / 8; i += kThreads) cp_async16(sR2t + i * 8, p.r2t + i * 8);
+      cp_async_commit();
+    }
     cp_async_wait<0>();
     __syncthreads();
     DUQ_MARK(2)
     // B: z = g @ R2 on Tensor Cores; warp w computes columns 8w..8w+7 and
     // 64+8w..64+8w+7. B operand from R2^T (rows = output columns).
-    {
+    for (int o = 0; o < own; ++o) {
       const int g = lane >> 2, t = lane & 3;
+      const __half* og = sg + o * MR * kGs;
+      __half* oz = sz + o * MR * 128;
 #pragma unroll
       for (int half = 0; half < 2; ++half) {
         const int nt = warp + half * kWarps;
@@ -280,52 +307,56 @@ __global__ void __launch_bounds__(kThreads) linear_small(SmallParams p) {
 #pragma unroll
         for (int kk = 0; kk < 8; ++kk) {
           const int kx = kk * 16 + 2 * t;
-          const uint32_t a0 = g < m ? *reinterpret_cast<const uint32_t*>(sg + g * kGs + kx) : 0u;
-          const uint32_t a2 = g < m ? *reinterpret_cast<const uint32_t*>(sg + g * kGs + kx + 8) : 0u;
+          const uint32_t a0 = g < m ? *reinterpret_cast<const uint32_t*>(og + g * kGs + kx) : 0u;
+          const uint32_t a2 = g < m ? *reinterpret_cast<const uint32_t*>(og + g * kGs + kx + 8) : 0u;
           const uint32_t b0 = *reinterpret_cast<const uint32_t*>(sR2t + (nt * 8 + g) * kPad + kx);
           const uint32_t b1 = *reinterpret_cast<const uint32_t*>(sR2t + (nt * 8 + g) * kPad + kx + 8);
           mma16816(acc, a0, 0u, a2, 0u, b0, b1);
         }
         if (g < m) {
-          sz[g * 128 + nt * 8 + 2 * t] = __float2half_rn(acc[0]);
-          sz[g * 128 + nt * 8 + 2 * t + 1] = __float2half_rn(acc[1]);
+          oz[g * 128 + nt * 8 + 2 * t] = __float2half_rn(acc[0]);
+          oz[g * 128 + nt * 8 + 2 * t + 1] = __float2half_rn(acc[1]);
         }
       }
     }
     __syncthreads();
-    // Per-row min/max of z; a warp covers 32 columns of one row.
+    // Per-row min/max of z for every owned block; a warp covers 32 columns of one row.
+    for (int o = 0; o < own; ++o) {
+      const __half* oz = sz + o * MR * 128;
 #pragma unroll
-    for (int base = 0; base < MR * 128; base += kThreads) {
-      const int idx = base + tid, r = idx >> 7, j = idx & 127;
-      float lo = INFINITY, hi = -INFINITY;
-      if (r < m) lo = hi = __half2float(sz[r * 128 + j]);
+      for (int base = 0; base < MR * 128; base += kThreads) {
+        const int idx = base + tid, r = idx >> 7, j = idx & 127;
+        float lo = INFINITY, hi = -INFINITY;
+        if (r < m) lo = hi = __half2float(oz[r * 128 + j]);
 #pragma unroll
-      for (int o = 16; o > 0; o >>= 1) {
-        lo = fminf(lo, __shfl_xor_sync(0xffffffffu, lo, o));
-        hi = fmaxf(hi, __shfl_xor_sync(0xffffffffu, hi, o));
+        for (int q = 16; q > 0; q >>= 1) {
+          lo = fminf(lo, __shfl_xor_sync(0xffffffffu, lo, q));
+          hi = fmaxf(hi, __shfl_xor_sync(0xffffffffu, hi, q));
+        }
+        if (lane == 0 && r < m) {
+          s_lo[idx >> 5] = lo;
+          s_hi[idx >> 5] = hi;
+        }
       }
-      if (lane == 0 && r < m) {
-        s_lo[idx >> 5] = lo;
-        s_hi[idx >> 5] = hi;
+      __syncthreads();
+      if (tid < m) {
+        float lo = s_lo[tid * 4], hi = s_hi[tid * 4];
+        for (int w = 1; w < 4; ++w) {
+          lo = fminf(lo, s_lo[tid * 4 + w]);
+          hi = fmaxf(hi, s_hi[tid * 4 + w]);
+        }
+        const int blk = b + o * nbw;
+        p.pmin[tid * nb + blk] = lo;
+        p.pmax[tid * nb + blk] = hi;
       }
+      __syncthreads();
     }
-    __syncthreads();
-    if (tid < m) {
-      float lo = s_lo[tid * 4], hi = s_hi[tid * 4];
-      for (int w = 1; w < 4; ++w) {
-        lo = fminf(lo, s_lo[tid * 4 + w]);
-        hi = fmaxf(hi, s_hi[tid * 4 + w]);
-      }
-      p.pmin[tid * nb + b] = lo;
-      p.pmax[tid * nb + b] = hi;
-    }
-    __syncthreads();
     DUQ_MARK(3)
     if (tid == 0) red_release(p.counters + 1);
     if (p.do_gemv && p.prefetch_bytes > 0)
       prefetch_weights(p.w, n, row_bytes, group_rows, groups, p.prefetch_bytes);
     if (tid == 0) {
-      const unsigned long long target = (s_epoch + 1) * nb;
+      const unsigned long long target = (s_epoch + 1) * nbw;
       while (ld_acquire(p.counters + 1) < target) {
       }
     }
@@ -360,28 +391,32 @@ __global__ void __launch_bounds__(kThreads) linear_small(SmallParams p) {
       }
     }
     __syncthreads();
-    // Quantize/pack this block: thread -> (row, packed byte); 64 bytes per row.
-    for (int idx = tid; idx < MR * 64; idx += kThreads) {
-      const int r = idx >> 6, pb = idx & 63;
-      int sum = 0;
-      if (r < m) {
-        int c[2];
+    // Quantize/pack every owned block: thread -> (row, packed byte); 64 bytes per row.
+    for (int o = 0; o < own; ++o) {
+      const __half* oz = sz + o * MR * 128;
+      const int blk = b + o * nbw;
+      for (int idx = tid; idx < MR * 64; idx += kThreads) {
+        const int r = idx >> 6, pb = idx & 63;
+        int sum = 0;
+        if (r < m) {
+          int c[2];
 #pragma unroll
-        for (int e = 0; e < 2; ++e) {
-          float q = f16r(round_div(__half2float(sz[r * 128 + 2 * pb + e]), s_scale[r], s_inv[r]));
-          q = fminf(fmaxf(f16r(q + s_zp[r]), 0.f), 15.f);
-          c[e] = int(q);
+          for (int e = 0; e < 2; ++e) {
+            float q = f16r(round_div(__half2float(oz[r * 128 + 2 * pb + e]), s_scale[r], s_inv[r]));
+            q = fminf(fmaxf(f16r(q + s_zp[r]), 0.f), 15.f);
+            c[e] = int(q);
+          }
+          p.codes[size_t(r) * (k / 2) + blk * 64 + pb] = uint8_t(c[0] | (c[1] << 4));
+          sum = c[0] + c[1];
         }
-        p.codes[size_t(r) * (k / 2) + b * 64 + pb] = uint8_t(c[0] | (c[1] << 4));
-        sum = c[0] + c[1];
-      }
 #pragma unroll
-      for (int o = 16; o > 0; o >>= 1) sum += __shfl_xor_sync(0xffffffffu, sum, o);
-      if (lane == 0) s_sum[idx >> 5] = sum;
+        for (int q = 16; q > 0; q >>= 1) sum += __shfl_xor_sync(0xffffffffu, sum, q);
+        if (lane == 0) s_sum[idx >> 5] = sum;
+      }
+      __syncthreads();
+      if (tid < m) p.psum[tid * nb + blk] = s_sum[2 * tid] + s_sum[2 * tid + 1];
+      __syncthreads();
     }
-    __syncthreads();
-    if (tid < m) p.psum[tid * nb + b] = s_sum[2 * tid] + s_sum[2 * tid + 1];
-    __syncthreads();
     DUQ_MARK(5)
     if (tid == 0) red_release(p.counters + 2);
   }
@@ -389,7 +424,7 @@ __global__ void __launch_bounds__(kThreads) linear_small(SmallParams p) {
 
   // Barrier 2: packed codes and per-block code sums of every block published.
   if (tid == 0) {
-    const unsigned long long target = (s_epoch + 1) * nb;
+    const unsigned long long target = (s_epoch + 1) * nbw;
     while (ld_acquire(p.counters + 2) < target) {
     }
   }
@@ -479,13 +514,12 @@ __global__ void __launch_bounds__(kThreads) linear_small(SmallParams p) {
 }
 
 template <int MR, int RPW>
-int launch_linear_small(SmallParams& p, cudaStream_t stream) {
+int launch_linear_small(SmallParams& p, cudaStream_t stream, int* info = nullptr) {
   auto fn = linear_small<MR, RPW>;
-  const size_t smem = max(act_smem<MR>(p.k), gemv_smem<MR>(p.k));
-  // Host-side cache: occupancy per shared-memory size (one entry per K).
+  // Host-side caches: device limits once, then the chosen layout per K.
   static int sms = 0, max_dynamic = 0;
+  static int cached_k[8] = {}, cached_own[8] = {}, cached_alias[8] = {}, cached_bps[8] = {};
   static size_t cached_smem[8] = {};
-  static int cached_bps[8] = {};
   if (sms == 0) {
     int dev, optin = 0;
     cudaGetDevice(&dev);
@@ -498,29 +532,50 @@ int launch_linear_small(SmallParams& p, cudaStream_t stream) {
     err = cudaFuncSetAttribute(fn, cudaFuncAttributeMaxDynamicSharedMemorySize, max_dynamic);
     if (err != cudaSuccess) return -int(err);
   }
-  if (smem > size_t(max_dynamic)) return 7777;
-  int blocks_per_sm = 0;
-  for (int i = 0; i < 8; ++i)
-    if (cached_smem[i] == smem) blocks_per_sm = cached_bps[i];
-  if (blocks_per_sm == 0) {
-    auto err = cudaOccupancyMaxActiveBlocksPerMultiprocessor(&blocks_per_sm, fn, kThreads, smem);
-    if (err != cudaSuccess || blocks_per_sm < 1) return 8888;
-    for (int i = 0; i < 8; ++i)
-      if (cached_smem[i] == 0) { cached_smem[i] = smem; cached_bps[i] = blocks_per_sm; break; }
-  }
   const int nb = p.k / 128;
-  if (nb > sms * blocks_per_sm) return 6666;  // every 128-block needs a resident worker
+  int slot = -1;
+  for (int i = 0; i < 8; ++i)
+    if (cached_k[i] == p.k) slot = i;
+  if (slot < 0) {
+    // First layout (fewest owned blocks, then no aliasing) in which every
+    // 128-block has a resident worker.
+    int own = 0, alias = 0, bps = 0;
+    size_t smem = 0;
+    for (int o = 1; o <= kMaxOwn && !own; ++o)
+      for (int a = 0; a < 2 && !own; ++a) {
+        const size_t s = max(act_smem<MR>(p.k, o, a), gemv_smem<MR>(p.k));
+        if (s > size_t(max_dynamic)) continue;
+        int b = 0;
+        if (cudaOccupancyMaxActiveBlocksPerMultiprocessor(&b, fn, kThreads, s) != cudaSuccess || b < 1)
+          continue;
+        if (size_t(o) * min(nb, sms * b) >= size_t(nb)) own = o, alias = a, bps = b, smem = s;
+      }
+    if (!own) return 6666;  // no layout gives every 128-block a resident worker
+    for (int i = 0; i < 8 && slot < 0; ++i)
+      if (cached_k[i] == 0) slot = i;
+    if (slot < 0) slot = 7;
+    cached_k[slot] = p.k, cached_own[slot] = own, cached_alias[slot] = alias;
+    cached_bps[slot] = bps, cached_smem[slot] = smem;
+  }
+  p.own = cached_own[slot];
+  p.alias_r2 = cached_alias[slot];
+  const size_t smem = cached_smem[slot];
+  const int cap = sms * cached_bps[slot];
   const int groups = (p.n + RPW * kWarps - 1) / (RPW * kWarps);
-  const int grid = p.do_gemv ? min(sms * blocks_per_sm, max(groups, nb)) : nb;
+  const int grid = p.do_gemv ? min(cap, max(groups, nb)) : min(cap, nb);
+  if (info) {  // dry run: report the plan without launching
+    info[0] = p.own, info[1] = p.alias_r2, info[2] = grid, info[3] = int(smem);
+    return 0;
+  }
   void* args[] = {&p};
   return -int(cudaLaunchCooperativeKernel((void*)fn, dim3(grid), dim3(kThreads), args, smem, stream));
 }
 
 template <int MR>
-int linear_small_rows(int config, SmallParams& p, cudaStream_t st) {
-  if (config == 0) return launch_linear_small<MR, 1>(p, st);
-  if (config == 1) return launch_linear_small<MR, 2>(p, st);
-  return launch_linear_small<MR, 4>(p, st);
+int linear_small_rows(int config, SmallParams& p, cudaStream_t st, int* info = nullptr) {
+  if (config == 0) return launch_linear_small<MR, 1>(p, st, info);
+  if (config == 1) return launch_linear_small<MR, 2>(p, st, info);
+  return launch_linear_small<MR, 4>(p, st, info);
 }
 
 }  // namespace duq
@@ -538,10 +593,21 @@ extern "C" int duquant_linear_small(
                      (float*)pmin, (float*)pmax, (int*)psum, (uint8_t*)codes, (__half*)scale, (__half*)zero,
                      (int*)sums, do_gemv, prefetch_bytes, (unsigned long long*)counters,
                      (long long*)trace, next_r1t, next_r2, next_perm, next_k, next_w,
-                     next_w_bytes};
+                     next_w_bytes, 1, 0};
   auto st = (cudaStream_t)stream;
   if (m <= 1) return duq::linear_small_rows<1>(config, p, st);
   if (m <= 2) return duq::linear_small_rows<2>(config, p, st);
   if (m <= 4) return duq::linear_small_rows<4>(config, p, st);
+  return 9999;
+}
+
+// Dry run of duquant_linear_small: 0 if the layer can use the cooperative
+// kernel on the current device; info = {own, alias_r2, grid, smem bytes}.
+extern "C" int duquant_linear_small_plan(int m, int n, int k, int config, int do_gemv, int* info) {
+  duq::SmallParams p{};
+  p.m = m, p.n = n, p.k = k, p.do_gemv = do_gemv;
+  if (m <= 1) return duq::linear_small_rows<1>(config, p, nullptr, info);
+  if (m <= 2) return duq::linear_small_rows<2>(config, p, nullptr, info);
+  if (m <= 4) return duq::linear_small_rows<4>(config, p, nullptr, info);
   return 9999;
 }

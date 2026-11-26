@@ -83,7 +83,7 @@ class CUDAKernelTests(unittest.TestCase):
                 else:
                     for fused in (False, True):
                         layer.fused_epilogue = fused
-                        for config in range(9 if layer.hopper else 3):
+                        for config in range(layer.num_gemm_configs):
                             layer.gemm_config = config
                             torch.testing.assert_close(
                                 layer(x), ref.half(), atol=0.002, rtol=0.002
@@ -133,28 +133,38 @@ class CUDAKernelTests(unittest.TestCase):
                 self.assertTrue(torch.equal(c.double(), ref), (m, n, k, config))
 
     @unittest.skipUnless(
-        torch.cuda.is_available() and torch.cuda.get_device_capability() == (9, 0),
-        "Hopper only",
+        torch.cuda.is_available()
+        and torch.cuda.get_device_capability() in ((9, 0), (8, 0), (8, 6), (8, 7)),
+        "Hopper / Ampere only",
     )
     def test_sm90_small_m_path(self):
         # Cooperative small-M kernel (rotation/permutation/quant + u4 GEMV) against
         # the Triton activation (bit-exact codes) and the large-M GEMM path.
-        for k, n in ((128, 96), (4096, 4096), (11008, 256)):
+        # K = 14336 needs several 128-blocks per worker CTA and/or R2 aliasing on
+        # A100 and A40 (see launch_linear_small); A40 also takes those layouts at K = 11008.
+        for k, n in ((128, 96), (4096, 4096), (11008, 256), (14336, 256)):
             w = torch.randn(n, k, device="cuda", dtype=torch.float16) / k**0.5
             r = torch.linalg.qr(torch.randn(2, 128, 128, device="cuda"))[0].half().contiguous()
             layer = DuQuantLinearCUDA(w, r[0], torch.randperm(k, device="cuda"), r[1],
                                       torch.randn(n, device="cuda", dtype=torch.float16) * 0.01)
-            for m in (1, 3, 4):
+            for m in (1, 2, 3, 4):
+                if not layer.small_fits(m):
+                    # A40 (99 KB shared memory): no cooperative layout for 3-4 rows
+                    # at K >= 11008; forward() uses the GEMM path instead.
+                    self.assertTrue(m > 2 and k >= 11008 and torch.cuda.get_device_capability() == (8, 6), (k, m))
+                    continue
                 x = torch.randn(m, k, device="cuda", dtype=torch.float16)
                 small = layer.small_linear(x)
                 ref = layer.activation(x, unpacked=False)
                 # Tensor Core rotations round exactly like the Triton/torch path.
                 for got, want in zip(small, ref):
                     self.assertTrue(torch.equal(got, want), (k, m))
+                small_m = layer.small_m
+                layer.small_m = 4
                 y_small = layer(x)
                 layer.small_m = 0
                 y_big = layer(x)
-                layer.small_m = 4
+                layer.small_m = small_m
                 rel = ((y_small.float() - y_big.float()).norm() / y_big.float().norm()).item()
                 self.assertLess(rel, 1e-3, (k, m, rel))
                 for cfg in range(3):

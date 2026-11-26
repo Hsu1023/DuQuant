@@ -1,0 +1,50 @@
+{
+  "gpu": "NVIDIA A40",
+  "torch": "2.9.1+cu128",
+  "protocol": {
+    "dataset": "Salesforce/wikitext",
+    "config": "wikitext-2-raw-v1",
+    "split": "test",
+    "source_arrow": "/mnt/public_datasets/delta_skip/hf_cache/Salesforce___wikitext/wikitext-2-raw-v1/0.0.0/b08601e04326c79dfdd32d625aee71d232d685c3/wikitext-test.arrow",
+    "source_arrow_sha256": "2b8a3efac7b468cbe6432edba5f55c21e435d93873acc6727431f08d5ed328ea",
+    "join": "two newlines",
+    "add_special_tokens": true,
+    "seqlen": 2048,
+    "token_count": 341469,
+    "token_ids_sha256": "8e0218eea3a8ac00caa80af114e52f301aa90a919124378320787e7f777cb3ee",
+    "blocks": 166,
+    "scored_tokens": 339802,
+    "unused_tail_tokens": 1501,
+    "scoring": "Every full disjoint 2048 block; shifted FP32 CE; no overlap; logically reset caches each block; no fitting"
+  },
+  "results": {
+    "fp16": {
+      "wikitext_ppl": 5.472079961402711,
+      "nll_sum": 577547.4571935723,
+      "blocks": 166,
+      "seconds": 49.387172278016806
+    },
+    "rtn": {
+      "wikitext_ppl": 5.823569859997733,
+      "nll_sum": 598701.7147181073,
+      "blocks": 166,
+      "seconds": 82.36324156611226,
+      "integer_check": {
+        "blocks": 8,
+        "exact": true,
+        "max_abs_block_nll_difference": 0.0
+      }
+    },
+    "gptq": {
+      "wikitext_ppl": 5.796735970697163,
+      "nll_sum": 597132.3540502077,
+      "blocks": 166,
+      "seconds": 22.63849447015673,
+      "integer_check": {
+        "blocks": 8,
+        "exact": true,
+        "max_abs_block_nll_difference": 0.0
+      }
+    }
+  }
+}

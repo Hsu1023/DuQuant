@@ -17,6 +17,7 @@ Welcome to the official code repository for "[DuQuant: Distributing Outliers via
 
 
 ## 📰 News
+* [2026/11/25] ⚡ We release real INT4 CUDA inference backends for DuQuant on Ampere (A100/A40), Ada (RTX 4090) and Hopper (GH200): W4A4KV4 with packed INT4 weights and KV cache, up to **2.68×** end-to-end speedup and **~70%** lower peak memory on LLaMA-2-7B! See [Ampere](#ampere-int4-inference), [Ada](#ada-int4-inference) and [Hopper](#hopper-int4-inference).
 * [2026/04/21] 🚀 We Release [DuQuant++](https://github.com/Hsu1023/DuQuant-v2) for MXFP4 quantization!
 * [2024/09/26] 🌟 Our DuQuant paper has been accepted for a Oral presentation at NeurIPS 2024 (only top 1% out of 15,671 submissions)! 🎉 Cheers!
 * [2024/09/06] 🔥 We release the code!
@@ -57,6 +58,21 @@ We add a Hopper (SM90) backend behind the same interface and checkpoint format, 
 Measured on one NVIDIA GH200 120GB with the same protocol as the Ada table above.
 
 [Measurements and memory accounting](benchmarks/hopper/performance/summary.json) · [Hopper backend details](duquant_cuda/HOPPER.md).
+
+## Ampere INT4 inference
+
+We add an Ampere backend (A100 sm_80, A40 sm_86) behind the same interface and checkpoint format, selected automatically. Ampere has INT4 Tensor Cores, so prefill uses the packed INT4 GEMM, with tile tables tuned separately for A100 and A40. Decoding runs each linear as a single kernel (rotations, permutation, A4 quantization and INT4 GEMV). Its shared-memory layout adapts to the GPU, so it also fits the A40 (84 SMs, 99 KB shared memory per block).
+
+| LLaMA-2-7B | GPU | End-to-end time ↓ | Speedup ↑ | Model storage ↓ | Peak allocated GPU memory ↓ | Peak memory reduction ↑ |
+|---|---|---:|---:|---:|---:|---:|
+| FP16 | A100 | 424.68 ms | 1.00× | 12.55 GiB | 13.24 GiB | — |
+| DuQuant RTN W4A4KV4 | A100 | 230.50 ms | **1.84×** | 3.55 GiB | 3.95 GiB | **70.2%** |
+| FP16 | A40 | 933.05 ms | 1.00× | 12.55 GiB | 13.24 GiB | — |
+| DuQuant RTN W4A4KV4 | A40 | 347.72 ms | **2.68×** | 3.55 GiB | 3.95 GiB | **70.2%** |
+
+Measured on one NVIDIA A100-SXM4-40GB and one NVIDIA A40 with the same protocol as the Ada table above, using the same checkpoint as the Hopper table. Generated tokens match FP16 on both GPUs. WikiText-2 PPL is 5.824 (RTN) and 5.797 (GPTQ) on both GPUs, and the integer-reference check is exact.
+
+[Measurements and memory accounting](benchmarks/ampere) · [Ampere backend details](duquant_cuda/AMPERE.md).
 
 ## W4A4KV4 evaluation
 

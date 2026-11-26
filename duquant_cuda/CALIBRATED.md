@@ -1,84 +1,84 @@
-# 校准后的 W4A4：精度、整数参考一致性、速度和显存
+# Calibrated W4A4: accuracy, integer-reference consistency, speed and memory
 
-已接入原仓库的数据驱动双旋转、zigzag 置换和 smoothing，并修正三个会被后续量化放大的数值差异。LLaMA-2-7B 的真实 INT4 WikiText-2 PPL 从 **8.3593 降到 6.1638**，下降 **26.26%**；完整模型生成仍比 FP16 快 **2.52–2.57×**。
+The data-driven dual rotations, zigzag permutation and smoothing of the original repository are now wired in. Three numeric differences that later quantization would amplify have been fixed. The real INT4 WikiText-2 PPL of LLaMA-2-7B drops from **8.3593 to 6.1638**, a **26.26%** reduction; full-model generation is still **2.52–2.57×** faster than FP16.
 
-以下首先保留无 LWC 的结果；[LWC 续实验](#lwc-follow-up) 将真实 INT4 PPL 进一步降到 **6.0641**，端到端加速为 **2.51–2.55×**。最新的[五个 family 验证](#model-family-validation)覆盖 LLaMA-1/2/3、Vicuna 和 Mistral 的代表模型，全部不使用 LWC。
+The results without LWC come first. The [LWC follow-up](#lwc-follow-up) lowers the real INT4 PPL further to **6.0641**, with an end-to-end speedup of **2.51–2.55×**. The latest [five-family validation](#model-family-validation) covers representative LLaMA-1/2/3, Vicuna and Mistral models, all without LWC.
 
-## 校准参数
+## Calibration parameters
 
-`benchmarks/calibrate_model.py` 从 WikiText-2 **train** 抽取 128 个 2048-token 样本，seed=2。test 没有参与校准、参数搜索或 kernel 数值修正；数值诊断也使用 train 文本。
+`benchmarks/calibrate_model.py` draws 128 samples of 2048 tokens from WikiText-2 **train**, seed=2. The test split was not used for calibration, parameter search or kernel numeric fixes; the numeric diagnostics also use train text.
 
-1. 逐层传播 FP16 校准输入，收集各 projection 输入的 per-channel absolute maximum。
-2. 按原仓库 `smooth_and_let_inplace` 的零 shift 规则折叠四组 smoothing scale，alpha=0.6。QKV 和 gate/up 的 scale 折叠进 norm 与权重；O 和 down 的 scale 分别折叠进 V/O、up/down 权重，不引入在线 scaling kernel。
-3. 直接调用原仓库 `UniformAffineQuantizer.online_duquant_cali`，每次 rotation 最多 256 步、block size=128、permutation_times=1。旋转代表输入是校准 embedding 的逐位置均值，并逐层传播。基础旋转按原 `get_rot.py` 的 Givens 构造生成，仅生成所需的 128 维版本。
-4. 导出每层 smoothing scales、两个旋转和置换。加载时检查模型配置、manifest 和逐层文件哈希，再折叠原始权重并打包 INT4。
+1. Propagate the FP16 calibration inputs layer by layer and collect the per-channel absolute maximum of each projection input.
+2. Fold four groups of smoothing scales with the zero-shift rule of the original `smooth_and_let_inplace`, alpha=0.6. The QKV and gate/up scales fold into the norms and weights; the O and down scales fold into the V/O and up/down weights respectively. No online scaling kernel is introduced.
+3. Call the original `UniformAffineQuantizer.online_duquant_cali` directly: at most 256 steps per rotation, block size=128, permutation_times=1. The representative input for the rotations is the per-position mean of the calibration embeddings, propagated layer by layer. The base rotation is built with the Givens construction of the original `get_rot.py`, generating only the required 128-dimensional version.
+4. Export the per-layer smoothing scales, both rotations and the permutation. At load time, the model config, manifest and per-layer file hashes are checked; then the original weights are folded and packed to INT4.
 
-W4A4 的 weight clip=0.8、activation clip=0.9、Q/K clip=0.9、V clip=1.0。没有训练 LWC/LET。这是**将原仓库校准算法接入现有 CUDA 后端**；attention 使用该后端的 Flash SDPA 和 QK/V 量化路径，不是原 `main.py` 的 eager attention 逐行复现，也不是下载的论文 checkpoint。
+W4A4 uses weight clip=0.8, activation clip=0.9, Q/K clip=0.9, V clip=1.0. No LWC/LET is trained. This **wires the original repository's calibration algorithm into the existing CUDA backend**. Attention uses this backend's Flash SDPA and QK/V quantization path. It is neither a line-by-line reproduction of the eager attention in the original `main.py` nor a downloaded paper checkpoint.
 
-参数包位于 `benchmarks/cache/calibrated_w4a4/`，约 16 MiB，受 git ignore 保护。manifest 的可审阅副本为 `benchmarks/calibrated/calibration_manifest.json`，记录训练数据和 token 哈希、128 个采样起点、参数和逐层文件 SHA256。manifest SHA256：
+The parameter bundle is in `benchmarks/cache/calibrated_w4a4/`, about 16 MiB, and git-ignored. A reviewable copy of the manifest is `benchmarks/calibrated/calibration_manifest.json`. It records the training data and token hashes, the 128 sampling starts, the parameters and the per-layer file SHA256. Manifest SHA256:
 
 `7252d2f0c71598d66e95df9343b08788c4fd8a5d56180e4fcddc3a088bb5a39b`
 
-## 全量 PPL
+## Full PPL
 
-协议与首次评测相同：WikiText-2 raw test，slow LlamaTokenizer，全文以双换行连接；全部 166 个完整不重叠 2048-token 分块，实际计分 **339,802 tokens**。每块从 position=0 开始，FP32 next-token CE，使用实际计分 token 数作分母。各模式独立进程。
+Same protocol as the first evaluation: WikiText-2 raw test, slow LlamaTokenizer, full text joined with double newlines; all 166 complete non-overlapping 2048-token blocks, **339,802 tokens** actually scored. Each block starts at position=0, FP32 next-token CE, with the actual number of scored tokens as the denominator. Each mode runs in its own process.
 
-| 模式 | PPL ↓ | next-token 正确率 ↑ |
+| mode | PPL ↓ | next-token accuracy ↑ |
 |---|---:|---:|
-| 最终代码 FP16 基线 | 5.472090 | 61.0182% |
-| 校准后 fake W4A4 | 6.156414 | 58.8587% |
-| 校准后真实 INT4 CUDA | 6.163763 | 58.8384% |
-| 校准后独立整数算术参考 | 6.163763 | 58.8384% |
+| FP16 baseline, final code | 5.472090 | 61.0182% |
+| calibrated fake W4A4 | 6.156414 | 58.8587% |
+| calibrated real INT4 CUDA | 6.163763 | 58.8384% |
+| calibrated independent integer-arithmetic reference | 6.163763 | 58.8384% |
 
-CUDA 比 fake 的 PPL 高 **0.007349（0.1194%）**。相比 FP16，CUDA 的 PPL 仍高 **12.64%**，因此不是精度无损。这是 PPL 和 next-token 指标，没有运行 QA。
+CUDA PPL is **0.007349 (0.1194%)** above fake. CUDA PPL is still **12.64%** above FP16, so this is not lossless. These are PPL and next-token metrics; no QA was run.
 
-## 两种参考的区别与数值修正
+## The two references and the numeric fixes
 
-旧式 fake 路径先将激活、权重逐元素反量化并舍入到 FP16，再做浮点 GEMM。整数参考则用 FP32 表示精确的 4-bit code，计算整数点积、零点修正，然后应用 scale。这里的 K≤11008，整数点积上界 `225*K < 2^24`，FP32 能精确表示；它独立于 INT4 kernel，也使用 PyTorch norm、Hadamard、SwiGLU。
+The old-style fake path dequantizes activations and weights element-wise and rounds them to FP16 before a floating-point GEMM. The integer reference represents the exact 4-bit codes in FP32, computes the integer dot products and zero-point correction, then applies the scales. Here K≤11008, so the integer dot products are bounded by `225*K < 2^24` and FP32 represents them exactly. It is independent of the INT4 kernel and uses PyTorch norm, Hadamard and SwiGLU.
 
-相同参数下，旧式 fake 和真实 INT4 的舍入语义不同。本次全量 top-1 一致率为 **86.4854%**，采样 logits 相对 L2 差异仍为 27.03%。不能将平均 PPL 接近解读为与旧式 fake 输出逐 bit 等价。
+With the same parameters, old-style fake and real INT4 have different rounding semantics. Here the full-set top-1 agreement is **86.4854%**, and the sampled logits still differ by 27.03% relative L2. Close average PPL cannot be read as bit equivalence with the old-style fake output.
 
-逐算子诊断定位并修正：
+Per-operator diagnostics located and fixed:
 
-- **RMSNorm**：复现当前 PyTorch FP32 mean 的四累加器、warp shuffle 归约顺序，并禁止乘加融合，保留相同 FP16 舍入。
-- **Q/K Hadamard**：融合 kernel 内改用 Tensor Core dense dot，对齐参考 GEMM 的累加顺序，避免蝶形归约造成的舍入边界差异。
-- **SwiGLU**：使用 CUDA libdevice 的 exp 和精确舍入除法，匹配 PyTorch 的指数及除法语义。
+- **RMSNorm**: reproduce the four accumulators and warp-shuffle reduction order of the current PyTorch FP32 mean, and disable multiply-add fusion to keep the same FP16 rounding.
+- **Q/K Hadamard**: the fused kernel now uses a Tensor Core dense dot, matching the accumulation order of the reference GEMM and avoiding rounding-boundary differences from the butterfly reduction.
+- **SwiGLU**: use CUDA libdevice exp and correctly rounded division, matching PyTorch's exponential and division semantics.
 
-修正前，前四层在同一训练输入上的整层相对 L2 差异为 1.2894%、0.2923%、0.3490%、0.5684%；修正后这四个整层输出与整数参考逐 bit 相同。原始诊断数据为 `benchmarks/numeric_probe_train_{before,rms,rms_hadamard}.json`，最终为 `benchmarks/numeric_probe_train.json`。
+Before the fixes, the full-layer relative L2 differences of the first four layers on the same training input were 1.2894%, 0.2923%, 0.3490% and 0.5684%. After the fixes, these four full-layer outputs are bit-identical to the integer reference. The raw diagnostic data are `benchmarks/numeric_probe_train_{before,rms,rms_hadamard}.json`; the final data are `benchmarks/numeric_probe_train.json`.
 
-**完整 32 层 CUDA 与整数参考**在全部 test 分块上进一步验证：
+The **full 32-layer CUDA model versus the integer reference** was further validated on every test block:
 
-- 所有 339,802 个计分位置 top-1 一致率 **100%**。
-- 全部 166 个分块 NLL 差值 **0**，因此最终 PPL 完全相同。
-- 前四块各采样 64 个位置，共 256 个位置的全部词表 logits **逐 bit 一致**，相对 L2 和 KL 都为 0。
+- Top-1 agreement over all 339,802 scored positions is **100%**.
+- The NLL difference is **0** for all 166 blocks, so the final PPL is identical.
+- For 64 sampled positions in each of the first four blocks (256 positions), the logits over the whole vocabulary are **bit-identical**; relative L2 and KL are both 0.
 
-没有保存全量所有位置的完整 logits，因此全模型的逐 bit logits 结论只覆盖这 256 个采样位置。数据、旋转、置换和反量化后权重的 SHA256 也已核对一致。
+Full logits for every position of the whole set were not saved, so the whole-model bit-identity claim on logits covers only these 256 sampled positions. The SHA256 hashes of the data, rotations, permutations and dequantized weights were also checked to match.
 
-## 最终代码的端到端速度和显存
+## End-to-end speed and memory of the final code
 
-RTX 4090（本机约 48 GiB），GPU 4，batch=1，每种配置独立进程，5 次测量取中位数。完整 32 层、自回归 token 反馈、真实 KV 更新，固定生成 32 tokens；从 GPU token 输入到生成 IDs 拷回 CPU 的 wall time。包括在线旋转、量化、packing、INT4 计算、norm、attention、LM head 和 argmax；排除加载、导出、tokenization、首次编译和 CUDA Graph capture。两种模式都使用同一套融合非线性算子及 Flash SDPA。
+RTX 4090 (about 48 GiB on this machine), GPU 4, batch=1, each configuration in its own process, median of 5 measurements. Full 32 layers, autoregressive token feedback, real KV updates, a fixed 32 generated tokens; wall time from the GPU token input until the generated IDs are copied back to the CPU. Includes online rotation, quantization, packing, INT4 compute, norms, attention, LM head and argmax; excludes loading, export, tokenization, first compilation and CUDA Graph capture. Both modes use the same fused nonlinear operators and Flash SDPA.
 
-| 输入 → 输出 tokens | FP16 ms | 校准 INT4 ms | 加速比 | FP16 decode tok/s | INT4 decode tok/s |
+| input → output tokens | FP16 ms | calibrated INT4 ms | speedup | FP16 decode tok/s | INT4 decode tok/s |
 |---|---:|---:|---:|---:|---:|
 | 128 → 32 | 461.19 | 179.11 | **2.57×** | 69.9 | 180.5 |
 | 2048 → 32 | 656.90 | 260.93 | **2.52×** | 65.0 | 150.6 |
 
-GPU prefill 时间分别为 17.84 → 7.37 ms、179.89 → 54.92 ms。没有锁定 GPU 时钟；这些仍是固定形状 CUDA Graph 请求，非动态 serving benchmark。
+GPU prefill time goes from 17.84 → 7.37 ms and 179.89 → 54.92 ms respectively. GPU clocks were not locked; these are still fixed-shape CUDA Graph requests, not a dynamic serving benchmark.
 
-显存单位 GiB。峰值 allocated 包括预热、capture 和推理临时张量，排除离线加载/导出和 HF 验证；reserved 包括 allocator 与 graph 池。设备占用包括 CUDA context 等开销。详细口径同 [MODEL.md](MODEL.md)。
+Memory in GiB. Peak allocated includes warmup, capture and inference temporaries, and excludes offline loading/export and HF validation. Reserved includes the allocator and graph pools. Device usage includes the CUDA context and other overheads. The detailed accounting is the same as in [MODEL.md](MODEL.md).
 
-| 输入长度 | 模式 | 模型张量 | KV | 峰值 allocated | reserved | 设备占用 |
+| input length | mode | model tensors | KV | peak allocated | reserved | device usage |
 |---|---|---:|---:|---:|---:|---:|
 | 128 | FP16 | 12.55 | 0.08 | 12.67 | 12.68 | 13.26 |
 | 128 | INT4 | 3.54 | 0.08 | 3.65 | 4.73 | 5.41 |
 | 2048 | FP16 | 12.55 | 1.02 | 13.88 | 14.02 | 14.60 |
 | 2048 | INT4 | 3.54 | 1.02 | 4.93 | 5.12 | 5.81 |
 
-KV、embedding、LM head、attention 算术仍为 FP16。模型张量减少约 71.8%；不能将整机显存理解为理论上的四倍压缩。
+KV, embedding, LM head and attention arithmetic are still FP16. Model tensors shrink by about 71.8%; this should not be read as a theoretical 4× compression of whole-device memory.
 
-## 检查和复现
+## Checks and reproduction
 
-14 项测试通过，包括新增 smoothing 折叠等价、RMSNorm 的多形状/残差逐 bit 检查，以及收紧为逐 bit 对照的整数参考整层测试。CUDA memcheck 为 **0 errors**。日志在 `benchmarks/calibrated/{tests,memcheck}.log`。最终 FP16 的短 prompt logits 相对 HF 的 L2 差异约 0.00698%，top-1 相同。
+14 tests pass. They include the new smoothing-folding equivalence test, multi-shape/residual bit-identity checks of RMSNorm, and the full-layer integer-reference test tightened to a bit-exact comparison. CUDA memcheck reports **0 errors**. Logs are in `benchmarks/calibrated/{tests,memcheck}.log`. The short-prompt logits of the final FP16 model differ from HF by about 0.00698% relative L2, with the same top-1.
 
 ```bash
 export CUDA_VISIBLE_DEVICES=4
@@ -87,10 +87,10 @@ export CUTLASS_PATH=/mnt/yichen/wyc/QDLM/QuaRot/third-party/cutlass
 export TRITON_CACHE_DIR=/tmp/duquant_triton
 export DUQUANT_PYTHON=/home/yichen/miniconda3/envs/hb/bin/python
 
-# 重建参数时选择新目录，脚本拒绝覆盖已有 manifest。
+# Choose a new directory when regenerating parameters; the script refuses to overwrite an existing manifest.
 "$DUQUANT_PYTHON" benchmarks/calibrate_model.py --output benchmarks/cache/calibrated_reproduced
 
-# 使用本次固定导出参数进行复评。
+# Re-evaluate with the fixed exported parameters used here.
 "$DUQUANT_PYTHON" benchmarks/eval_ppl.py --mode fp16 --output benchmarks/calibrated/ppl_fp16.json
 "$DUQUANT_PYTHON" benchmarks/eval_ppl.py --mode fake --calibration benchmarks/cache/calibrated_w4a4 --output benchmarks/calibrated/ppl_fake.json
 "$DUQUANT_PYTHON" benchmarks/eval_ppl.py --mode cuda --calibration benchmarks/cache/calibrated_w4a4 --output benchmarks/calibrated/ppl_cuda.json
@@ -104,82 +104,92 @@ export DUQUANT_PYTHON=/home/yichen/miniconda3/envs/hb/bin/python
 "$DUQUANT_PYTHON" benchmarks/summarize_model.py --directory benchmarks/calibrated
 ```
 
-每条命令单独启动并退出一个进程。正式结果是 `benchmarks/calibrated/ppl_summary.json` 和 `model_summary.json`；首次未校准结果保留在上一级 `benchmarks/`，不要混用。
+Each command starts and exits its own process. The official results are `benchmarks/calibrated/ppl_summary.json` and `model_summary.json`. The first uncalibrated results remain in the parent `benchmarks/`; do not mix them.
 
 ## LWC follow-up
 
-本次在上面的固定校准参数上训练 Learnable Weight Clipping。完整 32 层训练和评测均已完成，结果位于 `benchmarks/lwc/`，参数位于 `benchmarks/cache/lwc_w4a4/`。
+Learnable Weight Clipping is trained on top of the fixed calibration parameters above. Full 32-layer training and evaluation are complete; results are in `benchmarks/lwc/`, parameters in `benchmarks/cache/lwc_w4a4/`.
 
-### 训练设置与实现
+### Training setup and implementation
 
-- 复用同一组 WikiText-2 **train** 的 128 × 2048 tokens，seed=2；检查数据文件、token 和父 calibration manifest 的 SHA256。
-- 每层 20 epochs，batch=1，AdamW，lr=0.01，weight decay=0。每个输出通道独立学习下界和上界的 sigmoid 系数，logit 初始化为 4.0。前层训练后的 fake 输出供给后层，目标是原始 FP16 模型对应层的输出，loss 为 FP32 MSE。
-- 固定已有 smoothing（alpha=0.6）、旋转、置换和模型权重，不训练 LET。激活、Q/K、V 的 clipping 仍为 0.9、0.9、1.0。LWC 替换原来的固定 weight clip=0.8。
-- 裁剪 logits 使用 FP32，sigmoid 系数转换为 FP16 后参与量化，forward 与部署的 FP16 quantizer 一致；round 使用 STE。每层导出后检查训练 forward 与 fake inference 输出完全一致，再传播量化输入。
-- AMP 初始 scale=1024；发现梯度溢出时降低 scale 并重跑同一样本，不把跳过的更新计入训练步数。本次共 3 次重试，均在第 2 层。
-- GPU 0 的前 8 层使用普通 PyTorch weight STE，后 24 层断点续训使用融合 Triton weight STE。完成层的文件和哈希保持不变，续训时重放 teacher/fake 输入。累计逐层用时 **72.38 分钟**，不包含开发验证和续训重放开销。
+- Reuses the same 128 × 2048 tokens of WikiText-2 **train**, seed=2, and checks the SHA256 of the data file, the tokens and the parent calibration manifest.
+- 20 epochs per layer, batch=1, AdamW, lr=0.01, weight decay=0. Each output channel learns its own sigmoid coefficients for the lower and upper bounds, with logits initialized to 4.0. The fake output of each trained layer feeds the next layer; the target is the output of the corresponding layer of the original FP16 model, and the loss is FP32 MSE.
+- The existing smoothing (alpha=0.6), rotations, permutations and model weights are fixed; LET is not trained. Activation, Q/K and V clipping stay at 0.9, 0.9 and 1.0. LWC replaces the former fixed weight clip=0.8.
+- The clipping logits are FP32; the sigmoid coefficients are converted to FP16 before quantization, so the forward matches the deployed FP16 quantizer; rounding uses STE. After each layer is exported, the training forward is checked to equal the fake-inference output exactly before the quantized inputs are propagated.
+- AMP starts with scale=1024. When gradient overflow is detected, the scale is lowered and the same sample is rerun; skipped updates are not counted as training steps. There were 3 retries in total, all in layer 2.
+- On GPU 0, the first 8 layers used the plain PyTorch weight STE. The remaining 24 layers were resumed with the fused Triton weight STE. Files and hashes of completed layers are unchanged; the teacher/fake inputs are replayed on resume. The cumulative per-layer time is **72.38 minutes**, excluding development validation and the replay overhead of resuming.
 
-融合 weight STE 保留 FP16 舍入点与 ATen 梯度归约顺序。真实第一层、128 样本、2 epochs 的独立对照中，最终 logits 参数、裁剪系数和每轮 MSE 完全相同；层用时 22.22 → 15.04 秒。对应数据为 `fused_training_check.json`。这只是训练加速；推理仍使用原有 packed INT4 kernel，学习到的 clipping 在离线打包时生效。
+The fused weight STE keeps the FP16 rounding points and the ATen gradient reduction order. In an independent comparison on the real first layer with 128 samples and 2 epochs, the final logit parameters, clipping coefficients and per-epoch MSE are identical. The layer time drops from 22.22 to 15.04 seconds. The data are in `fused_training_check.json`. This only speeds up training; inference still uses the existing packed INT4 kernels, and the learned clipping takes effect during offline packing.
 
-参数 manifest SHA256：
+Parameter manifest SHA256:
 
 `8c6a810d52eb4c3d37140569926637a954c241d8ac38f832f011a94f4807dc63`
 
-可审阅的 manifest 和逐层训练记录分别为 `benchmarks/lwc/calibration_manifest.json`、`training.json`。训练代码为 `benchmarks/train_lwc.py`、`duquant_cuda/lwc.py` 和 `lwc_quant.py`。
+The reviewable manifest and the per-layer training records are `benchmarks/lwc/calibration_manifest.json` and `training.json`. The training code is `benchmarks/train_lwc.py`, `duquant_cuda/lwc.py` and `lwc_quant.py`.
 
-### 全量 PPL 与数值核对
+### Full PPL and numeric checks
 
-仍使用全部 166 个 2048-token test 分块，计分 339,802 tokens；协议与前述评测相同。FP16 PPL 复用未改变的基线结果。LWC fake、CUDA、整数参考分别在 GPU 0、1、2 的独立进程中重新评测。
+All 166 2048-token test blocks are used again, with 339,802 scored tokens; the protocol is the same as above. The FP16 PPL reuses the unchanged baseline result. LWC fake, CUDA and the integer reference were re-evaluated in separate processes on GPUs 0, 1 and 2.
 
-| 模式 | 无 LWC PPL | LWC PPL | LWC next-token 正确率 |
+| mode | PPL without LWC | PPL with LWC | next-token accuracy with LWC |
 |---|---:|---:|---:|
-| FP16 | 5.472090 | 5.472090（基线） | 61.0182% |
+| FP16 | 5.472090 | 5.472090 (baseline) | 61.0182% |
 | fake W4A4 | 6.156414 | **6.065405** | 58.9793% |
-| 真实 INT4 CUDA | 6.163763 | **6.064058** | 59.0394% |
-| 独立整数算术参考 | 6.163763 | **6.064058** | 59.0394% |
+| real INT4 CUDA | 6.163763 | **6.064058** | 59.0394% |
+| independent integer-arithmetic reference | 6.163763 | **6.064058** | 59.0394% |
 
-LWC 使真实 INT4 PPL 降低 **0.099705（1.6176%）**，fake PPL 降低 **1.4783%**。按相同 test 分块做 10,000 次 paired bootstrap，INT4 的 LWC/无 LWC PPL 比值描述性 95% 区间为 `[0.981342, 0.986284]`；不能据此推断其他数据集或任务的表现。前后对比记录为 `lwc_comparison.json`。
+LWC lowers the real INT4 PPL by **0.099705 (1.6176%)** and the fake PPL by **1.4783%**. A 10,000-sample paired bootstrap over the same test blocks gives a descriptive 95% interval of `[0.981342, 0.986284]` for the INT4 LWC / no-LWC PPL ratio; no conclusion about other datasets or tasks follows from it. The before/after comparison is recorded in `lwc_comparison.json`.
 
-LWC CUDA 与 fake 的 PPL 相差 **−0.001347（−0.0222%）**，但 top-1 一致率为 **86.9977%**，仍不是逐 bit 等价；fake 的逐元素 FP16 反量化舍入语义没有改变。与独立整数参考相比，CUDA 在全部计分位置的 top-1 一致率为 **100%**，全部 166 块 NLL 差值为 **0**，256 个采样位置的完整词表 logits 逐 bit 一致。完整词表 logits 的逐 bit 结论仅覆盖这些采样位置。详见 `ppl_summary.json`。
+LWC CUDA and fake differ in PPL by **−0.001347 (−0.0222%)**, but their top-1 agreement is **86.9977%**, so they are still not bit-equivalent; fake's element-wise FP16 dequantization rounding semantics are unchanged. Against the independent integer reference, CUDA agrees on top-1 at **100%** of scored positions, the NLL difference is **0** for all 166 blocks, and the full-vocabulary logits at the 256 sampled positions are bit-identical. The bit-identity claim on full-vocabulary logits covers only these sampled positions. See `ppl_summary.json`.
 
-[原论文 Table 1](https://arxiv.org/html/2406.01721v2#S4.T1) 报告 LLaMA-2-7B DuQuant+LWC WikiText-2 PPL 为 **6.08**，本次结果数值接近。但这是现有 CUDA 后端上的 LWC 实验：固定 alpha=0.6，而原仓库 `run_lwc.sh` 使用 alpha=0.5；attention 路径和部署一致的 FP16 训练量化语义也有区别。因此不是严格逐项复现论文，更不能根据这约 0.016 的差距宣称优于论文。未运行 C4 或 QA。
+[Table 1 of the original paper](https://arxiv.org/html/2406.01721v2#S4.T1) reports a WikiText-2 PPL of **6.08** for LLaMA-2-7B DuQuant+LWC, numerically close to the result here. However, this is an LWC experiment on the existing CUDA backend, and it differs from the paper:
+- it uses a fixed alpha=0.6, while the original `run_lwc.sh` uses alpha=0.5;
+- the attention path and the deployment-consistent FP16 training quantization semantics also differ.
 
-### LWC 模型的端到端速度与显存
+So this is not a strict item-by-item reproduction of the paper, and the ~0.016 gap cannot be used to claim an improvement over it. C4 and QA were not run.
 
-RTX 4090，GPU 1，batch=1，5 次取中位数。FP16 与 LWC INT4 均在本次实验中重新测量，使用独立进程；CUDA Graph、自回归反馈、KV 更新及测量边界与前述基准相同。
+### End-to-end speed and memory of the LWC model
 
-| 输入 → 输出 tokens | FP16 ms | LWC INT4 ms | 端到端加速 | FP16 / INT4 decode tok/s |
+RTX 4090, GPU 1, batch=1, median of 5. FP16 and LWC INT4 were both re-measured in this experiment in separate processes; CUDA Graphs, autoregressive feedback, KV updates and the measurement boundaries are the same as the benchmarks above.
+
+| input → output tokens | FP16 ms | LWC INT4 ms | end-to-end speedup | FP16 / INT4 decode tok/s |
 |---|---:|---:|---:|---:|
 | 128 → 32 | 462.11 | 181.26 | **2.55×** | 69.81 / 178.44 |
 | 2048 → 32 | 664.46 | 264.57 | **2.51×** | 64.88 / 149.05 |
 
-| 输入长度 | 模式 | 模型 GiB | KV GiB | 峰值 allocated GiB | reserved GiB | 设备占用 GiB |
+| input length | mode | model GiB | KV GiB | peak allocated GiB | reserved GiB | device usage GiB |
 |---|---|---:|---:|---:|---:|---:|
 | 128 | FP16 | 12.55 | 0.08 | 12.67 | 12.68 | 13.26 |
 | 128 | LWC INT4 | 3.54 | 0.08 | 3.65 | 4.73 | 5.41 |
 | 2048 | FP16 | 12.55 | 1.02 | 13.88 | 14.02 | 14.60 |
 | 2048 | LWC INT4 | 3.54 | 1.02 | 4.93 | 5.12 | 5.81 |
 
-LWC 没有增加推理模型张量大小。KV、embedding、LM head 和 attention 算术仍为 FP16。结果是固定形状请求的端到端测试，不是动态 serving 吞吐；两条示例 prompt 的生成相同不代表所有生成相同。完整数据见 `model_summary.json`。
+LWC does not increase the size of the inference model tensors. KV, embedding, LM head and attention arithmetic are still FP16. These are end-to-end tests of fixed-shape requests, not dynamic serving throughput; identical generations on the two example prompts do not mean all generations are identical. Full data in `model_summary.json`.
 
-### 检查与复现 LWC
+### Checking and reproducing LWC
 
-19 项回归测试通过，CUDA memcheck **0 errors**。新增测试覆盖与上游 FP16 LWC quantizer 对齐、训练梯度与导出、学习到的非对称裁剪在真实 GEMM/GEMV 上与整数参考对齐，以及融合 STE 的边界输入梯度和连续优化步骤。日志在 `benchmarks/lwc/{tests,memcheck}.log`。
+19 regression tests pass, and CUDA memcheck reports **0 errors**. The new tests cover:
+- alignment with the upstream FP16 LWC quantizer;
+- training gradients and export;
+- learned asymmetric clipping on the real GEMM/GEMV, aligned with the integer reference;
+- boundary-input gradients and consecutive optimizer steps of the fused STE.
 
-使用前文的 Python/CUDA 环境变量：
+Logs are in `benchmarks/lwc/{tests,memcheck}.log`.
+
+Use the Python/CUDA environment variables from above:
 
 ```bash
-# 完整重训选择新目录，避免覆盖本次参数；中断后可用相同参数加 --resume。
+# For a full retrain choose a new directory to avoid overwriting these parameters; after an interruption, rerun with the same arguments plus --resume.
 "$DUQUANT_PYTHON" benchmarks/train_lwc.py --calibration benchmarks/cache/calibrated_w4a4 --output benchmarks/cache/lwc_reproduced --epochs 20 --fused-weight-quant
 
-# 使用本次已经完成的参数，输出到独立评测目录。
+# Use the completed parameters and write to a separate evaluation directory.
 "$DUQUANT_PYTHON" benchmarks/eval_ppl.py --mode fp16 --output benchmarks/lwc_recheck/ppl_fp16.json
 for mode in fake cuda integer_reference; do
     "$DUQUANT_PYTHON" benchmarks/eval_ppl.py --mode "$mode" --calibration benchmarks/cache/lwc_w4a4 --output "benchmarks/lwc_recheck/ppl_${mode}.json"
 done
 "$DUQUANT_PYTHON" benchmarks/summarize_ppl.py --directory benchmarks/lwc_recheck
 
-# 速度/显存复测时为 FP16 与 CUDA 分别启动独立进程。
+# For speed/memory re-measurement, start separate processes for FP16 and CUDA.
 for prompt in 128 2048; do
     "$DUQUANT_PYTHON" benchmarks/bench_model.py --mode fp16 --prompt "$prompt" --new-tokens 32 --output "benchmarks/lwc_recheck/model_fp16_p${prompt}_g32.json"
     "$DUQUANT_PYTHON" benchmarks/bench_model.py --mode cuda --calibration benchmarks/cache/lwc_w4a4 --prompt "$prompt" --new-tokens 32 --output "benchmarks/lwc_recheck/model_cuda_p${prompt}_g32.json"
@@ -189,23 +199,27 @@ done
 
 
 <a id="model-family-validation"></a>
-## 五个 model family 的端到端验证（无 LWC）
+## End-to-end validation on five model families (no LWC)
 
-覆盖 README Model Zoo 的五个 family，各选择一个完整模型。全部使用同一套真实 W4A4 CUDA 后端，逐模型校准后重新运行完整 WikiText-2 test、独立整数参考及自回归生成。这里确认的是这五个具体 checkpoint，不代表该 family 的全部尺寸、变体或论文结果均已复现。
+This covers the five families of the README Model Zoo, with one full model each. All use the same real W4A4 CUDA backend. Each model is calibrated separately, then the full WikiText-2 test, the independent integer reference and autoregressive generation are rerun. What is confirmed here is these five specific checkpoints; it does not mean all sizes, variants or paper results of each family have been reproduced.
 
-### 实现与校准范围
+### Implementation and calibration scope
 
-本次补齐 GQA：Q/K/V 可有不同投影宽度，RoPE/cache kernel 分别处理 query 和 KV heads，KV cache 按实际 KV head 数存储，Flash SDPA 使用 GQA。O 投影 smoothing 在共享同一个 V head 的 query-head 组内绑定，以便正确折叠到 V/O 权重；MHA 路径保持原有语义。模型加载器检查 head_dim=128，拒绝 scaled RoPE、sliding-window attention 和带 bias 的投影。
+GQA support was completed for this:
+- Q/K/V can have different projection widths, and the RoPE/cache kernels handle query and KV heads separately.
+- The KV cache is stored with the actual number of KV heads, and Flash SDPA runs in GQA mode.
+- The O-projection smoothing is tied within each group of query heads that shares one V head, so it folds correctly into the V/O weights; the MHA path keeps its original semantics.
+- The model loader checks head_dim=128 and rejects scaled RoPE, sliding-window attention and projections with bias.
 
-每个模型使用 WikiText-2 **train** 的 128×2048 tokens，seed=2、alpha=0.6、block=128、256 次旋转搜索；原仓库旋转搜索生成两次块旋转和 zigzag permutation，导出各模型独立的参数。没有新增 LWC/LET 训练。LLaMA-2 复用已完成的同协议无 LWC 校准，其余四个新做校准；五个模型的推理评测均重新运行。
+Each model uses 128×2048 tokens of WikiText-2 **train**, seed=2, alpha=0.6, block=128, 256 rotation-search steps. The original repository's rotation search produces two block rotations and a zigzag permutation, and each model exports its own parameters. No new LWC/LET training was added. LLaMA-2 reuses the completed no-LWC calibration with the same protocol; the other four were newly calibrated. Inference evaluation was rerun for all five models.
 
-旋转和 permutation 从校准文件读取，未硬编码成某一个模型的矩阵。旋转代表输入仍是传播的校准输入均值，attention 仍采用本后端的 Hadamard + QK/V qdq 语义；因此下文 fake 是**本后端相同参数的 PyTorch fake 参考**，不是重新运行上游完整评测入口，也不是论文数值的严格复现。
+Rotations and permutations are read from the calibration files, not hard-coded to any one model's matrices. The representative input for the rotations is still the propagated mean of the calibration inputs, and attention still uses this backend's Hadamard + QK/V qdq semantics. The fake below is therefore **a PyTorch fake reference of this backend with the same parameters**. It is neither a rerun of the upstream evaluation entry point nor a strict reproduction of the paper's numbers.
 
-### 完整测试集质量
+### Full test-set quality
 
-WikiText-2 test 按不重叠 2048-token 完整块计算，每块计分 2047 个位置。不同 tokenizer 的分块和 token 数不同，不跨模型直接比较 PPL。
+WikiText-2 test is computed over complete non-overlapping 2048-token blocks, scoring 2047 positions per block. Tokenizers produce different blocks and token counts, so PPL is not compared directly across models.
 
-| 模型 | Q/KV heads | 分块 / 计分 tokens | HF FP16 PPL | 后端 FP16 PPL | fake W4A4 PPL | CUDA INT4 PPL |
+| model | Q/KV heads | blocks / scored tokens | HF FP16 PPL | backend FP16 PPL | fake W4A4 PPL | CUDA INT4 PPL |
 |---|---:|---:|---:|---:|---:|---:|
 | LLaMA-1 7B | 32/32 | 166 / 339,802 | 5.677054 | 5.677063 | 6.313289 | 6.297440 |
 | LLaMA-2 7B | 32/32 | 166 / 339,802 | 5.472053 | 5.472090 | 6.156414 | 6.163763 |
@@ -213,15 +227,23 @@ WikiText-2 test 按不重叠 2048-token 完整块计算，每块计分 2047 个�
 | Vicuna-v1.5 7B | 32/32 | 166 / 339,802 | 6.783673 | 6.783619 | 7.578176 | 7.580546 |
 | Mistral-7B-Instruct-v0.3 | 32/8 | 163 / 333,661 | 5.494614 | 5.494637 | 5.999756 | 5.998084 |
 
-五个模型的真实 CUDA 与独立整数参考均满足：全部计分位置 top-1 **100% 一致**，全部分块 NLL 差值 **0**，每模型 256 个采样位置的完整词表 logits **逐 bit 一致**。完整 logits 的逐 bit 结论只覆盖采样位置。CUDA 与 FP16 fake 的舍入语义仍不同，PPL 接近不代表逐 token 等价。
+For all five models, real CUDA versus the independent integer reference satisfies:
+- top-1 is **100% identical** at every scored position;
+- the NLL difference is **0** for every block;
+- the full-vocabulary logits at 256 sampled positions per model are **bit-identical**.
 
-HF 基线在完整测试集核对 PPL、所有预测位置及采样 logits，并额外检查长度 1/17/128 的 prefill 和各 3 步 cached decode。LLaMA-3 的 BOS-only 序列有一次 top-1 不同：HF 顶部 FP16 logits 恰好并列，后端候选在一个 FP16 ULP 内，已单独记录 `accepted_exact_hf_tie`，没有把它记成 top-1 一致。其他四个模型的 12 个短序列检查均 top-1 一致。完整 HF 数值差异见各目录的 `hf_comparison.json`。
+The bit-identity claim on full logits covers only the sampled positions. CUDA and FP16 fake still have different rounding semantics, so close PPL does not mean token-by-token equivalence.
 
-### 整模型生成速度
+The HF baseline was checked on the full test set (PPL, all predicted positions and the sampled logits). In addition, prefill at lengths 1/17/128, each followed by 3 cached decode steps, was checked. The LLaMA-3 BOS-only sequence has one top-1 difference: the top HF FP16 logits are exactly tied, and the backend's choice is within one FP16 ULP. It is recorded separately as `accepted_exact_hf_tie` and not counted as top-1 agreement. All 12 short-sequence checks of the other four models agree on top-1. Full HF numeric differences are in each directory's `hf_comparison.json`.
 
-同型 RTX 4090（约 48 GiB），单模型单 GPU、batch=1、5 次中位数。FP16 与 INT4 分别使用独立进程，均使用融合 block、Flash SDPA 和固定形状 CUDA Graph。包括 embedding、全部 32 层、LM head、真实 KV 更新、自回归 greedy 反馈及输出 token 回传；INT4 包括在线旋转、permutation 和量化。排除离线校准/打包、加载、首次编译、graph capture、tokenization 和输入 H2D。忽略 EOS，固定生成 32 tokens。为兼容 LLaMA-1 的 2048 上下文上限，统一测量 128/1024 输入长度。
+### Full-model generation speed
 
-| 模型 | 输入 → 输出 | FP16 ms | INT4 ms | 端到端加速 |
+Same-model RTX 4090 (about 48 GiB), one model per GPU, batch=1, median of 5. FP16 and INT4 run in separate processes; both use fused blocks, Flash SDPA and fixed-shape CUDA Graphs.
+- Included: embedding, all 32 layers, LM head, real KV updates, autoregressive greedy feedback and the output-token copy back; for INT4 also the online rotation, permutation and quantization.
+- Excluded: offline calibration/packing, loading, first compilation, graph capture, tokenization and the input H2D.
+- EOS is ignored and 32 tokens are always generated. To stay within LLaMA-1's 2048-token context limit, input lengths of 128/1024 are used throughout.
+
+| model | input → output | FP16 ms | INT4 ms | end-to-end speedup |
 |---|---:|---:|---:|---:|
 | LLaMA-1 7B | 128 → 32 | 461.27 | 179.48 | **2.57×** |
 | LLaMA-1 7B | 1024 → 32 | 554.36 | 215.93 | **2.57×** |
@@ -234,11 +256,15 @@ HF 基线在完整测试集核对 PPL、所有预测位置及采样 logits，并
 | Mistral-7B-Instruct-v0.3 | 128 → 32 | 492.33 | 191.13 | **2.58×** |
 | Mistral-7B-Instruct-v0.3 | 1024 → 32 | 573.55 | 214.40 | **2.68×** |
 
-### 显存
+### Memory
 
-下表统一为 **1024 → 32**，单位 GiB，`FP16 → INT4`。模型张量统计包含旋转/量化参数；peak allocated 包含 graph capture/warmup 的峰值，reserved 为推理驻留池。设备总占用还包括 CUDA context 等，原始 JSON 另有记录。KV、embedding、LM head 和 attention 算术保持 FP16；LLaMA-3 的大词表使这些未量化权重占比更高。
+The table below is for **1024 → 32**, in GiB, as `FP16 → INT4`.
+- Model tensors include the rotation/quantization parameters.
+- Peak allocated includes the graph capture/warmup peak; reserved is the resident inference pool.
+- Total device usage also includes the CUDA context and similar overheads, and is recorded separately in the raw JSON.
+- KV, embedding, LM head and attention arithmetic stay FP16. LLaMA-3's large vocabulary makes these unquantized weights a larger share.
 
-| 模型 | 模型张量 | KV（两者相同） | 峰值 allocated | reserved |
+| model | model tensors | KV (same for both) | peak allocated | reserved |
 |---|---:|---:|---:|---:|
 | LLaMA-1 7B | 12.55 → 3.54 | 0.515 | 13.23 → 4.24 | 13.41 → 4.91 |
 | LLaMA-2 7B | 12.55 → 3.54 | 0.515 | 13.23 → 4.25 | 13.39 → 4.91 |
@@ -246,63 +272,78 @@ HF 基线在完整测试集核对 PPL、所有预测位置及采样 logits，并
 | Vicuna-v1.5 7B | 12.55 → 3.54 | 0.515 | 13.23 → 4.25 | 13.39 → 4.91 |
 | Mistral-7B-Instruct-v0.3 | 13.52 → 3.80 | 0.129 | 13.82 → 4.14 | 13.89 → 5.15 |
 
-### Checkpoint 来源和可复核记录
+### Checkpoint sources and auditable records
 
-- LLaMA-1：ModelScope `skyline2006/llama-7b` 的原始 LLaMA-1 转换权重，位于 `benchmarks/cache/family_models/llama1-7b-ms`。所有下载文件按源 manifest SHA256 核验。旧包的 BOS/EOS ID 和空 special-token 字符串有误，按未修改的 SentencePiece 模型（BOS=1/EOS=2/UNK=0）修复，并补齐原有 2048 上下文配置；完整 before/after 保存在 `conversion.json`。33 个 bin 分片转换为 safetensors 后逐张量校验 dtype 和 bitwise equality。
-- LLaMA-2：本地 `/mnt/public_models/llama2-7b-hf`。
-- LLaMA-3：本地 `/mnt/public_models/Llama-3-8B`，使用其实际 `PreTrainedTokenizerFast`，没有用 LLaMA-2 tokenizer 代替。
-- Vicuna：ModelScope `AI-ModelScope/vicuna-7b-v1.5`，位于 `benchmarks/cache/family_models/vicuna-7b-v1.5`。两个 bin 权重分片的 SHA256 均与 HF `lmsys/vicuna-7b-v1.5` commit `3321f76e3f527bd14065daf69dad9344000a201d` 一致；lossless safetensors 转换逐张量验证通过。
-- Mistral：本地 `/mnt/public_models/Mistral-7B-Instruct-v0.3`，config 标识 `unsloth/Mistral-7B-Instruct-v0.3`，dense BF16 权重加载为 FP16。该 checkpoint 的 `sliding_window=null`；本次**未验证 Mistral-v0.1 的 sliding-window 路径**。
+- LLaMA-1: the converted original LLaMA-1 weights from ModelScope `skyline2006/llama-7b`, in `benchmarks/cache/family_models/llama1-7b-ms`.
+  - Every downloaded file was verified against the SHA256 of the source manifest.
+  - The old package had wrong BOS/EOS IDs and empty special-token strings. They were fixed according to the unmodified SentencePiece model (BOS=1/EOS=2/UNK=0), and the original 2048-token context config was restored; the full before/after is saved in `conversion.json`.
+  - The 33 bin shards were converted to safetensors, and each tensor was checked for dtype and bitwise equality.
+- LLaMA-2: local `/mnt/public_models/llama2-7b-hf`.
+- LLaMA-3: local `/mnt/public_models/Llama-3-8B`, with its actual `PreTrainedTokenizerFast`; the LLaMA-2 tokenizer was not substituted.
+- Vicuna: ModelScope `AI-ModelScope/vicuna-7b-v1.5`, in `benchmarks/cache/family_models/vicuna-7b-v1.5`. The SHA256 of both bin weight shards matches HF `lmsys/vicuna-7b-v1.5` commit `3321f76e3f527bd14065daf69dad9344000a201d`; the lossless safetensors conversion passed per-tensor verification.
+- Mistral: local `/mnt/public_models/Mistral-7B-Instruct-v0.3`, config identifier `unsloth/Mistral-7B-Instruct-v0.3`; the dense BF16 weights are loaded as FP16. This checkpoint has `sliding_window=null`; **the sliding-window path of Mistral-v0.1 was not validated**.
 
-完整产物位于 `benchmarks/families/{llama1,llama2,llama3,vicuna,mistral}/`：`run.json`、校准 manifest、模型 config、5 种模式 PPL、预测/采样 logits 数组、HF 核对、速度/显存及日志。两份下载模型还记录源 manifest 和逐分片转换 hash。总表为 [`benchmarks/families/summary.json`](../benchmarks/families/summary.json)，汇总脚本会检查五个 family 均完成、整数参考覆盖完整测试集、校准协议匹配以及推理源码 hash 未改变。
+All artifacts are in `benchmarks/families/{llama1,llama2,llama3,vicuna,mistral}/`: `run.json`, the calibration manifest, the model config, PPL for 5 modes, prediction/sampled-logits arrays, the HF check, speed/memory and logs. The two downloaded models also record the source manifest and per-shard conversion hashes. The overall table is [`benchmarks/families/summary.json`](../benchmarks/families/summary.json). The summary script checks that:
+- all five families are complete;
+- the integer reference covers the full test set;
+- the calibration protocols match;
+- the inference source hashes are unchanged.
 
-22 项回归测试通过，CUDA memcheck **0 errors**，日志为 `benchmarks/families/tests.log` 和 `memcheck.log`。新增测试覆盖 4Q/1KV 与 4Q/2KV、prefill/多步 decode、compact cache、graph replay 改变输入、GQA smoothing 的浮点等价及非法未绑定 scale 的拒绝。
+22 regression tests pass and CUDA memcheck reports **0 errors**; logs are `benchmarks/families/tests.log` and `memcheck.log`. The new tests cover:
+- 4Q/1KV and 4Q/2KV, prefill/multi-step decode and the compact cache;
+- graph replay with changed inputs;
+- floating-point equivalence of GQA smoothing and rejection of illegal untied scales.
 
-本次不包括更大参数尺寸、scaled RoPE、滑窗 attention、多 GPU、W6A6、QA/C4 或动态 serving。以上速度仅适用于测过的固定形状请求；质量结果也不能代替这些未测范围的结论。
+Not covered here: larger parameter sizes, scaled RoPE, sliding-window attention, multi-GPU, W6A6, QA/C4 and dynamic serving. The speeds above apply only to the fixed-shape requests that were measured, and the quality results do not stand in for these untested areas.
 
-### 复现
+### Reproduction
 
-使用前文 Python/CUDA 环境。`download_family_models.py` 为两个缺失模型提供支持续传的 ModelScope 下载和 SHA256 核验；`convert_family_checkpoint.py` 做可核验的 lossless 格式转换。模型文件位于被 git 忽略的 `benchmarks/cache/`。
+Use the Python/CUDA environment from above. `download_family_models.py` provides resumable ModelScope downloads with SHA256 verification for the two missing models; `convert_family_checkpoint.py` performs a verifiable lossless format conversion. The model files live in the git-ignored `benchmarks/cache/`.
 
 ```bash
-# 在仓库根目录运行；首次下载/转换时使用。
+# Run from the repository root; needed for the first download/conversion.
 "$DUQUANT_PYTHON" benchmarks/download_family_models.py
 "$DUQUANT_PYTHON" benchmarks/convert_family_checkpoint.py benchmarks/cache/family_models/vicuna-7b-v1.5
 "$DUQUANT_PYTHON" benchmarks/convert_family_checkpoint.py benchmarks/cache/family_models/llama1-7b-ms --legacy-llama1
 
-# 以 LLaMA-3 为例。重做校准请选择一个新目录。
+# LLaMA-3 as an example. Choose a new directory when redoing calibration.
 "$DUQUANT_PYTHON" benchmarks/calibrate_model.py --model /mnt/public_models/Llama-3-8B --output benchmarks/cache/llama3_reproduced
-# name 决定产物目录；复测选择新 name，避免复用已有结果。
+# name determines the artifact directory; pick a new name for a re-check to avoid reusing existing results.
 "$DUQUANT_PYTHON" benchmarks/run_family.py --name llama3_recheck --model /mnt/public_models/Llama-3-8B --calibration benchmarks/cache/llama3_reproduced
 
-# 核验本次五个 family 的已有产物并生成总表。
+# Verify the existing artifacts of the five families and build the overall table.
 "$DUQUANT_PYTHON" benchmarks/summarize_families.py
 ```
 
-### 五模型速度与显存的一键重测
+### One-command re-measurement of speed and memory for the five models
 
-`benchmarks/run_e2e_suite.py` 使用上述五份已验证的无 LWC 校准参数，在同一张空闲 GPU 上依次运行 20 组独立进程：五个模型 × FP16/INT4 × 128/1024-token 输入，均生成 32 tokens，默认每组重复 10 次。这里专门复测生成性能；完整 PPL 结果保留在 `benchmarks/families/`。
+`benchmarks/run_e2e_suite.py` uses the five verified no-LWC calibrations above and runs 20 separate processes one after another on the same idle GPU. The 20 runs are five models × FP16/INT4 × 128/1024-token inputs, each generating 32 tokens and repeated 10 times by default. It re-measures generation performance only; the full PPL results remain in `benchmarks/families/`.
 
 ```bash
-# 只检查校准配置、列出命令，不使用 GPU。
+# Only checks the calibration config and lists the commands; does not use the GPU.
 "$DUQUANT_PYTHON" benchmarks/run_e2e_suite.py --gpu 0 --output benchmarks/e2e_reproduced --dry-run
-# 确认该 GPU 空闲后执行；输出目录必须不存在。
+# Run after confirming the GPU is idle; the output directory must not exist.
 "$DUQUANT_PYTHON" benchmarks/run_e2e_suite.py --gpu 0 --output benchmarks/e2e_reproduced
 ```
 
-该脚本在每组开始前检查 GPU 是否空闲，运行中每 2 秒检查一次其他计算进程；发现争用会将该轮标记为未完成，不生成成功总表。它不终止其他用户的任务，也不更改 GPU 时钟。校准与源码 SHA256、命令、运行日志、每次计时样本及结果均保存到新目录。`summary.json` 区分模型张量、KV、峰值 allocated、reserved 和包含 CUDA context 的设备占用；设备占用是快照，不声称为采样峰值。
+The script checks that the GPU is idle before each run, and checks for other compute processes every 2 seconds while running. If it detects contention, it marks the round as incomplete and does not produce a successful summary. It neither kills other users' jobs nor changes GPU clocks. The calibration and source SHA256, commands, run logs, every timing sample and the results are saved in the new directory. `summary.json` separates model tensors, KV, peak allocated, reserved and device usage including the CUDA context. Device usage is a snapshot and is not claimed to be a sampled peak.
 
-首次追加重测的尝试记录在 `benchmarks/e2e_recheck/run.json`：当时所有 GPU 均被其他任务占用，空闲检查在模型加载前退出，完成 **0/20** 组。GPU 0 释放后的成功重测记录在下面；上文历史表格仍保留其原有 5 次中位数口径。
+The first attempt at an additional re-measurement is recorded in `benchmarks/e2e_recheck/run.json`. At the time all GPUs were busy with other jobs, the idle check exited before loading the model, and **0/20** runs completed. The successful re-measurement after GPU 0 was freed is recorded below. The historical tables above keep their original median-of-5 protocol.
 
 
 <a id="e2e-recheck"></a>
-### 五模型端到端重测已完成（同一 GPU，各 10 次）
+### Five-model end-to-end re-measurement completed (same GPU, 10 runs each)
 
-GPU 0 释放后，执行 `benchmarks/run_e2e_suite.py --gpu 0 --output benchmarks/e2e_fresh`，全部 **20/20** 组完成。五个模型的 FP16/INT4 均在同一张 RTX 4090 上依次运行，各组使用独立进程、10 次取中位数；轮询未发现该卡有其他计算进程。未修改推理内核、校准参数，也未新增 LWC。
+After GPU 0 was freed, `benchmarks/run_e2e_suite.py --gpu 0 --output benchmarks/e2e_fresh` was run, and all **20/20** runs completed. FP16 and INT4 of all five models ran one after another on the same RTX 4090, each run in its own process, median of 10; polling found no other compute process on that GPU. The inference kernels and calibration parameters were not changed, and no LWC was added.
 
-本轮仍为 batch=1、输入 128/1024 tokens、固定生成 32 tokens，含全部 32 层、在线旋转/量化、attention、KV 更新、LM head 和自回归反馈。FP16 与 INT4 同样使用固定形状 CUDA Graph；排除加载、离线打包、编译、graph capture、tokenization 和输入 H2D，包含生成 token 的 D2H。20 组均通过 graph/eager 生成一致性和有限 logits 检查。
+This round is again batch=1, inputs of 128/1024 tokens and a fixed 32 generated tokens.
+- Included: all 32 layers, online rotation/quantization, attention, KV updates, LM head, autoregressive feedback and the D2H of the generated tokens.
+- FP16 and INT4 both use fixed-shape CUDA Graphs.
+- Excluded: loading, offline packing, compilation, graph capture, tokenization and the input H2D.
 
-| 模型 | 输入→输出 | FP16 ms | INT4 ms | 端到端加速 | FP16 / INT4 decode tok/s |
+All 20 runs passed the graph/eager generation-consistency and finite-logits checks.
+
+| model | input→output | FP16 ms | INT4 ms | end-to-end speedup | FP16 / INT4 decode tok/s |
 |---|---:|---:|---:|---:|---:|
 | LLaMA-1 7B | 128→32 | 461.24 | 179.10 | **2.58×** | 69.94 / 180.57 |
 | LLaMA-1 7B | 1024→32 | 553.68 | 215.87 | **2.56×** | 67.17 / 163.06 |
@@ -315,9 +356,9 @@ GPU 0 释放后，执行 `benchmarks/run_e2e_suite.py --gpu 0 --output benchmark
 | Mistral-7B-Instruct-v0.3 | 128→32 | 492.19 | 190.02 | **2.59×** | 65.63 / 170.33 |
 | Mistral-7B-Instruct-v0.3 | 1024→32 | 575.45 | 214.77 | **2.68×** | 65.03 / 166.91 |
 
-显存统一列出 **1024→32**，单位 GiB，数值为 `FP16 → INT4`。峰值 allocated 包含 capture/warmup 峰值；设备占用为推理驻留快照（含 context），不是设备峰值。128 输入的完整显存指标同样保存在 JSON。
+Memory is listed for **1024→32**, in GiB, as `FP16 → INT4`. Peak allocated includes the capture/warmup peak. Device usage is a snapshot of the resident inference state (including the context), not the device peak. The full memory metrics for 128-token inputs are also saved in the JSON.
 
-| 模型 | 模型张量 | KV（两者相同） | 峰值 allocated | reserved | 设备占用 |
+| model | model tensors | KV (same for both) | peak allocated | reserved | device usage |
 |---|---:|---:|---:|---:|---:|
 | LLaMA-1 7B | 12.55 → 3.54 | 0.515 | 13.23 → 4.24 | 13.41 → 4.91 | 13.99 → 5.59 |
 | LLaMA-2 7B | 12.55 → 3.54 | 0.515 | 13.23 → 4.25 | 13.39 → 4.91 | 13.97 → 5.59 |
@@ -325,33 +366,42 @@ GPU 0 释放后，执行 `benchmarks/run_e2e_suite.py --gpu 0 --output benchmark
 | Vicuna-v1.5 7B | 12.55 → 3.54 | 0.515 | 13.23 → 4.25 | 13.39 → 4.91 | 13.97 → 5.59 |
 | Mistral-7B-Instruct-v0.3 | 13.52 → 3.80 | 0.129 | 13.82 → 4.14 | 13.89 → 5.12 | 14.47 → 5.80 |
 
-本次总表为 [`benchmarks/e2e_fresh/summary.json`](../benchmarks/e2e_fresh/summary.json)；`plan.json` 记录全部命令及校准 hash，`run.json` 记录 20/20 完成状态及推理/测量源码 hash，每个模型目录保留原始 10 次计时、显存分项、生成 token 和日志。此前因 GPU 占用而退出的 `benchmarks/e2e_recheck/` 保留为失败尝试记录，不用于本次结论。质量验证仍引用前述完整 WikiText-2 五模型结果，本次没有重复评测 PPL。
+Records of this run:
+- The overall table is [`benchmarks/e2e_fresh/summary.json`](../benchmarks/e2e_fresh/summary.json).
+- `plan.json` records all commands and the calibration hashes; `run.json` records the 20/20 completion status and the inference/measurement source hashes.
+- Each model directory keeps the raw 10 timings, the memory breakdown, the generated tokens and the logs.
+
+The earlier `benchmarks/e2e_recheck/`, which exited because the GPU was busy, is kept as a record of the failed attempt and is not used for these conclusions. Quality validation still refers to the full five-model WikiText-2 results above; PPL was not re-evaluated here.
 
 
 <a id="kv-modes"></a>
-## 显式 W4A4KV16 与真实压缩 W4A4KV4
+## Explicit W4A4KV16 and real compressed W4A4KV4
 
-已实现并验证五个代表模型的两种显式 KV 模式。为了隔离 attention/KV 的影响，本次固定此前各模型的无 LWC 校准权重、双旋转、permutation 和 smoothing，没有重新校准或训练 LWC。
+Two explicit KV modes were implemented and validated on the five representative models. To isolate the effect of attention/KV, each model's earlier no-LWC calibrated weights, dual rotations, permutation and smoothing are kept fixed; no recalibration or LWC training was done.
 
-### 模式定义与实现
+### Mode definitions and implementation
 
-| 参数 | Q | K/V 数值处理 | KV 物理存储 | attention |
+| argument | Q | K/V numerics | KV physical storage | attention |
 |---|---|---|---|---|
-| 省略 `--kv-bits`（兼容旧路径） | Hadamard 后 Q4 QDQ | K4/V4 QDQ | FP16 | Flash SDPA |
-| `--kv-bits 16` | FP16，无额外 QDQ/Hadamard | W4A4 投影输出，不再额外量化 | FP16 | Flash SDPA |
-| `--kv-bits 4` | RoPE 后 Hadamard，保留 FP16 | K 经过配对 Hadamard 后量化；V 直接量化 | 真正 packed 4-bit + FP16 scale/zero | prefill Flash SDPA；decode 直接读压缩缓存 |
+| `--kv-bits` omitted (legacy-compatible path) | Q4 QDQ after Hadamard | K4/V4 QDQ | FP16 | Flash SDPA |
+| `--kv-bits 16` | FP16, no extra QDQ/Hadamard | W4A4 projection output, not quantized further | FP16 | Flash SDPA |
+| `--kv-bits 4` | Hadamard after RoPE, kept in FP16 | K quantized after a paired Hadamard; V quantized directly | real packed 4-bit + FP16 scale/zero | prefill Flash SDPA; decode reads the compressed cache directly |
 
-两种显式模式都保留 W4A4 的 QKV/O/MLP 线性层。KV16 仍然包含这些线性层的量化误差，不是原始 FP16 模型的 K/V。KV4 没有额外引入 QuaRot/SpinQuant 的 V/O 旋转，因此本实验不是那些方法的复现。
+Both explicit modes keep the W4A4 QKV/O/MLP linear layers. KV16 still contains the quantization error of these linear layers; it is not the K/V of the original FP16 model. KV4 does not add the V/O rotations of QuaRot/SpinQuant, so this experiment is not a reproduction of those methods.
 
-新代码 `duquant_cuda/kv4.py` 实现融合 RoPE、Q/K Hadamard、K/V 非对称量化和写 cache。每个 token、每个 KV head 的 128 维向量独立量化：K clip=0.9、V clip=1.0；两个 code 打包进一个 uint8，另存 FP16 scale 和 zero。每个 K/V 对由 512 bytes 变为 136 bytes，即 **3.7647×** 压缩（含量化参数，不含 decode 临时工作区）。
+The new `duquant_cuda/kv4.py` implements fused RoPE, Q/K Hadamard, asymmetric K/V quantization and the cache write. The 128-dimensional vector of each token and each KV head is quantized independently: K clip=0.9, V clip=1.0. Two codes are packed into one uint8, with an FP16 scale and zero stored separately. Each K/V pair goes from 512 bytes to 136 bytes, a **3.7647×** compression (including the quantization parameters, excluding the temporary decode workspace).
 
-prefill 同时产生当前输入块的 FP16 反量化 K/V 临时张量供 Flash SDPA 使用；持久 cache 只有 packed codes 与量化参数。decode 分块在寄存器/共享内存内反量化，**不展开整份历史 FP16 cache**。MHA 使用 FP32 split-K 归约；GQA 让共享 KV 的 query-head 组复用解包结果，QK/PV 使用 Tensor Core，softmax 权重拆成 FP16 high/low 两部分计算 PV，减少单次 FP16 截断损失。softmax 与 partial/merge 累加为 FP32。tile 根据缓存容量选择 32/64/128，分派仅依赖形状。
+Prefill also produces temporary FP16 dequantized K/V tensors of the current input chunk for Flash SDPA; the persistent cache holds only the packed codes and quantization parameters. Decode dequantizes tile by tile in registers/shared memory and **never materializes the whole FP16 history cache**.
+- MHA uses an FP32 split-K reduction.
+- In GQA, each group of query heads that shares a KV head reuses the unpacked values, and QK/PV run on Tensor Cores. The softmax weights are split into FP16 high/low parts to compute PV, reducing the loss of a single FP16 truncation.
+- Softmax and the partial/merge accumulation are FP32.
+- The tile is chosen as 32/64/128 from the cache capacity; dispatch depends only on the shape.
 
-### 完整 WikiText-2 PPL
+### Full WikiText-2 PPL
 
-仍为完整、不重叠 2048-token test 分块，与前述 family 评测相同的 tokenizer 和计分协议。表中的旧路径是此前真实 INT4 Linear + Q/K/V4 QDQ + FP16 物理 cache；不能把它称为显式 KV16 或真实压缩 KV4。
+Again complete non-overlapping 2048-token test blocks, with the same tokenizer and scoring protocol as the family evaluation above. The legacy path in the table is the earlier real INT4 Linear + Q/K/V4 QDQ + FP16 physical cache; it must not be called explicit KV16 or real compressed KV4.
 
-| 模型 | 原始 FP16 | 旧 Q4/K4/V4 QDQ 路径 | W4A4KV16 | W4A4KV4 |
+| model | original FP16 | legacy Q4/K4/V4 QDQ path | W4A4KV16 | W4A4KV4 |
 |---|---:|---:|---:|---:|
 | LLaMA-1 7B | 5.677063 | 6.297440 | **6.177697** | 6.255274 |
 | LLaMA-2 7B | 5.472090 | 6.163763 | **5.999411** | 6.083101 |
@@ -359,19 +409,26 @@ prefill 同时产生当前输入块的 FP16 反量化 K/V 临时张量供 Flash 
 | Vicuna-v1.5 7B | 6.783619 | 7.580546 | **7.411816** | 7.501459 |
 | Mistral-7B-Instruct-v0.3 | 5.494637 | 5.998084 | **5.897815** | 5.946837 |
 
-在这五个 checkpoint 的完整 WikiText-2 评测上，KV16 均优于 KV4，也均优于旧路径。但这是同一份既有校准参数下的实测结论，不是对所有任务、样本或模型的保证；与原始 FP16 相比仍有量化损失。KV4 相比旧路径还同时取消了 Q4 量化，因此不能把二者精度差全部归因于 cache 格式。
+On the full WikiText-2 evaluation of these five checkpoints, KV16 beats KV4 and also beats the legacy path every time. But this is a measured result under one fixed set of existing calibration parameters, not a guarantee for all tasks, samples or models, and there is still quantization loss relative to the original FP16. Compared with the legacy path, KV4 also drops Q4 quantization at the same time, so the accuracy difference between the two cannot be attributed entirely to the cache format.
 
-两种新模式的全量 **prefill PPL** 均与独立整数算术参考匹配：所有计分位置预测相同、每块 NLL 差为 0、256 个采样位置的完整词表 logits 逐 bit 相同。
+For both new modes, the full **prefill PPL** matches the independent integer-arithmetic reference:
+- the predictions at every scored position are identical;
+- the NLL difference of every block is 0;
+- the full-vocabulary logits at 256 sampled positions are bit-identical.
 
-### 缓存解码的数值界限
+### Numeric bounds of cached decode
 
-上面的 PPL 以整块 prefill 计算，不能直接证明新的 cached-decode kernel 与另一种浮点归约实现逐 bit 等价。实际检查发现：FP32 attention 的细微舍入差异会在后续 W4A4 量化边界被放大。提高到 FP64 的隔离试验也未保证整模型一致，因此没有为了追求这种一致性而采用更慢的 FP64 路径。
+The PPL above is computed with whole-block prefill and does not directly prove that the new cached-decode kernel is bit-equivalent to another floating-point reduction. The checks showed that tiny rounding differences in FP32 attention are amplified at later W4A4 quantization boundaries. An isolated experiment raising the precision to FP64 did not guarantee whole-model agreement either, so the slower FP64 path was not adopted to chase such agreement.
 
-最终对每个模型做了 **8,640 次**真实 cached-decode attention 检查：在完全相同的 Q/K/V 上，对照独立 PyTorch FP32 dense attention，再舍入到 FP16，全部满足 `abs(error) <= 0.001 + 0.002*abs(reference)`。另外保留长度 1/129/1024 的 prefill + 7 步解码的整模型 logits 诊断，没有隐去其差异。
+The final check runs **8,640** real cached-decode attention cases per model. On identical Q/K/V, each is compared with an independent PyTorch FP32 dense attention rounded to FP16, and all satisfy `abs(error) <= 0.001 + 0.002*abs(reference)`. Whole-model logits diagnostics for prefill at lengths 1/129/1024 followed by 7 decode steps are also kept, and their differences are not hidden.
 
-以下是额外的真实缓存评测：从 test 中均匀选取 8 个窗口，各输入 128 tokens，再逐 token 喂入 32 个真实后续 token，共计分 256 tokens。它是有限诊断，不能与完整测试集 PPL 混用，也不能视为正式等价性检验。
+Below is an additional real-cache evaluation:
+- 8 windows are taken evenly from the test set, each with a 128-token input.
+- 32 real following tokens are then fed one token at a time, for 256 scored tokens in total.
 
-| 模型 | KV16 CUDA/参考 PPL（相同） | KV4 CUDA PPL | KV4 dense 参考 PPL | KV4 与参考预测一致率 | 单次 attention 最大相对 L2 |
+It is a limited diagnostic: it cannot be mixed with the full test-set PPL and is not a formal equivalence test.
+
+| model | KV16 CUDA/reference PPL (identical) | KV4 CUDA PPL | KV4 dense reference PPL | KV4 prediction agreement with reference | max relative L2 of a single attention |
 |---|---:|---:|---:|---:|---:|
 | LLaMA-1 7B | 7.668679 | 8.004426 | 8.139375 | 91.80% | 0.010380% |
 | LLaMA-2 7B | 7.400700 | 7.449666 | 7.558630 | 85.55% | 0.012697% |
@@ -379,13 +436,20 @@ prefill 同时产生当前输入块的 FP16 反量化 K/V 临时张量供 Flash 
 | Vicuna-v1.5 7B | 9.926909 | 9.625573 | 9.978095 | 86.33% | 0.024869% |
 | Mistral-7B-Instruct-v0.3 | 6.561293 | 6.471767 | 6.740647 | 86.72% | 0.016411% |
 
-**KV4 cached decode 的整模型输出不是逐 bit / 逐 token 等价于独立 dense 参考。** 小样本 PPL 更低也不能据此宣称 kernel 改善了量化方法。KV16 在本次 cached-decode 诊断中与参考完全匹配；KV4 当前应按实验性后端看待，其 kernel 的共同输入数值检查、完整 prefill PPL 和独立 cached 评测是三类不同证据。
+**The whole-model output of KV4 cached decode is not bit-/token-equivalent to the independent dense reference.** A lower PPL on this small sample is no basis for claiming that the kernel improves the quantization method. KV16 matches the reference exactly in this cached-decode diagnostic. KV4 should currently be treated as an experimental backend. Its evidence comes in three distinct kinds:
+- numeric checks of the kernel on shared inputs;
+- full prefill PPL;
+- the independent cached evaluation.
 
-### 端到端生成速度
+### End-to-end generation speed
 
-同型 RTX 4090（约 48 GiB），每个模型的 FP16/KV16/KV4 对照使用同一张 GPU、各组独立进程，batch=1、固定生成 32 tokens、10 次中位数。测量边界与上文一致：全 32 层、真实反馈和 KV 写入、在线旋转/量化、输出 D2H 都计入；离线校准/打包、加载、编译、graph capture、tokenization、输入 H2D 不计。均使用固定形状 CUDA Graph。
+Same-model RTX 4090 (about 48 GiB). For each model, the FP16/KV16/KV4 comparison uses the same GPU with a separate process per run, batch=1, a fixed 32 generated tokens, median of 10. The measurement boundaries are the same as above:
+- counted: all 32 layers, real feedback and KV writes, online rotation/quantization and the output D2H;
+- not counted: offline calibration/packing, loading, compilation, graph capture, tokenization and the input H2D.
 
-| 模型 | 输入→输出 | FP16 ms | KV16 ms | KV4 ms | KV16 / KV4 相对 FP16 加速 |
+All runs use fixed-shape CUDA Graphs.
+
+| model | input→output | FP16 ms | KV16 ms | KV4 ms | KV16 / KV4 speedup over FP16 |
 |---|---:|---:|---:|---:|---:|
 | LLaMA-1 7B | 128→32 | 461.40 | 175.54 | 179.64 | 2.63× / 2.57× |
 | LLaMA-1 7B | 1024→32 | 554.76 | 211.58 | 208.53 | 2.62× / 2.66× |
@@ -398,13 +462,16 @@ prefill 同时产生当前输入块的 FP16 反量化 K/V 临时张量供 Flash 
 | Mistral-7B-Instruct-v0.3 | 128→32 | 492.41 | 183.78 | 187.03 | 2.68× / 2.63× |
 | Mistral-7B-Instruct-v0.3 | 1024→32 | 573.72 | 206.61 | 212.50 | 2.78× / 2.70× |
 
-KV4 的主要确定收益是缓存压缩，并不保证比 KV16 更快；本次 1024 输入下，MHA 模型 KV4 稍快，GQA 模型 KV16 稍快。为减少 GQA 重复解包开销，最终采用共享 KV 的 Tensor Core kernel；其 decode 与性能重新测量，未变的 prefill PPL、KV16、MHA 结果保留，`reused_outputs` 和前后源码 hash 记录了这一点。
+The main definite benefit of KV4 is cache compression; it is not guaranteed to be faster than KV16. Here, with 1024-token inputs, KV4 is slightly faster on the MHA models and KV16 slightly faster on the GQA models. To reduce the repeated unpacking overhead in GQA, the final version uses the shared-KV Tensor Core kernel. Its decode and performance were re-measured, while the unchanged prefill PPL, KV16 and MHA results were kept; `reused_outputs` and the before/after source hashes record this.
 
-### 显存与长上下文
+### Memory and long context
 
-下表均为 1024→32，单位 GiB，`KV16 → KV4`；模型张量不随 KV 位宽改变。峰值 allocated 包含 graph capture/warmup；reserved 是 PyTorch 的驻留内存池，不能等同于实际活跃张量。KV4 的 decode 工作区额外计入峰值，缓存列只统计持久 codes/scale/zero。
+The table below is for 1024→32, in GiB, as `KV16 → KV4`; model tensors do not change with the KV bit width.
+- Peak allocated includes graph capture/warmup.
+- Reserved is PyTorch's resident memory pool and is not the same as live tensors.
+- The KV4 decode workspace is counted in the peak, while the cache column covers only the persistent codes/scale/zero.
 
-| 模型 | 模型张量 | KV 缓存 | KV4 decode 工作区 | 峰值 allocated | reserved | 设备占用快照 |
+| model | model tensors | KV cache | KV4 decode workspace | peak allocated | reserved | device usage snapshot |
 |---|---:|---:|---:|---:|---:|---:|
 | LLaMA-1 7B | 3.537 | 0.515 → 0.137 | 0.0045 | 4.245 → 3.897 | 4.908 → 4.941 | 5.587 → 5.620 |
 | LLaMA-2 7B | 3.537 | 0.515 → 0.137 | 0.0045 | 4.246 → 3.898 | 4.910 → 4.943 | 5.589 → 5.622 |
@@ -412,84 +479,113 @@ KV4 的主要确定收益是缓存压缩，并不保证比 KV16 更快；本次 
 | Vicuna-v1.5 7B | 3.537 | 0.515 → 0.137 | 0.0045 | 4.246 → 3.898 | 4.910 → 4.943 | 5.589 → 5.622 |
 | Mistral-7B-Instruct-v0.3 | 3.798 | 0.129 → 0.034 | 0.0084 | 4.138 → 4.056 | 5.123 → 5.168 | 5.802 → 5.847 |
 
-Mistral-7B-Instruct-v0.3 另外测试原生 8192-token 输入、生成 32 tokens（无 sliding window）：
+Mistral-7B-Instruct-v0.3 was additionally tested with a native 8192-token input and 32 generated tokens (no sliding window):
 
-| 模式 | wall ms | 相对 FP16 加速 | KV GiB | 峰值 allocated GiB | reserved GiB |
+| mode | wall ms | speedup over FP16 | KV GiB | peak allocated GiB | reserved GiB |
 |---|---:|---:|---:|---:|---:|
 | fp16_kv16 | 1368.48 | 1.00× | 1.004 | 15.786 | 15.939 |
 | cuda_kv16 | 564.83 | 2.42× | 1.004 | 6.427 | 6.697 |
 | cuda_kv4 | 566.37 | 2.42× | 0.267 | 5.762 | 6.703 |
 
-在这个 8192→32 场景，KV4 与 KV16 的延迟接近，KV 从约 1.004 降到 0.267 GiB，峰值 allocated 从约 6.43 降到 5.76 GiB；但 **reserved 两者都约 6.70 GiB**，allocator/graph pool 没有按活跃张量节省量等额释放驻留显存。不能把 KV 数据压缩倍数称为整模型总显存压缩倍数。旧 GQA scalar decode 约 637 ms 的结果保留在 `diagnostics_scalar_decode/`；最终版本约 566 ms。
+In this 8192→32 scenario, KV4 and KV16 have similar latency.
+- KV drops from about 1.004 to 0.267 GiB, and peak allocated from about 6.43 to 5.76 GiB.
+- However, **reserved is about 6.70 GiB for both**: the allocator/graph pool does not release resident memory in proportion to the live-tensor savings.
 
-### 检查与复现
+The compression ratio of the KV data cannot be called the compression ratio of total model memory. The earlier GQA scalar decode result of about 637 ms is kept in `diagnostics_scalar_decode/`; the final version takes about 566 ms.
 
-最终 25 项测试通过，CUDA memcheck **0 errors**：`benchmarks/kv_modes/tests_final.log`、`memcheck_final.log`。新增覆盖 packed bytes/scale/zero、MHA/GQA、batch=2、31/32/33、63/64/65、127/128/129 等边界、连续追加、Graph 修改输入、完整 block 与 KV16。
+### Checks and reproduction
 
-完整总表为 [`benchmarks/kv_modes/summary.json`](../benchmarks/kv_modes/summary.json)。各 family 保存两种模式的完整 PPL/独立参考、cached-decode 逐 token NLL、性能原始 10 次样本、显存分项、源码和校准 hash。早期未通过严格整模型 logits 比较的诊断和未采用的 scalar GQA 性能明确保存在 diagnostics 目录，不作为最终成功结论。
+The final 25 tests pass, and CUDA memcheck reports **0 errors**: `benchmarks/kv_modes/tests_final.log` and `memcheck_final.log`. New coverage:
+- packed bytes/scale/zero;
+- MHA/GQA and batch=2;
+- boundaries such as 31/32/33, 63/64/65 and 127/128/129;
+- consecutive appends and graphs with modified inputs;
+- the full block and KV16.
+
+The full table is [`benchmarks/kv_modes/summary.json`](../benchmarks/kv_modes/summary.json). Each family saves, for both modes:
+- the full PPL and the independent reference;
+- the per-token NLL of cached decode;
+- the raw 10 performance samples and the memory breakdown;
+- the source and calibration hashes.
+
+Earlier diagnostics that did not pass the strict whole-model logits comparison, and the unadopted scalar GQA performance, are kept explicitly in diagnostics directories and are not used as final success claims.
 
 ```bash
-# 沿用前述 Python/CUDA 环境；选择空闲 GPU。
-# 使用相同的无 LWC 校准，显式选择真实 KV4。
+# Reuse the Python/CUDA environment from above; choose an idle GPU.
+# Use the same no-LWC calibration and explicitly select real KV4.
 "$DUQUANT_PYTHON" benchmarks/bench_model.py --model /mnt/public_models/llama2-7b-hf --mode cuda --kv-bits 4 --calibration benchmarks/cache/calibrated_w4a4 --prompt 1024 --new-tokens 32 --repeats 10 --output benchmarks/kv4_recheck_model.json
-# KV16：将 --kv-bits 4 改为 --kv-bits 16。
+# KV16: change --kv-bits 4 to --kv-bits 16.
 
-# 在新目录重做该 family 的两种模式、PPL、缓存诊断和生成基准。
+# Redo both modes, PPL, cache diagnostics and generation benchmarks of this family in a new directory.
 "$DUQUANT_PYTHON" benchmarks/run_kv_modes.py --family llama2 --output-root benchmarks/kv_modes_reproduced
-# 中断后显式加 --reuse-existing；已有结果不会默认覆盖。
+# After an interruption, add --reuse-existing explicitly; existing results are not overwritten by default.
 "$DUQUANT_PYTHON" benchmarks/summarize_kv_modes.py
 ```
 
-适用范围仍限于已验证的这些 checkpoint、head_dim=128、当前 GPU/软件环境、固定形状生成；没有增加 paged serving、多 GPU、滑窗或 scaled RoPE 支持，也没有运行新的 QA/C4。
+The scope is still limited to these validated checkpoints, head_dim=128, the current GPU/software environment and fixed-shape generation. No support was added for paged serving, multi-GPU, sliding windows or scaled RoPE, and no new QA/C4 was run.
 
 
 <a id="ptq-search"></a>
-## 对称 W、非对称 A/K/V：clipping 搜索与 GPTQ 消融
+## Symmetric W, asymmetric A/K/V: clipping search and GPTQ ablation
 
-本轮先验证 LLaMA-2 7B。固定此前无 LWC 校准的所有 DuQuant 双旋转、permutation、smoothing 和模型 checkpoint，只改变量化器及权重取整方法。新增配置属于 DuQuant 的 PTQ 扩展；没有重跑其他四个 family，也没有进行新的 QA 评测。
+This round validates LLaMA-2 7B first. All DuQuant dual rotations, permutations, smoothing and the model checkpoint from the earlier no-LWC calibration are kept fixed; only the quantizer and the weight rounding method change. The new configurations are a PTQ extension of DuQuant. The other four families were not rerun, and no new QA evaluation was done.
 
-### 设置与数据隔离
+### Setup and data isolation
 
-- W：per-output-channel，对称有符号区间 [-8,7]，FP16 scale；存储 code=q+8、zero=8，复用已有 UINT4 GEMM/GEMV 和 affine epilogue。GPTQ 的最终整数 codes 直接导出、加载，不经第二次 RTN。
-- A：动态 per-token 非对称；Q 保持 FP16。KV4：per-token/head 非对称 group=128、真实 packed cache，保留原有 post-RoPE Q/K Hadamard，没有新增 V/O 旋转。
-- W 搜索：每个输出通道扫描 0.20–1.00、步长 0.01，以原始旋转后权重的 FP32 重构 MSE 选取 clipping，scale 最终存为 FP16。
-- A/K/V 搜索：0.40–1.00、步长 0.025，以部署时 FP16 QDQ 的重构 MSE 选择；A 每层每个融合投影一项，K/V 各每层一项。每条训练序列均匀取 64 行，合计每层每类 8192 行。
-- 数据：既有 WikiText-2 train 的 128×2048 样本、seed=2；核对原始 Arrow/token/校准 hash。RTN 搜索时逐层传播已搜索量化层的输出。测试集不参与任何 clipping 选择。
-- GPTQ：固定与搜索 RTN 完全相同的 scale、zero、A/K/V clipping；block=128、damping=1%、不开 act-order。按 QKV→O→gate/up→down 真正顺序处理，使用自己的量化前缀和全部训练 token 的 A4 输入构造 Hessian。W clipping 不在 GPTQ 中重新搜索。
-- 两种 KV 位宽使用相同导出权重和 A clipping，不为 KV16 单独重做校准。
+- W: per-output-channel, symmetric signed range [-8,7], FP16 scale. Stored as code=q+8 and zero=8, reusing the existing UINT4 GEMM/GEMV and affine epilogue. GPTQ's final integer codes are exported and loaded directly, without a second RTN.
+- A: dynamic per-token asymmetric; Q stays FP16. KV4: per-token/head asymmetric with group=128 and a real packed cache, keeping the existing post-RoPE Q/K Hadamard and adding no V/O rotation.
+- W search: each output channel scans 0.20–1.00 in steps of 0.01, picking the clipping by the FP32 reconstruction MSE of the original rotated weights; the scale is finally stored as FP16.
+- A/K/V search:
+  - range 0.40–1.00 in steps of 0.025, selected by the reconstruction MSE of the deployed FP16 QDQ;
+  - A has one value per fused projection per layer, and K and V one value each per layer;
+  - 64 rows are taken evenly from each training sequence, 8192 rows per layer per category in total.
+- Data: the existing 128×2048 samples of WikiText-2 train, seed=2, with the raw Arrow/token/calibration hashes checked. During the RTN search, the outputs of already-searched quantized layers are propagated layer by layer. The test set is not used for any clipping choice.
+- GPTQ:
+  - uses exactly the same scale, zero and A/K/V clipping as the searched RTN; block=128, damping=1%, act-order off;
+  - processes layers in the true QKV→O→gate/up→down order, building the Hessian from its own quantized prefix and the A4 inputs of all training tokens;
+  - W clipping is not re-searched within GPTQ.
+- Both KV bit widths use the same exported weights and A clipping; KV16 is not recalibrated separately.
 
-第一轮较窄网格触及下界，因此仅根据训练重构误差扩大范围后重跑。初次诊断保留在 `benchmarks/ptq_llama2/`，最终结果位于 `benchmarks/ptq_llama2_final/`。
+The first, narrower grid hit its lower bound, so the range was widened based on the training reconstruction error alone and rerun. The first diagnostics are kept in `benchmarks/ptq_llama2/`; the final results are in `benchmarks/ptq_llama2_final/`.
 
-### 完整 WikiText-2 test PPL
+### Full WikiText-2 test PPL
 
-与此前相同 tokenizer、2048 非重叠分块、166 blocks、339802 计分 tokens；表中均为真实 CUDA kernel 的完整 prefill PPL。原始 FP16 PPL 为 5.472090。
+Same tokenizer, 2048-token non-overlapping blocks, 166 blocks and 339802 scored tokens as before; every entry is the full prefill PPL of the real CUDA kernels. The original FP16 PPL is 5.472090.
 
-| 配置 | W4A4KV16 | W4A4KV4 |
+| configuration | W4A4KV16 | W4A4KV4 |
 |---|---:|---:|
-| 原有非对称 W，固定 clipping，RTN | 5.999411 | 6.083101 |
-| W 对称，固定 clipping，RTN | 6.057011 | 6.135865 |
-| W 对称，搜索 W clipping，RTN | 5.949731 | 6.027398 |
-| W 对称，搜索 W/A/K/V clipping，RTN | 5.896381 | 5.974302 |
-| 相同搜索结果 + GPTQ | 5.822099 | 5.890531 |
+| original asymmetric W, fixed clipping, RTN | 5.999411 | 6.083101 |
+| symmetric W, fixed clipping, RTN | 6.057011 | 6.135865 |
+| symmetric W, searched W clipping, RTN | 5.949731 | 6.027398 |
+| symmetric W, searched W/A/K/V clipping, RTN | 5.896381 | 5.974302 |
+| same search results + GPTQ | 5.822099 | 5.890531 |
 
-单独改为对称 W、保留 W=0.8/A=0.9/K=0.9/V=1.0 的固定 clipping 略微变差；搜索 clipping 后改善。相同 clipping 下，GPTQ 相对 RTN 的 KV16/KV4 PPL 再降低约 0.0743/0.0838，因此本 checkpoint 上存在小幅正收益，不能泛化为所有模型都有同样收益。
+Switching only to symmetric W with the fixed clipping W=0.8/A=0.9/K=0.9/V=1.0 is slightly worse; searching the clipping improves it. With the same clipping, GPTQ lowers the KV16/KV4 PPL by a further ~0.0743/0.0838 relative to RTN. So there is a small positive gain on this checkpoint, which cannot be generalized to the same gain on all models.
 
-全部 8 组（4 个配置×2 种 KV 位宽）的完整 PPL 均与独立整数参考相同：所有计分位置预测相同、逐块 NLL 差为 0、256 个采样位置的完整词表 logits 逐 bit 相同。脚本还校验同一配置的 KV16/KV4 权重完全相同、W-only 搜索与全搜索的权重完全相同，以及 RTN/GPTQ 的全部 scale/zero 完全相同。
+For all 8 groups (4 configurations × 2 KV bit widths), the full PPL matches the independent integer reference:
+- the predictions at every scored position are identical;
+- the per-block NLL difference is 0;
+- the full-vocabulary logits at 256 sampled positions are bit-identical.
 
-| 投影 | W clipping 最小/平均/最大 | A clipping 取值 | GPTQ/RTN 局部 Hessian 加权误差均值 |
+The script also verifies that:
+- the KV16/KV4 weights of the same configuration are identical;
+- the W-only-search and full-search weights are identical;
+- all scales/zeros of RTN and GPTQ are identical.
+
+| projection | W clipping min/mean/max | A clipping values | mean GPTQ/RTN local Hessian-weighted error |
 |---|---:|---|---:|
 | qkv | 0.350 / 0.627 / 0.780 | 0.7 | 0.5125 |
 | o | 0.400 / 0.625 / 0.770 | 0.675, 0.7 | 0.3425 |
 | gate_up | 0.340 / 0.627 / 0.780 | 0.7 | 0.5693 |
 | down | 0.370 / 0.589 / 0.720 | 0.625, 0.65, 0.675 | 0.5176 |
 
-K clipping 取值：[0.925]；V clipping 取值：[0.925, 0.95]。局部加权重构误差的降低不能替代端到端 PPL。
+K clipping values: [0.925]; V clipping values: [0.925, 0.95]. A lower local weighted reconstruction error does not replace end-to-end PPL.
 
-### 端到端性能与显存
+### End-to-end performance and memory
 
-同一张 GPU 0 RTX 4090，独立进程，batch=1、1024→32 tokens、CUDA Graph、10 次中位数。所有在线旋转、量化、cache 更新与 token 反馈均计入，测量边界沿用此前报告；模型加载和离线搜索/GPTQ 不计入推理时间。
+Same GPU 0 RTX 4090, separate processes, batch=1, 1024→32 tokens, CUDA Graphs, median of 10. All online rotation, quantization, cache updates and token feedback are counted, with the same measurement boundaries as the earlier reports. Model loading and the offline search/GPTQ are not counted in inference time.
 
-| 模式 | wall ms | 相对 FP16 加速 | KV GiB | 峰值 allocated GiB | reserved GiB |
+| mode | wall ms | speedup over FP16 | KV GiB | peak allocated GiB | reserved GiB |
 |---|---:|---:|---:|---:|---:|
 | fp16 | 553.35 | 1.000× | 0.515 | 13.235 | 13.389 |
 | sym_search_kv4 | 207.83 | 2.662× | 0.137 | 3.897 | 4.293 |
@@ -497,159 +593,147 @@ K clipping 取值：[0.925]；V clipping 取值：[0.925, 0.95]。局部加权�
 | sym_gptq_kv4 | 208.20 | 2.658× | 0.137 | 3.897 | 4.293 |
 | sym_gptq_kv16 | 211.41 | 2.617× | 0.515 | 4.245 | 4.436 |
 
-RTN/GPTQ 使用相同运行时格式；GPTQ 不增加在线操作。两者延迟基本相同。allocated 与 reserved 含义不同，以上 reserved 为本轮 allocator/graph pool 状态，不应把相对旧进程的差异归因于量化方法。
+RTN and GPTQ use the same runtime format; GPTQ adds no online operations, and their latencies are essentially the same. Allocated and reserved mean different things. The reserved values above are the allocator/graph-pool state of this round, and differences from older processes should not be attributed to the quantization method.
 
-### 缓存解码限制与测试
+### Cached-decode limitations and tests
 
-KV4 仍有前节记录的浮点归约敏感性：同输入 attention oracle 通过，并不等于整模型 cached decode 与 dense 参考逐 token 等价。额外 256-token teacher-forced 缓存诊断如下，不能混同完整测试集 PPL：
+KV4 still has the floating-point reduction sensitivity recorded in the previous section. Passing the same-input attention oracle does not mean whole-model cached decode is token-equivalent to the dense reference. An additional 256-token teacher-forced cache diagnostic follows; it must not be confused with the full test-set PPL:
 
-| 配置 | KV 位宽 | CUDA / 参考缓存 PPL | 预测一致率 | 同输入 attention 最大相对 L2 |
+| configuration | KV bits | CUDA / reference cache PPL | prediction agreement | max relative L2 of same-input attention |
 |---|---:|---:|---:|---:|
 | sym_search | 4 | 7.731109 / 7.621565 | 87.89% | 0.015587% |
 | sym_search | 16 | 7.573966 / 7.573966 | 100.00% | 0.000000% |
 | sym_gptq | 4 | 7.142639 / 7.141445 | 88.28% | 0.015263% |
 | sym_gptq | 16 | 7.045854 / 7.045854 | 100.00% | 0.000000% |
 
-KV16 在本次缓存诊断中与参考完全一致；KV4 尚不能宣称与独立 dense 后端的整模型输出等价。搜索 RTN 的完整 prefill PPL 改善，也不代表其每个小样本缓存窗口 PPL 都改善。
+KV16 matches the reference exactly in this cache diagnostic; KV4 cannot yet be claimed to be equivalent to the whole-model output of an independent dense backend. The improved full prefill PPL of the searched RTN also does not mean that the PPL of every small cache window improves.
 
-28 项回归测试通过（`benchmarks/ptq_llama2/tests.log`）；新增 3 项 PTQ 测试的 CUDA memcheck 为 0 errors（同目录 `memcheck.log`）。GPTQ Triton block 与独立逐列 PyTorch oracle 对照，包含 dead feature 和对角 Hessian 退化为 RTN 的检查；另覆盖对称权重 GEMM/GEMV、搜索 clipping 的完整 block 与真实 KV 打包。
+28 regression tests pass (`benchmarks/ptq_llama2/tests.log`), and CUDA memcheck of the 3 new PTQ tests reports 0 errors (`memcheck.log` in the same directory). The new coverage:
+- the GPTQ Triton block is compared against an independent column-by-column PyTorch oracle, including dead features and a diagonal Hessian degenerating to RTN;
+- symmetric-weight GEMM/GEMV;
+- the full block with searched clipping;
+- real KV packing.
 
-### 复现与产物
+### Reproduction and artifacts
 
-实现：`duquant_cuda/ptq.py`；搜索：`benchmarks/search_ptq.py`；评测：`benchmarks/run_ptq_eval.py`；总表：[`benchmarks/ptq_llama2_final/summary.json`](../benchmarks/ptq_llama2_final/summary.json)。模型 codes/scale/zero 位于被 git 忽略的 `benchmarks/cache/ptq_llama2_final/`。日志记录源码、父校准、导出层与数据 hash。
+- Implementation: `duquant_cuda/ptq.py`.
+- Search: `benchmarks/search_ptq.py`.
+- Evaluation: `benchmarks/run_ptq_eval.py`.
+- Overall table: [`benchmarks/ptq_llama2_final/summary.json`](../benchmarks/ptq_llama2_final/summary.json).
+
+The model codes/scale/zero are in the git-ignored `benchmarks/cache/ptq_llama2_final/`. The logs record the hashes of the sources, the parent calibration, the exported layers and the data.
 
 ```bash
-# 沿用前述 Python/CUDA 环境；选择空闲 GPU。新实验使用新的输出目录。
+# Reuse the Python/CUDA environment from above; choose an idle GPU. Use new output directories for new experiments.
 "$DUQUANT_PYTHON" benchmarks/search_ptq.py --method rtn --output benchmarks/cache/ptq_reproduced --report benchmarks/ptq_reproduced
 "$DUQUANT_PYTHON" benchmarks/search_ptq.py --method gptq --output benchmarks/cache/ptq_reproduced --report benchmarks/ptq_reproduced
 "$DUQUANT_PYTHON" benchmarks/run_ptq_eval.py --variant sym_gptq --calibration-root benchmarks/cache/ptq_reproduced --root benchmarks/ptq_reproduced
-# 另外三组 variant: sym_fixed / sym_wsearch / sym_search。
-# 推理必须显式给出 --kv-bits 4 或 16。
+# The other three variants: sym_fixed / sym_wsearch / sym_search.
+# Inference must specify --kv-bits 4 or 16 explicitly.
 "$DUQUANT_PYTHON" benchmarks/bench_model.py --model /mnt/public_models/llama2-7b-hf --mode cuda --calibration benchmarks/cache/ptq_llama2_final/sym_gptq --kv-bits 4 --prompt 1024 --new-tokens 32 --repeats 10 --output benchmarks/ptq_gptq_recheck.json
 ```
 
 <a id="qa-int4"></a>
-## LLaMA-2 7B：六任务真实 INT4 对照
+## LLaMA-2 7B: six-task comparison with real INT4
 
-三种量化模型全部使用真实 W4A4 整数 GEMM、packed KV4 和同一计分程序。
-W 对称 per-channel，A 非对称 per-token，Q16，K/V 非对称 per-head group=128；
-共享前节的 clipping 搜索网格、重构 MSE 目标和 true-sequential GPTQ 规则。
-搜索/GPTQ 使用完全相同的 128×2048 WikiText-2 train token 序列。
-DuQuant 沿用无 LWC 的 `sym_gptq`；QuaRot 用 seed=0 的随机 Hadamard；
-SpinQuant 使用官方 W16A4KV4 seed=0 学习旋转，再套用共同的 W4 GPTQ。
-SpinQuant 旋转学习本身的数据和预算单独来自官方 checkpoint，不能称为三者整个优化预算相同。
+All three quantized models use real W4A4 integer GEMMs, packed KV4 and the same scoring program.
+- Quantization: symmetric per-channel W, asymmetric per-token A, Q16, asymmetric per-head K/V with group=128.
+- They share the clipping search grid, the reconstruction-MSE objective and the true-sequential GPTQ rules of the previous section.
+- Search/GPTQ use exactly the same 128×2048 WikiText-2 train token sequences.
+- DuQuant uses the no-LWC `sym_gptq`; QuaRot uses a seed=0 random Hadamard; SpinQuant uses the official W16A4KV4 seed=0 learned rotations, followed by the common W4 GPTQ.
 
-完整 zero-shot 数据集，共 19,965 道题、67,106 个候选答案，无截断：
-PIQA 1838、ARC-E 2376、ARC-C 1172、BoolQ 3270、HellaSwag 10042、WinoGrande 1267。
-使用仓库旧版 lm-eval 的 prompt/独立 context-continuation tokenization，无 BOS/EOS。
-ARC-C、HellaSwag 汇报按答案字符长度归一化的 accuracy，其余为 raw accuracy；平均为六项算术平均。
+The data and budget of SpinQuant's rotation learning come separately from the official checkpoint, so the three methods cannot be said to have the same total optimization budget.
 
-| 模型/方法 | PIQA | ARC-E | ARC-C | BoolQ | HellaSwag | WinoGrande | 平均 |
+Full zero-shot datasets: 19,965 questions and 67,106 candidate answers, no truncation. PIQA 1838, ARC-E 2376, ARC-C 1172, BoolQ 3270, HellaSwag 10042, WinoGrande 1267. The prompts and independent context-continuation tokenization of the repository's old lm-eval are used, without BOS/EOS. ARC-C and HellaSwag report accuracy normalized by answer character length, the others raw accuracy; the average is the arithmetic mean of the six.
+
+| model/method | PIQA | ARC-E | ARC-C | BoolQ | HellaSwag | WinoGrande | average |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | FP16 / KV16 | 78.40 | 69.32 | 40.61 | 71.10 | 72.95 | 67.09 | 66.58 |
 | QuaRot W4A4KV4 | 74.97 | 67.42 | 38.74 | 68.44 | 68.35 | 63.61 | 63.59 |
 | SpinQuant W4A4KV4 | 74.48 | 65.57 | 37.80 | 69.57 | 66.95 | 62.35 | 62.79 |
 | DuQuant W4A4KV4 | 76.50 | 68.48 | 37.71 | 72.02 | 70.33 | 64.64 | 64.95 |
 
-本设置下 DuQuant 平均比 QuaRot 高 1.36 个百分点、比 SpinQuant 高 2.16 个百分点，
-比 FP16 低 1.63 个百分点。以上是统一后端与量化策略的对照；不能作为各论文默认配置的复现结论，
-也不能泛化为各方法在其他 clipping、GPTQ、训练预算或评测协议下的排名。
+In this setup DuQuant averages 1.36 points above QuaRot and 2.16 points above SpinQuant, and 1.63 points below FP16. This is a comparison under a unified backend and quantization strategy. It is not a reproduction of each paper's default configuration, and it does not generalize to a ranking of the methods under other clipping, GPTQ, training budgets or evaluation protocols.
 
-DuQuant 实际推理计分约 263.7 秒，QuaRot 455.7 秒，SpinQuant 434.6 秒，FP16 657.5 秒。
-这些是不同空闲 GPU 上本次评测的运行记录，含编译、padding 和 Python 调度，未含加载，
-不作为受控推理加速比。比较器的 QuaRot/SpinQuant 线性层仍经过两个恒等 DuQuant 旋转步骤，
-未对其在线变换做专门性能优化。没有运行全量 fake-quant QA。
+The actual inference scoring took about 263.7 s for DuQuant, 455.7 s for QuaRot, 434.6 s for SpinQuant and 657.5 s for FP16. These are run records of this evaluation on different idle GPUs, including compilation, padding and Python scheduling but excluding loading. They are not controlled inference speedups. The QuaRot/SpinQuant linear layers of the comparison still go through two identity DuQuant rotation steps, and their online transforms were not specifically optimized. No full fake-quant QA was run.
 
-验证包括：两个新增 QA 测试通过（独立 Hugging Face 计分/右 padding、比较器 INT4 与独立整数 oracle）；
-两种比较器各 32 层的浮点旋转等价性检查；原始 7B FP16 的 12 题/36 候选 Hugging Face 抽样复核，
-raw/normalized 最终选择全部一致，累计 log-likelihood 最大差 0.023634。
-所有正式评测采用完整 causal prefill，前述 KV4 cached-decode 数值限制仍保留。
+Validation includes:
+- two new QA tests pass (independent Hugging Face scoring/right padding, and comparator INT4 versus an independent integer oracle);
+- floating-point rotation-equivalence checks over 32 layers for both comparators;
+- a spot check of the original 7B FP16 against Hugging Face on 12 questions/36 candidates: the raw/normalized final choices all agree, and the maximum cumulative log-likelihood difference is 0.023634.
 
-完整 [协议与复现](../benchmarks/qa_compare/README.md)、[汇总 JSON](../benchmarks/qa_compare/summary.json)
-及 [表格](../benchmarks/qa_compare/table.md)。逐题预测、raw/normalized 两种 accuracy、源码/校准/数据 hash
-均已保存。`benchmarks/summarize_qa.py` 只有在全部结果完整且协议一致时才会生成汇总。
+All official evaluations use full causal prefill; the KV4 cached-decode numeric limitations above still apply.
 
-### 相同配置追加 FlatQuant
+See the full [protocol and reproduction](../benchmarks/qa_compare/README.md), the [summary JSON](../benchmarks/qa_compare/summary.json) and the [table](../benchmarks/qa_compare/table.md). Per-question predictions, both raw/normalized accuracies, and the source/calibration/data hashes are all saved. `benchmarks/summarize_qa.py` generates the summary only when all results are complete and the protocols agree.
 
-保留官方 LLaMA-2 7B W4A4KV4 的可逆非正交变换、对角缩放和 Q/K/V 变换，
-替换其预训练 clipping 为本次共同搜索，再运行相同 GPTQ。模型、训练 token、
-六任务数据、计分源码和 batch 设置均与上表一致，使用真实 INT4 GEMM 和 packed KV4。
-本次扩展没有更改前三种量化方法或原始计分代码。
+### FlatQuant added with the same configuration
 
-| 方法 | PIQA | ARC-E | ARC-C | BoolQ | HellaSwag | WinoGrande | 平均 |
+The official LLaMA-2 7B W4A4KV4 invertible non-orthogonal transforms, diagonal scaling and Q/K/V transforms are kept. Their pretrained clipping is replaced with the common search used here, followed by the same GPTQ. The model, training tokens, six-task data, scoring source and batch settings are the same as in the table above, using real INT4 GEMMs and packed KV4. This extension did not change the three earlier quantization methods or the original scoring code.
+
+| method | PIQA | ARC-E | ARC-C | BoolQ | HellaSwag | WinoGrande | average |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | FlatQuant W4A4KV4 | 77.37 | 69.02 | 38.31 | 68.90 | 70.78 | 65.90 | 65.05 |
 
-FlatQuant 平均比 DuQuant 高 0.10 个百分点，数值非常接近；比 QuaRot 高 1.46、
-比 SpinQuant 高 2.26、比 FP16 低 1.53 个百分点。它在其中五项更高，DuQuant 的 BoolQ 高 3.12 个百分点。
-官方变换训练本身的预算与配置保持原样，以上不等于原论文默认量化设置的复现。
+FlatQuant averages 0.10 points above DuQuant, very close. It is 1.46 points above QuaRot, 2.26 above SpinQuant and 1.53 below FP16. It is higher on five of the tasks, while DuQuant is 3.12 points higher on BoolQ. The budget and configuration of the official transform training are kept as is, so this is not a reproduction of the original paper's default quantization setup.
 
-四项新增检查通过；全部 32 层浮点等价性检查通过（最大相对 L2 0.00185065）；
-32 个候选答案的整模型 INT4/独立整数参考累计 log-likelihood 完全一致，最大差为 0。
-实际六任务计分耗时 256.4 秒（GPU 0，不含加载）；与上轮 DuQuant 的 263.7 秒接近，
-两次评测运行记录不能替代受控性能基准。
+Four new checks pass, and the floating-point equivalence check of all 32 layers passes (max relative L2 0.00185065). For 32 candidate answers, the cumulative log-likelihoods of the whole-model INT4 and the independent integer reference are identical, with a maximum difference of 0. The actual six-task scoring took 256.4 s (GPU 0, excluding loading), close to the 263.7 s of the earlier DuQuant run; these two evaluation run records do not replace a controlled performance benchmark.
 
-完整 [FlatQuant 协议与结果](../benchmarks/flatquant_compare/README.md)、
-[五方法总表 JSON](../benchmarks/flatquant_compare/summary.json)。
+See the full [FlatQuant protocol and results](../benchmarks/flatquant_compare/README.md) and the [five-method summary JSON](../benchmarks/flatquant_compare/summary.json).
 
 <a id="qwen3-comparison"></a>
-## Qwen3-1.7B-Base：同一 W4A4KV4 协议
+## Qwen3-1.7B-Base: the same W4A4KV4 protocol
 
-本地适配 Qwen3 的 head-wise Q/K RMSNorm、GQA 和 tied embedding/head，
-使用 FP16 基线（原始 BF16 权重转换）和真实整数 W4A4/packed KV4。
-完整六任务共 19,965 题、67,106 候选，无 chat template；
-ARC-C/HellaSwag 使用 normalized accuracy，其余为 raw accuracy。
-三方法共享 128×2048 WikiText-2 train、同样的 clipping 搜索和 true-sequential GPTQ。
+Qwen3's head-wise Q/K RMSNorm, GQA and tied embedding/head are adapted locally. The FP16 baseline is converted from the original BF16 weights, and the quantized models use real integer W4A4/packed KV4.
+- Full six tasks: 19,965 questions and 67,106 candidates, no chat template.
+- ARC-C/HellaSwag use normalized accuracy, the others raw accuracy.
+- All three methods share the 128×2048 WikiText-2 train data, the same clipping search and true-sequential GPTQ.
 
-| 方法 | PIQA | ARC-E | ARC-C | BoolQ | HellaSwag | WinoGrande | 平均 |
+| method | PIQA | ARC-E | ARC-C | BoolQ | HellaSwag | WinoGrande | average |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | FP16 | 75.90 | 73.78 | 45.05 | 79.08 | 66.52 | 64.17 | 67.42 |
 | QuaRot | 68.61 | 64.39 | 37.80 | 65.96 | 55.86 | 53.83 | 57.74 |
 | SpinQuant | 68.61 | 67.63 | 38.99 | 66.88 | 55.40 | 56.35 | 58.98 |
 | DuQuant | 70.73 | 72.18 | 41.72 | 72.51 | 58.86 | 56.35 | 62.06 |
 
-DuQuant 高于 QuaRot 4.32、高于 SpinQuant 3.08 个百分点，低于 FP16 5.36 个百分点。
-这是本地适配结果，不等于作者官方 Qwen3 结果。SpinQuant 使用原始 Cayley SGDG，
-W16A4KV4 STE causal loss，800 步，batch=1、长度2048、lr=1.5 cosine，
-循环同一批128训练样本；其学习数据/并行训练配置与原论文不同。
-DuQuant 使用原始双旋转/permutation、256步搜索、alpha=.6 smoothing，无LWC。
+DuQuant is 4.32 points above QuaRot and 3.08 above SpinQuant, and 5.36 points below FP16. These are local-adaptation results, not the authors' official Qwen3 results.
+- SpinQuant uses the original Cayley SGDG with a W16A4KV4 STE causal loss: 800 steps, batch=1, length 2048, lr=1.5 cosine, cycling over the same 128 training samples. Its learning data and parallel training configuration differ from the original paper.
+- DuQuant uses the original dual rotation/permutation, a 256-step search and alpha=.6 smoothing, without LWC.
 
-单层与 Hugging Face 对照通过；原生完整模型抽样六题/18候选的最终选择一致；
-三种完整量化模型各四候选与独立整数参考计分完全一致。
-SpinQuant 最终正交性最大偏差 1.19210e-6；QuaRot/SpinQuant全部28层变换等价性检查通过。
-本次计分耗时 FP16/QuaRot/SpinQuant/DuQuant 分别为164.9/200.5/181.6/198.0秒，
-包含未融合变换、编译、padding和调度；此评测路径没有体现Qwen3上的INT4加速，不能沿用LLaMA性能结论。
+Checks:
+- The single-layer comparison with Hugging Face passes.
+- A spot check of six questions/18 candidates on the native full model gives the same final choices.
+- For each of the three full quantized models, four candidates score identically against the independent integer reference.
+- SpinQuant's final maximum orthogonality deviation is 1.19210e-6, and the transform-equivalence checks over all 28 layers pass for QuaRot/SpinQuant.
 
-完整[实验协议、支持情况与复现](../benchmarks/qwen3_compare/README.md)、
-[结果JSON](../benchmarks/qwen3_compare/summary.json)。此前KV4 cached-decode数值限制仍适用。
+The scoring times here were 164.9/200.5/181.6/198.0 s for FP16/QuaRot/SpinQuant/DuQuant. They include unfused transforms, compilation, padding and scheduling. This evaluation path does not show an INT4 speedup on Qwen3, and the LLaMA performance conclusions cannot be carried over.
 
-### Qwen3 同配置追加 FlatQuant
+See the full [experiment protocol, support status and reproduction](../benchmarks/qwen3_compare/README.md) and the [result JSON](../benchmarks/qwen3_compare/summary.json). The earlier KV4 cached-decode numeric limitations still apply.
 
-本地训练 FlatQuant 的非正交 SVD/Kronecker 变换、对角缩放及匹配 Q/K/V/O 变换，
-使用官方模块，适配 Qwen3 的 Q/K norm 和 GQA。每层15 epochs、batch4、
-相同128×2048训练样本；训练阶段包含LWC/LAC，导出后替换为共同clipping搜索和GPTQ。
-各方法的变换学习预算不同，不能称为相同训练预算的比较，也不是作者官方Qwen3结果。
+### FlatQuant added on Qwen3 with the same configuration
 
-| 方法 | PIQA | ARC-E | ARC-C | BoolQ | HellaSwag | WinoGrande | 平均 |
+FlatQuant's non-orthogonal SVD/Kronecker transforms, diagonal scaling and matching Q/K/V/O transforms are trained locally. Training uses the official modules, adapted to Qwen3's Q/K norm and GQA: 15 epochs per layer, batch 4, the same 128×2048 training samples. The training stage includes LWC/LAC; after export, these are replaced by the common clipping search and GPTQ. The methods have different transform-learning budgets, so this cannot be called a comparison at equal training budget, and it is not the authors' official Qwen3 result.
+
+| method | PIQA | ARC-E | ARC-C | BoolQ | HellaSwag | WinoGrande | average |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | FlatQuant W4A4KV4 | 71.55 | 69.32 | 40.61 | 70.34 | 63.05 | 60.06 | 62.49 |
 
-相对DuQuant平均高0.43个百分点，双方各三项更高；相对FP16低4.93个百分点。
-28层浮点变换检查通过（最大相对L2约0.2603%）；三项新增测试通过；
-32候选的整模型INT4与独立整数参考累计log-likelihood完全一致，最大差0。
-完整真实INT4计分171.0秒，不含加载，包含编译和调度，不作为受控速度比较。
-详见[FlatQuant Qwen3报告](../benchmarks/qwen3_compare/flatquant/README.md)与
-[五方法结果JSON](../benchmarks/qwen3_compare/flatquant/summary.json)。
+The average is 0.43 points above DuQuant, with each method higher on three tasks; it is 4.93 points below FP16.
 
-## 两模型追加 LAMBADA、WikiText-2 与 C4 PPL
+Checks:
+- The 28-layer floating-point transform check passes (max relative L2 about 0.2603%), and three new tests pass.
+- For 32 candidates, the cumulative log-likelihoods of the whole-model INT4 and the independent integer reference are identical, with a maximum difference of 0.
 
-补齐 FlatQuant 默认任务构成中此前缺少的英文 `lambada_openai` test（全部5153条）。
-原先测的是BoolQ，FlatQuant默认列表用LAMBADA替换它。所有方法沿用此前checkpoint，
-不重新学习变换、搜索clipping或做GPTQ；量化行均为真实W4A4KV4。
-同时测完整WikiText-2 test的2048-token完整块，以及FlatQuant代码的C4-new验证切片：
-验证首分片前1100篇文本以单空格拼接，取256×2048 tokens；C4不是整个语料库。
+The full real-INT4 scoring took 171.0 s, excluding loading but including compilation and scheduling; it is not a controlled speed comparison. See the [FlatQuant Qwen3 report](../benchmarks/qwen3_compare/flatquant/README.md) and the [five-method result JSON](../benchmarks/qwen3_compare/flatquant/summary.json).
 
-| 模型 | 方法 | LAMBADA acc % | LAMBADA末词PPL | WikiText-2 PPL | C4 PPL | 替换BoolQ后六任务均分 % |
+## LAMBADA, WikiText-2 and C4 PPL added for both models
+
+This adds the English `lambada_openai` test (all 5153 examples), which was missing from FlatQuant's default task mix: it replaces BoolQ, which was measured before. All methods reuse their earlier checkpoints, without relearning transforms, re-searching clipping or redoing GPTQ; the quantized rows are all real W4A4KV4.
+
+Also measured:
+- the complete 2048-token blocks of the full WikiText-2 test;
+- the C4-new validation slice of the FlatQuant code. The first 1100 documents of the first validation shard are joined with single spaces, and 256×2048 tokens are taken; C4 is not the whole corpus.
+
+| model | method | LAMBADA acc % | LAMBADA last-word PPL | WikiText-2 PPL | C4 PPL | six-task average with LAMBADA instead of BoolQ % |
 |---|---|---:|---:|---:|---:|---:|
 | LLaMA-2 7B | FP16 | 73.92 | 3.395 | 5.472 | 7.263 | 67.05 |
 | LLaMA-2 7B | QuaRot | 70.83 | 4.084 | 6.430 | 8.875 | 63.99 |
@@ -662,17 +746,17 @@ SpinQuant 最终正交性最大偏差 1.19210e-6；QuaRot/SpinQuant全部28层�
 | Qwen3-1.7B-Base | DuQuant | 51.52 | 10.820 | 12.361 | 20.995 | 58.56 |
 | Qwen3-1.7B-Base | FlatQuant | 57.31 | 8.068 | 11.547 | 19.527 | 60.32 |
 
-LAMBADA准确率要求末词所有subword均为对应位置贪心预测；末词PPL以5153个词为分母，
-并另存target-token PPL。使用全文与context编码的严格前缀/后缀切分，防止单独编码
-SentencePiece前导空格产生额外目标token；两模型全部5153条边界通过检查。
-WikiText/C4以shifted token为分母；不同PPL列不能混同。
+LAMBADA scoring details:
+- Accuracy requires every subword of the last word to be the greedy prediction at its position.
+- The last-word PPL uses the 5153 words as the denominator, and a target-token PPL is saved separately.
+- A strict prefix/suffix split of the jointly encoded full text and context is used, to avoid extra target tokens from the SentencePiece leading space when the last word is encoded separately. All 5153 boundaries pass the check for both models.
 
-新的六任务均分对齐的是任务构成，保留原先五项QA的冻结提示词和旧版独立context/choice编码，
-不等于FlatQuant官方整套评测协议复现。原BoolQ六任务均分、七任务均分也保存于汇总。
-本组中FlatQuant相对DuQuant的新六任务均分在LLaMA-2高约0.68、Qwen3高约1.76个百分点，
-同时两模型的WikiText/C4 PPL更低。变换训练预算和原先Qwen3本地适配限制继续适用。
+WikiText/C4 use shifted tokens as the denominator; the different PPL columns must not be mixed.
 
-新增末词计分测试通过；LLaMA-2 FP16/DuQuant WikiText PPL精确复现此前5.472090/5.890531。
-全部10组LAMBADA/WikiText和10组C4完成且通过完整性、源码/校准/数据hash、逐题预测、
-计分token分母校验。详见[完整报告](../benchmarks/lambada_compare/README.md)与
-[汇总JSON](../benchmarks/lambada_compare/summary.json)。
+The new six-task average aligns the task mix only. It keeps the frozen prompts and the old independent context/choice encoding of the five earlier QA tasks, so it is not a reproduction of FlatQuant's full official evaluation protocol. The original six-task average with BoolQ and the seven-task average are also saved in the summary. In this group, FlatQuant's new six-task average is about 0.68 points above DuQuant on LLaMA-2 and about 1.76 points above on Qwen3, and FlatQuant also has lower WikiText/C4 PPL on both models. The transform-training budget and the earlier Qwen3 local-adaptation limitations still apply.
+
+Checks:
+- The new last-word scoring test passes, and the LLaMA-2 FP16/DuQuant WikiText PPL exactly reproduce the earlier 5.472090/5.890531.
+- All 10 LAMBADA/WikiText groups and 10 C4 groups completed. They passed the completeness, source/calibration/data hash, per-question prediction and scoring-token denominator checks.
+
+See the [full report](../benchmarks/lambada_compare/README.md) and the [summary JSON](../benchmarks/lambada_compare/summary.json).

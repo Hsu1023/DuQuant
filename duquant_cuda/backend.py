@@ -1,4 +1,4 @@
-"""Experimental single-layer DuQuant W4A4 inference (FP16, sm_89 / sm_90).
+"""Experimental single-layer DuQuant W4A4 inference (FP16, sm_80 / sm_86 / sm_89 / sm_90).
 
 CUTLASS is an external build dependency. Set CUTLASS_PATH to its checkout.
 Weights are transformed and packed once; every forward transforms and quantizes
@@ -8,6 +8,7 @@ its actual input. No output/activation caching is used.
 import ctypes
 import os
 from pathlib import Path
+import platform
 import shutil
 import subprocess
 import torch
@@ -16,6 +17,7 @@ import triton.language as tl
 
 _LIB = None
 _LIB90 = None
+_LIB_AMPERE = {}
 
 
 def _arch(device=None):
@@ -31,6 +33,12 @@ def _nvcc():
     return found or "/usr/local/cuda-12.4/bin/nvcc"
 
 
+def _so(name):
+    # build/ may sit on a filesystem shared by x86 and aarch64 nodes (Delta / GH200):
+    # tag libraries with the host CPU so one machine never loads the other's build.
+    return Path(__file__).resolve().parent / "build" / f"{name}.{platform.machine()}.so"
+
+
 def _build(src, so, arch, deps=()):
     root = src.parent
     build = root / "build"
@@ -42,7 +50,7 @@ def _build(src, so, arch, deps=()):
     cutlass = os.environ.get("CUTLASS_PATH")
     if not cutlass:
         raise RuntimeError("Set CUTLASS_PATH to a CUTLASS checkout (tested with 3.x).")
-    log = build / (so.stem + "_compile.log")
+    log = build / (so.name[: -len(".so")] + "_compile.log")
     result = subprocess.run(
         [
             _nvcc(),
@@ -74,7 +82,7 @@ def load_gemm():
     if _LIB is not None:
         return _LIB
     root = Path(__file__).resolve().parent
-    so = root / "build" / "gemm.so"
+    so = _so("gemm")
     _build(root / "gemm.cu", so, "sm_89", (root / "fused_gemm.cuh",))
     lib = ctypes.CDLL(str(so))
     lib.duquant_gemm.argtypes = (
@@ -87,24 +95,13 @@ def load_gemm():
     return lib
 
 
-def load_gemm_sm90():
-    """Hopper path: packed u4 weights widened in registers, s8 activations, INT8 wgmma."""
-    global _LIB90
-    if _LIB90 is not None:
-        return _LIB90
-    root = Path(__file__).resolve().parent
-    so = root / "build" / "gemm_sm90.so"
-    _build(root / "gemm_sm90.cu", so, "sm_90a", (root / "small_m.cuh", root / "linear_small.cuh"))
-    lib = ctypes.CDLL(str(so))
-    lib.duquant_sm90_gemm.argtypes = (
-        [ctypes.c_void_p] * 3 + [ctypes.c_int] * 3 + [ctypes.c_void_p, ctypes.c_int]
-    )
-    lib.duquant_sm90_gemm.restype = ctypes.c_int
-    lib.duquant_sm90_gemm_fused.argtypes = (
-        lib.duquant_sm90_gemm.argtypes + [ctypes.c_void_p] * 7
-    )
-    lib.duquant_sm90_gemm_fused.restype = ctypes.c_int
-    lib.duquant_gemv_u4.argtypes = lib.duquant_sm90_gemm_fused.argtypes
+_GEMM_ARGS = [ctypes.c_void_p] * 3 + [ctypes.c_int] * 3 + [ctypes.c_void_p, ctypes.c_int]
+_FUSED_ARGS = _GEMM_ARGS + [ctypes.c_void_p] * 7
+
+
+def _bind_small(lib):
+    """Decode kernels shared by the Hopper and Ampere libraries (small_m.cuh, linear_small.cuh)."""
+    lib.duquant_gemv_u4.argtypes = _FUSED_ARGS
     lib.duquant_gemv_u4.restype = ctypes.c_int
     lib.duquant_linear_small.argtypes = (
         [ctypes.c_void_p] * 6
@@ -116,7 +113,44 @@ def load_gemm_sm90():
         + [ctypes.c_int, ctypes.c_void_p, ctypes.c_longlong]
     )
     lib.duquant_linear_small.restype = ctypes.c_int
+    lib.duquant_linear_small_plan.argtypes = [ctypes.c_int] * 5 + [ctypes.c_void_p]
+    lib.duquant_linear_small_plan.restype = ctypes.c_int
+
+
+def load_gemm_sm90():
+    """Hopper path: packed u4 weights widened in registers, s8 activations, INT8 wgmma."""
+    global _LIB90
+    if _LIB90 is not None:
+        return _LIB90
+    root = Path(__file__).resolve().parent
+    so = _so("gemm_sm90")
+    _build(root / "gemm_sm90.cu", so, "sm_90a", (root / "small_m.cuh", root / "linear_small.cuh"))
+    lib = ctypes.CDLL(str(so))
+    lib.duquant_sm90_gemm.argtypes = _GEMM_ARGS
+    lib.duquant_sm90_gemm.restype = ctypes.c_int
+    lib.duquant_sm90_gemm_fused.argtypes = _FUSED_ARGS
+    lib.duquant_sm90_gemm_fused.restype = ctypes.c_int
+    _bind_small(lib)
     _LIB90 = lib
+    return lib
+
+
+def load_gemm_ampere(arch):
+    """Ampere path (sm_80 / sm_86): Ada u4 x u4 IMMA GEMM plus the cooperative decode kernel."""
+    if arch in _LIB_AMPERE:
+        return _LIB_AMPERE[arch]
+    root = Path(__file__).resolve().parent
+    so = _so(f"gemm_sm{arch}")
+    deps = ("gemm.cu", "fused_gemm.cuh", "small_m.cuh", "linear_small.cuh")
+    _build(root / "gemm_sm80.cu", so, f"sm_{arch}", tuple(root / d for d in deps))
+    lib = ctypes.CDLL(str(so))
+    lib.duquant_gemm.argtypes = _GEMM_ARGS
+    lib.duquant_gemm.restype = ctypes.c_int
+    lib.duquant_gemm_fused.argtypes = _FUSED_ARGS
+    lib.duquant_gemm_fused.restype = ctypes.c_int
+    lib.duquant_gemm_num_configs.restype = ctypes.c_int
+    _bind_small(lib)
+    _LIB_AMPERE[arch] = lib
     return lib
 
 
@@ -400,20 +434,41 @@ class DuQuantLinearCUDA(torch.nn.Module):
             else torch.zeros(self.n, device=weight.device, dtype=weight.dtype),
         )
         # Hopper has no INT4 MMA: use the s8-activation / u4-weight wgmma kernel.
-        self.hopper = _arch(weight.device) == 90
-        self.gemm = load_gemm_sm90() if self.hopper else load_gemm()
+        # Ampere (sm_80/sm_86) has INT4 MMA: the Ada u4 GEMM, built for its arch.
+        self.arch = _arch(weight.device)
+        self.hopper = self.arch == 90
+        self.ampere = self.arch in (80, 86, 87)
+        if self.hopper:
+            self.gemm = load_gemm_sm90()
+        elif self.ampere:
+            self.gemm = load_gemm_ampere(self.arch)
+        else:
+            self.gemm = load_gemm()
         self.gemm_config = None
-        # Hopper decode path (see use_small): the cooperative CUDA kernel does the
-        # whole layer (transform, quantization, dp4a GEMV); larger M uses the s8 wgmma GEMM.
-        self.small_m = 4 if self.hopper else 0
+        # Hopper/Ampere decode path (see use_small): the cooperative CUDA kernel does
+        # the whole layer (transform, quantization, dp4a GEMV); larger M uses the GEMM.
+        self.small_kernel = self.hopper or self.ampere
+        self.small_m = 4 if self.small_kernel else 0
         self.small_gemv_config = None
+        self._small_ok = {}  # row bucket -> whether the cooperative layout fits this GPU
         self.prefetch_bytes = 16 << 20  # L2 warm-up overlapping the activation phases
         self.small_trace = None  # optional int64 [grid, 8] globaltimer trace (debug)
         # Next DuQuantLinearCUDA in execution order (set by the model); its
         # rotations and leading weight bytes are prefetched into L2 during decode.
         self.prefetch_next = None
         self.next_weight_prefetch = 8 << 20
-        if self.hopper:
+        if self.ampere:
+            # benchmarks/ampere/*/small_m_sweep.json (cold L2): for 3-4 rows the
+            # GEMM path is faster on A100 and A40; the 16 MiB weight warm-up that
+            # pays off on GH200 only adds traffic (A100: none, A40: 4 MiB best).
+            self.small_m = 2
+            self.prefetch_bytes = 0 if self.arch == 80 else 4 << 20
+            # Cross-layer prefetch of the next linear's leading weights: 8 MiB is
+            # best on A100 (40 MB L2); the A40 has a 6 MB L2 and is best at 2 MiB
+            # (end-to-end, 1024+32 tokens: 354.6 -> 347.6 ms).
+            if self.arch != 80:
+                self.next_weight_prefetch = 2 << 20
+        if self.small_kernel:
             self.register_buffer("perm32", self.perm.to(torch.int32).contiguous())
             # R1^T and R2^T padded to 132 halves per row (Tensor Core B operands,
             # bank spreading in the kernel).
@@ -459,10 +514,78 @@ class DuQuantLinearCUDA(torch.nn.Module):
             return 3 if n <= 4096 else 4
         return 4
 
+    def sm80_config(self, m):
+        """Shape-only A100 (sm_80) dispatch over the gemm_sm80.cu tiles.
+
+        From benchmarks/ampere/a100/gemm_config_sweep.json (full-layer time,
+        LLaMA-2-7B qkv/o/gate_up/down shapes). Ids: 1 64x128x128, 2 128x128x128,
+        5 128x128x256, 6 64x128x256, 7 128x128x128 4-stage, 8 64x64x128, 9 32x64x128.
+        """
+        n, k = self.n, self.k
+        if m <= 32:
+            return 9 if n <= 4096 else 6
+        if m <= 64:
+            return 8 if n <= 4096 else 6
+        if m <= 128:
+            return 5 if 4096 < n < 16384 else 6
+        if m <= 256:
+            return 5 if k >= 8192 else 2
+        if m <= 512:
+            return 1 if n <= 4096 else 2
+        if m <= 2048:
+            return 7 if n <= 4096 else 2
+        return 2
+
+    def sm86_config(self, m):
+        """Shape-only A40 (sm_86) dispatch, from benchmarks/ampere/a40/gemm_config_sweep.json.
+
+        Ids: 2 128x128x128, 4 256x128x128, 7 128x128x128 4-stage, 8 64x64x128.
+        """
+        if m <= 128:
+            return 8
+        if m <= 256:
+            return 7 if self.n <= 4096 else 2
+        if m <= 2048:
+            return 2
+        return 4 if self.n > 4096 else 2
+
+    @property
+    def num_gemm_configs(self):
+        """Number of GEMM tile configs accepted by gemm_config (forward)."""
+        if self.hopper:
+            return 9
+        if self.ampere:
+            return self.gemm.duquant_gemm_num_configs()
+        return 3
+
     def use_small(self, m):
         # Cooperative decode kernel: always for M <= 2; for 3-4 rows only when
         # N is small enough that the GEMM path is not already faster.
-        return m <= self.small_m and (m <= 2 or self.n <= 8192)
+        if not (m <= self.small_m and (m <= 2 or self.n <= 8192)):
+            return False
+        return self.small_fits(m)
+
+    def small_config(self, m):
+        """Rows per warp of the cooperative GEMV: config 0/1/2 -> 1/2/4 rows."""
+        if self.small_gemv_config is not None:
+            return self.small_gemv_config
+        if self.arch == 80:  # benchmarks/ampere/a100/small_m_sweep.json
+            return (0 if self.n * self.k <= 4096 * 4096 else 1) if m <= 1 else 2
+        if self.arch in (86, 87):  # benchmarks/ampere/a40/small_m_sweep.json
+            return (2 if self.k >= 8192 else 1) if m <= 1 else 2
+        return 1
+
+    def small_fits(self, m):
+        """Whether a cooperative layout exists on this GPU (A40: shared memory and SM count)."""
+        bucket = (max(m, 1) - 1).bit_length()
+        ok = self._small_ok.get(bucket)
+        if ok is None:
+            info = (ctypes.c_int * 4)()
+            cfg = self.small_config(m)
+            with torch.cuda.device(self.weight.device):
+                ok = self.gemm.duquant_linear_small_plan(m, self.n, self.k, cfg, 1, info) == 0
+            self._small_ok[bucket] = ok
+        return ok
 
     def launch_config(self, m):
         # Shape-only dispatch: no activation-dependent tuning in forward.
@@ -471,20 +594,24 @@ class DuQuantLinearCUDA(torch.nn.Module):
         gemm = self.gemm_config
         if gemm is None and self.hopper:
             gemm = self.sm90_config(m)
+        elif gemm is None and self.arch == 80:
+            gemm = self.sm80_config(m)
+        elif gemm is None and self.arch in (86, 87):
+            gemm = self.sm86_config(m)
         elif gemm is None:
             gemm = 2 if m >= 256 or (m >= 64 and self.n >= 8192) else 1
         return bm, warps, gemm
 
     def _next_prefetch_args(self):
         nxt = self.prefetch_next
-        if nxt is None or not getattr(nxt, "hopper", False):
+        if nxt is None or not getattr(nxt, "small_kernel", False):
             return (0, 0, 0, 0, 0, 0)
         w_bytes = min(nxt.weight.numel(), self.next_weight_prefetch)
         return (nxt.r1t.data_ptr(), nxt.r2t.data_ptr(), nxt.perm32.data_ptr(), nxt.k,
                 nxt.weight.data_ptr(), w_bytes)
 
     def small_linear(self, x, y=None):
-        """Hopper decode path (M <= 4): one cooperative kernel for the whole layer.
+        """Hopper/Ampere decode path (M <= 4): one cooperative kernel for the whole layer.
 
         With y=None only the activation transform/quantization runs and the
         packed codes, scales, zero points and code sums are returned.
@@ -497,9 +624,7 @@ class DuQuantLinearCUDA(torch.nn.Module):
         s = torch.empty(m, device=dev, dtype=torch.float16)
         zero = torch.empty_like(s)
         sums = torch.empty(m, device=dev, dtype=torch.int32)
-        cfg = self.small_gemv_config
-        if cfg is None:
-            cfg = 1
+        cfg = self.small_config(m)
         status = self.gemm.duquant_linear_small(
             x.data_ptr(), self.r1t.data_ptr(), self.r2t.data_ptr(), self.perm32.data_ptr(),
             self.weight.data_ptr(), y.data_ptr() if y is not None else 0,

@@ -168,8 +168,10 @@ class PackedKVCache:
         self.tile = (32 if capacity<=256 else 64 if capacity<=2048 else 128) if q_heads!=heads else 128
         # Hopper MHA decode: 128x128 tiles spill registers; 16-token tiles with
         # two warps measured 19.2 -> 13.8 us/layer at 1k context on GH200.
+        # Ampere (benchmarks/ampere/*/kv4_decode_sweep.json, 1k context):
+        # A100 33.8 -> 26.8 us/layer, A40 41.0 -> 28.4 us/layer.
         self.decode_warps = 4
-        if q_heads == heads and torch.cuda.get_device_capability(device) == (9, 0):
+        if q_heads == heads and torch.cuda.get_device_capability(device) in ((9, 0), (8, 0), (8, 6), (8, 7)):
             self.tile, self.decode_warps = 16, 2
         self.splits = triton.cdiv(capacity, self.tile)
         self.partial = torch.empty((batch, q_heads, self.splits, 130), device=device, dtype=torch.float32)

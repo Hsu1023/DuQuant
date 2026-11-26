@@ -1,49 +1,49 @@
-# 完整 LLaMA-2-7B：连续生成速度与显存
+# Full LLaMA-2-7B: continuous generation speed and memory
 
-本页保留首次未校准原型的测速和显存结果。当前校准后模型及最终代码的复测见 [CALIBRATED.md](CALIBRATED.md)，端到端加速 2.52–2.57×，同时给出完整 PPL 与数值一致性验证。
+This page keeps the speed and memory results of the first, uncalibrated prototype. The re-measurement of the current calibrated model with the final code is in [CALIBRATED.md](CALIBRATED.md): 2.52–2.57× end-to-end speedup, together with full PPL and numeric-consistency checks.
 
-`model.py` 已接入完整 32 层模型，以及 embedding、最终 RMSNorm、FP16 LM head 和 greedy argmax。`benchmarks/bench_model.py` 测量真正的自回归生成：每一步使用上一生成 token，逐步写入并扩展有效 KV cache。不是固定位置的重复单步，也不是单层时间的加总。
+`model.py` wires up the full 32-layer model together with the embedding, final RMSNorm, FP16 LM head and greedy argmax. `benchmarks/bench_model.py` measures real autoregressive generation: every step consumes the previously generated token and writes and extends the valid KV cache. It is neither a repeated single step at a fixed position nor a sum of single-layer times.
 
-当前结果属于**未校准 W4A4 性能原型**。所有 decoder projection 使用真实 packed INT4 权重及 W4A4 GEMM/GEMV；embedding、LM head、attention 计算和 KV 存储仍为 FP16。旋转和置换参数是固定随机参数，尚未执行 DuQuant 校准、SmoothQuant 或 LWC。不能把性能结果当作完整模型质量已经验收。后续 [WikiText-2 全量质量评测](QUALITY.md) 得到 FP16 / fake / INT4 PPL 为 5.4721 / 8.3454 / 8.3593；INT4 与 fake 的 top-1 一致率只有 83.36%，尚未通过输出等价性验收。
+These results belong to an **uncalibrated W4A4 performance prototype**. All decoder projections use real packed INT4 weights and the W4A4 GEMM/GEMV; embedding, LM head, attention computation and KV storage are still FP16. The rotations and permutations are fixed random parameters; no DuQuant calibration, SmoothQuant or LWC has been run. The performance results must not be read as acceptance of full-model quality. The later [full WikiText-2 quality evaluation](QUALITY.md) gives FP16 / fake / INT4 PPL of 5.4721 / 8.3454 / 8.3593; INT4 and fake agree on top-1 only 83.36% of the time, so output equivalence was not established.
 
-## 实验口径
+## Protocol
 
-- GPU：RTX 4090（此机器报告约 48 GiB 显存），物理 GPU 4；batch=1，单 GPU，无 CPU offload。
-- 模型：本地 `/mnt/public_models/llama2-7b-hf`，全部真实权重。
-- Prompt：同一段固定文本重复到 128 或 2048 tokens，输入完全相同。
-- 输出：固定生成 32 tokens，不因 EOS 提前停止，确保两种模式计算量可比。
-- 两种模式在独立进程运行；测速时不存在第二份模型驻留。FP16 使用相同的合并投影、融合 norm/RoPE/SwiGLU 和 Flash SDPA。
-- 为指定的 prompt 长度和输出长度分别捕获 prefill graph 与完整 decode graph，两者按顺序执行并共享 graph 内存池。
-- 第一个生成 token 来自 prefill，剩余 31 个来自连续 decode；KV 预留容量为 `prompt_length + 31`。
-- 每配置测量 5 次，报告中位数；未锁定 GPU 时钟。
-- 总耗时是从已分词的 GPU token 输入开始，到生成的 token IDs 拷回 CPU 完成的 wall time。包含全模型计算、sampling 和实际 cache 更新，不包含 tokenization、模型加载/量化导出、首次编译、graph capture 或 prompt H2D。
-- prefill 列为 GPU event 时间，包含第一个 token 的预测；它不是网络服务的用户感知 TTFT。decode 吞吐按剩余 31 个 token 计算。
+- GPU: RTX 4090 (this machine reports about 48 GiB of memory), physical GPU 4; batch=1, single GPU, no CPU offload.
+- Model: local `/mnt/public_models/llama2-7b-hf`, all real weights.
+- Prompt: the same fixed text repeated to 128 or 2048 tokens; identical inputs.
+- Output: always 32 generated tokens, no early stop at EOS, so both modes do comparable work.
+- The two modes run in separate processes; no second copy of the model is resident during timing. FP16 uses the same merged projections, fused norm/RoPE/SwiGLU and Flash SDPA.
+- A prefill graph and a complete decode graph are captured for the given prompt and output lengths; they run in sequence and share a graph memory pool.
+- The first generated token comes from prefill, the remaining 31 from continuous decode; the reserved KV capacity is `prompt_length + 31`.
+- 5 measurements per configuration, median reported; GPU clocks not locked.
+- Total time is wall time from the tokenized input on the GPU until the generated token IDs are copied back to the CPU. It includes the full-model computation, sampling and real cache updates; it excludes tokenization, model loading/quantized export, first compilation, graph capture and the prompt H2D copy.
+- The prefill column is GPU event time and includes the prediction of the first token; it is not the user-perceived TTFT of a network service. Decode throughput is computed over the remaining 31 tokens.
 
-当前 graph 固定请求形状及生成长度。这验证了固定工作负载下的真实连续生成，不代表已经实现支持动态 batch、动态停止和任意长度请求的服务框架。
+The graphs fix the request shape and generation length. This validates real continuous generation for a fixed workload; it is not a serving framework with dynamic batching, dynamic stopping and arbitrary request lengths.
 
-## 显存口径
+## Memory accounting
 
-所有显存单位为 **GiB = 2^30 bytes**，区分以下几项：
+All memory figures are in **GiB = 2^30 bytes**, and the following are distinguished:
 
-- **模型张量**：按唯一 backing storage 去重，包括权重、量化 metadata、旋转/置换、norm 和共享 RoPE；不含 KV。
-- **KV cache**：真实预分配的 K/V 张量，两条路径均为 FP16。
-- **峰值 allocated**：PyTorch 活跃张量峰值。统计包含预热、capture 时实际运行的推理和 replay，排除模型加载、量化导出及 HF 对照加载。保留 capture 阶段的峰值，是因为 graph replay 不再向 allocator 逐次申请临时张量，replay 前直接 reset 会漏掉临时工作区的活跃峰值。
-- **reserved**：稳定推理时 PyTorch 实际保留的显存，包括 graph 私有池和分配器碎片。容量规划不能只看模型张量或 allocated。
-- **设备占用**：通过 CUDA `mem_get_info` 读取，进一步包含 CUDA context、graph 和 PyTorch allocator 之外的分配。这里在原本空闲的 GPU 4 上测量。
+- **Model tensors**: deduplicated by unique backing storage; includes weights, quantization metadata, rotations/permutations, norms and the shared RoPE tables; excludes KV.
+- **KV cache**: the actually preallocated K/V tensors, FP16 on both paths.
+- **Peak allocated**: peak of live PyTorch tensors. Counted over warmup, the inference run during capture, and replay; model loading, quantized export and the HF comparison load are excluded. The capture-phase peak is kept because graph replay no longer requests temporaries from the allocator, so resetting before replay would miss the live peak of the temporary workspace.
+- **Reserved**: memory actually held by PyTorch during steady inference, including the private graph pool and allocator fragmentation. Capacity planning cannot look only at model tensors or allocated memory.
+- **Device usage**: read through CUDA `mem_get_info`; additionally includes the CUDA context, graphs and allocations outside the PyTorch allocator. Measured on the otherwise idle GPU 4.
 
-W4A4 的模型张量从 12.55 GiB 降为 3.54 GiB，减少约 71.8%；不是理论上的整机显存缩小四倍。KV 未压缩，而且离线构造造成的 allocator 碎片及 graph/context 开销仍然存在。
+W4A4 reduces the model tensors from 12.55 GiB to 3.54 GiB, about 71.8%; this is not a theoretical 4× reduction of whole-device memory. KV is not compressed, and the allocator fragmentation from offline construction and the graph/context overheads remain.
 
-## 验证和限制
+## Validation and limitations
 
-- 完整 FP16 模型与 Hugging Face 在独立短 prompt 上对照：最后位置 logits 相对 L2 误差约 0.084%，top-1 相同。参考模型在测速前释放，显存峰值也重新计数。
-- 测试验证 growing-cache decode 与重新计算完整前缀的结果、两层真实 token 反馈、修改 prompt 后的 graph replay、以及清空 cache 后的结果一致。
-- 每次完整模型 capture 后，都检查其 32-token 结果与 eager 生成逐 token 相等；检查 logits 有限。
-- 两个本次固定重复文本 prompt 上，FP16 与原型的生成 token IDs 也相同。这是很有限的样例，**不等于 PPL 或广泛任务质量无损**。[多层 PPL 评测](QUALITY.md) 已确认原型有明显质量损失，真实校准及进一步的数值一致性工作仍待完成。
-- 全部回归测试与 CUDA memcheck 日志见 `benchmarks/model_memcheck.log`。
+- The full FP16 model was compared with Hugging Face on a separate short prompt: last-position logits differ by about 0.084% relative L2, with the same top-1. The reference model is freed before timing and the memory peak is reset.
+- The tests check that growing-cache decode matches recomputing the full prefix, real token feedback across two layers, graph replay after changing the prompt, and results after clearing the cache.
+- After every full-model capture, the 32-token result is checked to equal eager generation token by token, and the logits are checked to be finite.
+- On the two fixed repeated-text prompts used here, FP16 and the prototype also produce the same token IDs. This is a very limited sample and **does not mean PPL or broad task quality are lossless**. The [multi-layer PPL evaluation](QUALITY.md) confirmed a clear quality loss for the prototype; real calibration and further numeric-consistency work were still pending.
+- All regression tests and the CUDA memcheck log are in `benchmarks/model_memcheck.log`.
 
-## 文件与复现
+## Files and reproduction
 
-原始数据是 `benchmarks/model_{fp16,cuda}_p{128,2048}_g32.json`，保留逐次时间、所有显存口径、生成 token IDs 和文本。汇总在 `benchmarks/model_summary.json`。
+The raw data are `benchmarks/model_{fp16,cuda}_p{128,2048}_g32.json`, which keep every timing sample, all memory figures, the generated token IDs and the text. The summary is `benchmarks/model_summary.json`.
 
 ```bash
 export CUDA_VISIBLE_DEVICES=4
@@ -52,7 +52,7 @@ export CUTLASS_PATH=/mnt/yichen/wyc/QDLM/QuaRot/third-party/cutlass
 export TRITON_CACHE_DIR=/tmp/duquant_triton
 export DUQUANT_PYTHON=/home/yichen/miniconda3/envs/hb/bin/python
 
-# 每次命令单独启动进程，前一个退出后再启动下一个。
+# Each command runs in its own process; start the next only after the previous one exits.
 "$DUQUANT_PYTHON" benchmarks/bench_model.py --mode fp16 --prompt 128 \
   --new-tokens 32 --verify-hf --output benchmarks/model_fp16_p128_g32.json
 "$DUQUANT_PYTHON" benchmarks/bench_model.py --mode cuda --prompt 128 \
@@ -64,16 +64,16 @@ export DUQUANT_PYTHON=/home/yichen/miniconda3/envs/hb/bin/python
 "$DUQUANT_PYTHON" benchmarks/summarize_model.py
 ```
 
-`--verify-hf` 会在验证时暂时额外加载一份 FP16 模型，需要足够的验证显存；这不计入下表的推理显存。
+`--verify-hf` temporarily loads an extra FP16 model for validation and needs enough memory for it; this is not counted in the inference memory below.
 
-## 实测汇总
+## Measured summary
 
-| 输入 → 输出 tokens | FP16 总耗时 ms | W4A4 总耗时 ms | 加速比 | FP16 prefill ms | W4A4 prefill ms | FP16 decode tok/s | W4A4 decode tok/s |
+| input → output tokens | FP16 total ms | W4A4 total ms | speedup | FP16 prefill ms | W4A4 prefill ms | FP16 decode tok/s | W4A4 decode tok/s |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | 128 → 32 | 459.63 | 176.75 | 2.60× | 17.85 | 7.32 | 70.2 | 183.0 |
 | 2048 → 32 | 654.34 | 257.82 | 2.54× | 178.89 | 54.41 | 65.2 | 152.5 |
 
-| 输入 → 输出 tokens | 模式 | 模型张量 GiB | KV GiB | 峰值 allocated GiB | reserved GiB | 设备占用 GiB |
+| input → output tokens | mode | model tensors GiB | KV GiB | peak allocated GiB | reserved GiB | device usage GiB |
 |---|---|---:|---:|---:|---:|---:|
 | 128 → 32 | fp16 | 12.55 | 0.08 | 12.67 | 12.68 | 13.26 |
 | 128 → 32 | w4a4 | 3.54 | 0.08 | 3.65 | 4.73 | 5.44 |

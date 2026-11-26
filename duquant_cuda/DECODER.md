@@ -1,43 +1,43 @@
-# 完整 LLaMA decoder layer 实验
+# Full LLaMA decoder layer experiment
 
-`decoder.py` 将已实现的 W4A4 Linear 接成了一个完整的 LLaMA-2 decoder block。模型主入口 `main.py` 尚未切换到此后端；这里是可独立运行、验证和测量的完整层原型。进一步的 32 层连续生成和显存测试见 [MODEL.md](MODEL.md)。
+`decoder.py` wires the W4A4 Linear into a complete LLaMA-2 decoder block. The main entry point `main.py` has not been switched to this backend; this is a full-layer prototype that can be run, validated and measured on its own. Continuous 32-layer generation and memory measurements are in [MODEL.md](MODEL.md).
 
-## 计时包含什么
+## What is timed
 
-一次调用包含两个 RMSNorm、全部七个投影、RoPE、attention、SwiGLU、两次残差加法，以及 KV cache 写入与读取。QKV 和 gate/up 合并为各一次投影；两条路径都使用相同的合并方式、融合 RMSNorm/SwiGLU/RoPE 和强制 FP16 Flash SDPA。
+One call includes two RMSNorms, all seven projections, RoPE, attention, SwiGLU, two residual additions, and the KV-cache write and read. QKV and gate/up are each merged into one projection; both paths use the same merging, fused RMSNorm/SwiGLU/RoPE and forced FP16 Flash SDPA.
 
-W4A4 路径额外包含双旋转、置换、动态量化、packing、INT4 GEMM/GEMV；Q/K 在 RoPE 后执行归一化 Hadamard 和 per-head-token 4-bit 非对称量化，V 执行 per-head-token 4-bit 非对称量化。Q/K clipping=0.9，V clipping=1.0。本页历史测速使用融合的蝶形 Hadamard；当前已改用融合 Tensor Core dot，并对齐 norm 和 SwiGLU 舍入，详见 [CALIBRATED.md](CALIBRATED.md) 的最终精度和速度。RoPE 禁止 FMA 合并，以保留参考实现中的 FP16 中间舍入。
+The W4A4 path additionally includes the dual rotation, permutation, dynamic quantization, packing and INT4 GEMM/GEMV. After RoPE, Q/K go through a normalized Hadamard transform and per-head-token 4-bit asymmetric quantization; V goes through per-head-token 4-bit asymmetric quantization. Q/K clipping = 0.9, V clipping = 1.0. The historical timings on this page used a fused butterfly Hadamard; the current code uses a fused Tensor Core dot and matches the norm and SwiGLU rounding, see [CALIBRATED.md](CALIBRATED.md) for the final accuracy and speed. FMA contraction is disabled in RoPE to keep the FP16 intermediate rounding of the reference implementation.
 
-Attention 的计算和 KV **存储**仍为 FP16：W4A4 的 K/V 存储量化后反量化的值。V 的量化独立于历史长度，因此在写 cache 时完成一次即可。没有声称实现 packed INT4 KV cache 或 INT4 attention GEMM。
+Attention computation and KV **storage** are still FP16: W4A4 stores the quantize-dequantized K/V values. V quantization does not depend on the history length, so it is done once when writing the cache. No packed INT4 KV cache or INT4 attention GEMM is claimed here.
 
-prefill 使用 causal attention；decode 的 query 长度为 1，对已写入的全部历史及当前 K/V 做 attention。历史 cache 由对应路径的真实 prefill 初始化，初始化不计入 decode 单步耗时。每个 CUDA Graph 固定一个位置，重复测量该位置的一步；这不是完整生成循环的延迟。
+Prefill uses causal attention; decode has query length 1 and attends to the whole written history plus the current K/V. The history cache is initialized by a real prefill of the corresponding path, and the initialization is not counted in the single decode step. Each CUDA Graph fixes one position and repeatedly measures one step at that position; this is not the latency of a full generation loop.
 
-## 测量条件
+## Measurement conditions
 
-- RTX 4090，GPU 4；PyTorch 2.7.1+cu126、Triton 3.3.1、CUDA Toolkit 12.4、CUTLASS 3.4.1。
-- 本地 LLaMA-2-7B **第 0 层真实权重**，hidden=4096、intermediate=11008、32 个 attention heads、head_dim=128。
-- 输入为真实 tokenizer 生成的 token embedding，文本在脚本中固定并重复到所需长度。
-- 使用固定随机旋转和置换，QKV 共享一组参数，gate/up 共享另一组参数；尚未使用 DuQuant 校准、SmoothQuant 或 LWC。
-- 两边均使用 CUDA Graph；报告三次测量的中位数，并交替测量先后顺序。全部在线 GPU 工作计入，构造、权重导出、编译、历史 cache 初始化不计入。
-- 冷缓存结果在调用前清理 256 MiB L2 污染缓冲区，清缓存开销通过 external events 排除在计时外。
-- FP16 基线与 Hugging Face LLaMA decoder 层做了数值对照；没有用原仓库较慢的 eager attention 作为速度基线。
+- RTX 4090, GPU 4; PyTorch 2.7.1+cu126, Triton 3.3.1, CUDA Toolkit 12.4, CUTLASS 3.4.1.
+- **Real layer-0 weights** of the local LLaMA-2-7B, hidden=4096, intermediate=11008, 32 attention heads, head_dim=128.
+- The input is the token embedding of real tokenizer output; the text is fixed in the script and repeated to the required length.
+- Fixed random rotations and permutations; QKV share one set of parameters and gate/up share another. No DuQuant calibration, SmoothQuant or LWC is used yet.
+- Both sides use CUDA Graphs; the median of three measurements is reported, alternating the order. All online GPU work is counted; construction, weight export, compilation and history-cache initialization are not.
+- Cold-cache results write a 256 MiB L2 pollution buffer before each call; the flush is excluded from timing with external events.
+- The FP16 baseline was checked numerically against the Hugging Face LLaMA decoder layer; the slower eager attention of the original repository is not used as the speed baseline.
 
-## 正确性与当前限制
+## Correctness and current limitations
 
-保留两种独立参考，避免把不同算术模型混为一谈：
+Two independent references are kept so that different arithmetic models are not conflated:
 
-1. `integer_reference`：用 FP32 表示 0–15 整数码，独立计算稠密点积，再做零点修正和缩放。所测 K 下，点积不超过 `225*K < 2^24`，FP32 可精确表示这些整数累加结果。它没有调用 INT4 kernel。该路径采用纯 PyTorch 的 norm、RoPE、Hadamard 和 SwiGLU。
-2. `reference`：传统 fake quant，先把每个量化值反量化、舍入到 FP16，再做浮点 GEMM。这与真实整数累加后统一缩放存在细小差异，后续 4-bit 量化会放大跨边界的变化。
+1. `integer_reference`: represents the 0–15 integer codes in FP32, computes the dense dot products independently, then applies zero-point correction and scaling. For the measured K the dot products stay below `225*K < 2^24`, so FP32 represents these integer accumulations exactly. It does not call the INT4 kernel. This path uses plain PyTorch norm, RoPE, Hadamard and SwiGLU.
+2. `reference`: conventional fake quantization: every quantized value is dequantized and rounded to FP16 first, then a floating-point GEMM is run. This differs slightly from integer accumulation followed by one scaling, and subsequent 4-bit quantization amplifies changes that cross a rounding boundary.
 
-在此次 batch=1/4 的真实权重实验中，CUDA 与整数数学参考的输出相对 L2 差异为 **0–1.11%**；三个 batch=1 decode 点和 batch=4 decode 点逐元素一致。与传统 fake-quant 参考的差异为 **2.86–5.02%**。这些差异都保存在 JSON 中，没有把它们作为 FP16 模型的质量指标。
+In this batch=1/4 real-weight experiment the relative L2 difference between the CUDA output and the integer-arithmetic reference is **0–1.11%**; the three batch=1 decode points and the batch=4 decode point match element for element. The difference to the conventional fake-quant reference is **2.86–5.02%**. All these differences are stored in the JSON files and are not used as a quality metric for the FP16 model.
 
-本页未校准实验的整数参考相对 FP16 输出的 L2 差异约 **11–17%**。这些历史结果证明完整层原型有正的性能收益，**不证明完整 DuQuant 模型已达到可部署精度**。后续已完成校准接入、完整模型数值对照、PPL 和端到端速度复测，见 [CALIBRATED.md](CALIBRATED.md)。
+For the uncalibrated experiment on this page, the integer reference differs from the FP16 output by roughly **11–17%** relative L2. These historical results show that the full-layer prototype has a real performance gain; **they do not show that the full DuQuant model reaches deployable accuracy**. Calibration, full-model numeric comparisons, PPL and end-to-end speed re-measurements were done later, see [CALIBRATED.md](CALIBRATED.md).
 
-测试包括：Hugging Face FP16 层对照、独立 attention 预处理对照、整数/fake-quant 整层对照、逐 token decode 对照 causal prefill、多 batch、cache 前缀保持不变、CUDA Graph replay 更新输入，以及内存检查。日志在 `benchmarks/decoder_memcheck.log`。
+The tests cover: comparison with the Hugging Face FP16 layer, an independent attention-preprocessing comparison, full-layer integer/fake-quant comparisons, token-by-token decode against causal prefill, multiple batches, unchanged cache prefixes, CUDA Graph replay with updated inputs, and memcheck. The log is `benchmarks/decoder_memcheck.log`.
 
-## 复现
+## Reproduction
 
-在仓库根目录，沿用单层 CUDA 环境：
+From the repository root, with the single-layer CUDA environment:
 
 ```bash
 export CUDA_VISIBLE_DEVICES=4
@@ -54,13 +54,13 @@ export DUQUANT_PYTHON=/home/yichen/miniconda3/envs/hb/bin/python
   --output benchmarks/decoder_reproduced_b4.json
 ```
 
-接口为 `LlamaDecoderBlock(weights, rotations, mode='cuda')`、`cache = block.cache(batch, capacity)`、`y = block(x, cache, position)`。当前支持 head_dim=128 的 MHA、从零开始的 prefill 和单 token decode，不支持 GQA、带历史的 chunked prefill、训练 backward 或动态位置的整段生成 graph。
+The interface is `LlamaDecoderBlock(weights, rotations, mode='cuda')`, `cache = block.cache(batch, capacity)`, `y = block(x, cache, position)`. Currently supported: MHA with head_dim=128, prefill from an empty cache and single-token decode. Not supported: GQA, chunked prefill with history, training backward, or whole-sequence generation graphs with dynamic positions.
 
-## 实测结果
+## Measured results
 
-以下来自 `benchmarks/decoder_final_b1.json` 与 `benchmarks/decoder_final_b4.json`，单位 μs。decode 的长度表示调用前已有的历史 token 数。
+From `benchmarks/decoder_final_b1.json` and `benchmarks/decoder_final_b4.json`, in μs. For decode, the length is the number of history tokens before the call.
 
-| batch | 场景 | 输入/历史长度 | FP16 | W4A4 | 加速比 | 冷缓存加速比 |
+| batch | scenario | input/history length | FP16 | W4A4 | speedup | cold-cache speedup |
 |---:|---|---:|---:|---:|---:|---:|
 | 1 | prefill | 128 | 550.5 | 220.8 | 2.49× | 2.45× |
 | 1 | prefill | 512 | 1440.5 | 416.9 | 3.46× | 3.47× |

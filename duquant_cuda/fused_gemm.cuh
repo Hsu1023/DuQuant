@@ -16,7 +16,7 @@ template<class T> struct AffineEpilogue {
   }
 };
 
-template<int BM,int BN,int BK,int WM,int WN>
+template<int BM,int BN,int BK,int WM,int WN,int STAGES=3>
 int run_fused(const void* a,const void* b,void* y,int m,int n,int k,cudaStream_t stream,
               const void* as,const void* az,const void* ax,const void* ws,const void* wz,
               const void* wc,const void* bias){
@@ -39,7 +39,7 @@ int run_fused(const void* a,const void* b,void* y,int m,int n,int k,cudaStream_t
     cutlass::uint4b_t,cutlass::layout::ColumnMajor,cutlass::ComplexTransform::kNone,32,
     H,cutlass::layout::RowMajor,8,int32_t,float,
     cutlass::arch::OpClassTensorOp,cutlass::arch::Sm80,TB,Warp,cutlass::gemm::GemmShape<16,8,64>,
-    EVT,cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>,3,
+    EVT,cutlass::gemm::threadblock::GemmIdentityThreadblockSwizzle<>,STAGES,
     cutlass::arch::OpMultiplyAddSaturate,1>;
   using Kernel=typename Generator::GemmKernel;
 
@@ -72,7 +72,10 @@ int run_fused(const void* a,const void* b,void* y,int m,int n,int k,cudaStream_t
 extern "C" int duquant_gemm_fused(const void* a,const void* b,void* y,int m,int n,int k,
  void* stream,int config,const void* as,const void* az,const void* ax,const void* ws,
  const void* wz,const void* wc,const void* bias){
-  if(config==1)return run_fused<64,128,128,32,64>(a,b,y,m,n,k,(cudaStream_t)stream,as,az,ax,ws,wz,wc,bias);
-  if(config==2)return run_fused<128,128,128,64,64>(a,b,y,m,n,k,(cudaStream_t)stream,as,az,ax,ws,wz,wc,bias);
+  switch(config){
+#define DUQ_CASE(id,BM,BN,BK,WM,WN,S) case id: return run_fused<BM,BN,BK,WM,WN,S>(a,b,y,m,n,k,(cudaStream_t)stream,as,az,ax,ws,wz,wc,bias);
+    DUQUANT_GEMM_CONFIGS(DUQ_CASE)
+#undef DUQ_CASE
+  }
   return run_fused<32,128,128,32,64>(a,b,y,m,n,k,(cudaStream_t)stream,as,az,ax,ws,wz,wc,bias);
 }

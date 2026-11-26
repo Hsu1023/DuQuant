@@ -131,7 +131,7 @@ def main():
                     layer.gemv_bn, layer.gemv_bk = best[1]
                 else:
                     best = (float("inf"), None)
-                    for config in range(9 if layer.hopper else 3):
+                    for config in range(layer.num_gemm_configs):
                         layer.gemm_config = config
                         t = timed(lambda: layer(x))
                         if t < best[0]:
